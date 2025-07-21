@@ -11,19 +11,19 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HikingTrailService/HikingTrailService.csproj", "HikingTrailService/"]
-RUN dotnet restore "./HikingTrailService/HikingTrailService.csproj"
+COPY ["HikingTrailService.API/HikingTrailService.API.csproj", "HikingTrailService.API/"]
+RUN dotnet restore "./HikingTrailService.API/HikingTrailService.API.csproj"
 COPY . .
-WORKDIR "/src/HikingTrailService"
-RUN dotnet build "./HikingTrailService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/HikingTrailService.API"
+RUN dotnet build "./HikingTrailService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase se usa para publicar el proyecto de servicio que se copiará en la fase final.
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./HikingTrailService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./HikingTrailService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase se usa en producción o cuando se ejecuta desde VS en modo normal (valor predeterminado cuando no se usa la configuración de depuración)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HikingTrailService.dll"]
+ENTRYPOINT ["dotnet", "HikingTrailService.API.dll"]
