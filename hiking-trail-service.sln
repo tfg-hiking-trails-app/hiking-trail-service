@@ -5,6 +5,12 @@ VisualStudioVersion = 17.14.36310.24 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HikingTrailService.API", "HikingTrailService.API\HikingTrailService.API.csproj", "{9FB0421E-A270-453B-BEB1-1BCB920F4E75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HikingTrailService.Application", "HikingTrailService.Application\HikingTrailService.Application.csproj", "{03A98526-3A20-4897-8A6F-031F2869A0E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HikingTrailService.Domain", "HikingTrailService.Domain\HikingTrailService.Domain.csproj", "{905EB40D-E8DA-458D-9A40-6C5CEE5F516F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HikingTrailService.Infrastructure", "HikingTrailService.Infrastructure\HikingTrailService.Infrastructure.csproj", "{56BAB0B6-9043-49E9-8D90-0D0BA2945DF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{9FB0421E-A270-453B-BEB1-1BCB920F4E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FB0421E-A270-453B-BEB1-1BCB920F4E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FB0421E-A270-453B-BEB1-1BCB920F4E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A98526-3A20-4897-8A6F-031F2869A0E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A98526-3A20-4897-8A6F-031F2869A0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A98526-3A20-4897-8A6F-031F2869A0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A98526-3A20-4897-8A6F-031F2869A0E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{905EB40D-E8DA-458D-9A40-6C5CEE5F516F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{905EB40D-E8DA-458D-9A40-6C5CEE5F516F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{905EB40D-E8DA-458D-9A40-6C5CEE5F516F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{905EB40D-E8DA-458D-9A40-6C5CEE5F516F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56BAB0B6-9043-49E9-8D90-0D0BA2945DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BAB0B6-9043-49E9-8D90-0D0BA2945DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56BAB0B6-9043-49E9-8D90-0D0BA2945DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56BAB0B6-9043-49E9-8D90-0D0BA2945DF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
