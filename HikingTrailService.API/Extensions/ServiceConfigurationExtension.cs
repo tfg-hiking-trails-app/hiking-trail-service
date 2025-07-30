@@ -4,6 +4,8 @@ using HikingTrailService.Domain.Interfaces;
 using HikingTrailService.DTOs.Mapping;
 using HikingTrailService.Infrastructure.Data;
 using HikingTrailService.Infrastructure.Messaging.Configuration;
+using HikingTrailService.Infrastructure.Messaging.Consumer;
+using HikingTrailService.Infrastructure.Messaging.Producer;
 using Microsoft.OpenApi.Models;
 
 namespace HikingTrailService.Extensions;
@@ -60,11 +62,14 @@ public static class ServiceConfigurationExtension
 
     private static void AddRabbitMq(this IServiceCollection services)
     {
+        // Providers
         services.AddSingleton<IRabbitMqConnectionProvider, RabbitMqConnectionProvider>();
-
         services.AddScoped<IRabbitMqChannelProvider, RabbitMqChannelProvider>();
+        services.AddScoped<IRabbitMqQueueProvider, RabbitMqQueueProvider>();
         
+        // Processors
         services.AddScoped<IRabbitMqQueueProducer, RabbitMqQueueProducer>();
+        services.AddScoped<IRabbitMqQueueConsumer, RabbitMqQueueConsumer>();
     }
     
 }

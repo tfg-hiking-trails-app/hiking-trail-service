@@ -2,5 +2,5 @@
 
 public interface IRabbitMqQueueProducer
 {
-    Task BasicPublishAsync(string name, byte[] body);
+    Task BasicPublishAsync(string routingKey, byte[] body);
 }
