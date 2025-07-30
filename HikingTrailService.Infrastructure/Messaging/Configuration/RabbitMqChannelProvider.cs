@@ -1,5 +1,4 @@
-﻿using HikingTrailService.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using HikingTrailService.Domain.Interfaces.Messages;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 

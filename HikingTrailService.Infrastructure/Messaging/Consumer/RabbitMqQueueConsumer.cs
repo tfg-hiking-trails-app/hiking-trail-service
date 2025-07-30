@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using HikingTrailService.Domain.Interfaces;
+using System.Text.Json;
+using HikingTrailService.Domain.Interfaces.Messages;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -16,24 +17,41 @@ public class RabbitMqQueueConsumer : IRabbitMqQueueConsumer
         _channelProvider = channelProvider;
     }
     
-    public async Task BasicConsumeAsync(string routingKey)
+    public async Task<T> BasicConsumeAsync<T>(string routingKey)
     {
         string exchangeName = GetExchangeName();
         string queueName = _queueName(routingKey);
         
-        IChannel channel = await _channelProvider.GetChannelAsync(exchangeName, queueName);
+        TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
         
+        IChannel channel = await _channelProvider.GetChannelAsync(exchangeName, queueName);
         AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(channel);
 
-        consumer.ReceivedAsync += (model, ea) =>
+        consumer.ReceivedAsync += async (model, ea) =>
         {
-            byte[] body = ea.Body.ToArray();
-            string message = Encoding.UTF8.GetString(body);
+            try
+            {
+                byte[] body = ea.Body.ToArray();
+                string message = Encoding.UTF8.GetString(body);
             
-            return Task.CompletedTask;
+                T? result = JsonSerializer.Deserialize<T>(message);
+
+                if (result is null)
+                    throw new Exception($"Error trying to deserialize the message: { message }");
+                
+                tcs.SetResult(result);
+            }
+            catch (Exception e)
+            {
+                tcs.TrySetException(e);
+            }
+
+            await Task.CompletedTask;
         };
 
         await channel.BasicConsumeAsync(queueName, autoAck: true, consumer: consumer);
+        
+        return await tcs.Task;
     }
     
     private string GetExchangeName()

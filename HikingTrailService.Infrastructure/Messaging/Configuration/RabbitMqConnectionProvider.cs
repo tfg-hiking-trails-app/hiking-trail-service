@@ -1,4 +1,4 @@
-﻿using HikingTrailService.Domain.Interfaces;
+﻿using HikingTrailService.Domain.Interfaces.Messages;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.CompilerServices;
 using RabbitMQ.Client;

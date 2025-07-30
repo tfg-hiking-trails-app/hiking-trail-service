@@ -1,6 +1,6 @@
 ﻿using HikingTrailService.Application.DTOs;
 
-namespace HikingTrailService.Application.Interfaces;
+namespace HikingTrailService.Application.Interfaces.Processors;
 
 public interface IActivityFileProcessor
 {

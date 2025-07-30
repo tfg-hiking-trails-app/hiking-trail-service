@@ -1,4 +1,4 @@
-﻿using HikingTrailService.Domain.Interfaces;
+﻿using HikingTrailService.Domain.Interfaces.Messages;
 using RabbitMQ.Client;
 
 namespace HikingTrailService.Infrastructure.Messaging.Producer;

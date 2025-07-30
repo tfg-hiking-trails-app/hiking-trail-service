@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HikingTrailService.Application.DTOs;
-using HikingTrailService.Application.Interfaces;
-using HikingTrailService.Application.Services;
+using HikingTrailService.Application.Interfaces.Processors;
+using HikingTrailService.Application.Services.Processors;
 using HikingTrailService.DTOs;
 using Microsoft.AspNetCore.Mvc;
 

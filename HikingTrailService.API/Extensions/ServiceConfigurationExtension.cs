@@ -1,8 +1,11 @@
-﻿using HikingTrailService.Application.Interfaces;
-using HikingTrailService.Application.Services;
-using HikingTrailService.Domain.Interfaces;
+﻿using HikingTrailService.Application.Interfaces.Processors;
+using HikingTrailService.Application.Services.Processors;
+using HikingTrailService.Domain.Interfaces.Messages;
+using HikingTrailService.Domain.Interfaces.Repositories;
 using HikingTrailService.DTOs.Mapping;
 using HikingTrailService.Infrastructure.Data;
+using HikingTrailService.Infrastructure.Data.Configurations.Mapping;
+using HikingTrailService.Infrastructure.Data.Repositories;
 using HikingTrailService.Infrastructure.Messaging.Configuration;
 using HikingTrailService.Infrastructure.Messaging.Consumer;
 using HikingTrailService.Infrastructure.Messaging.Producer;
@@ -31,21 +34,34 @@ public static class ServiceConfigurationExtension
     
     private static void AddServices(this IServiceCollection services)
     {
+        // Services
         services.AddTransient<IActivityFileProcessor, FitFileProcessor>();
         services.AddTransient<IActivityFileProcessor, GpxFileProcessor>();
         
+        // Factories
         services.AddScoped<ActivityFileProcessorFactory>();
     }
     
     private static void AddRepositories(this IServiceCollection services)
     {
-        
+        services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
+        services.AddScoped<IHealthMetricsRepository, HealthMetricsRepository>();
+        services.AddScoped<IHikingTrailRepository, HikingTrailRepository>();
     }
 
     private static void AddAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(
-            typeof(ActivityFileProfile).Assembly);
+            typeof(CommonProfile).Assembly,
+            typeof(HikingTrailProfile).Assembly,
+            typeof(HealthMetricsProfile).Assembly,
+            typeof(DifficultyLevelProfile).Assembly,
+            typeof(ActivityFileProfile).Assembly,
+            typeof(FitDataResponseProfile).Assembly,
+            typeof(CommonEntityProfile).Assembly,
+            typeof(HikingTrailEntityProfile).Assembly,
+            typeof(HealthMetricsEntityProfile).Assembly,
+            typeof(DifficultyLevelEntityProfile).Assembly);
     }
     
     private static void AddSwaggerGen(this IServiceCollection services)

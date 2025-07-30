@@ -1,6 +1,6 @@
-﻿using HikingTrailService.Application.Interfaces;
+﻿using HikingTrailService.Application.Interfaces.Processors;
 
-namespace HikingTrailService.Application.Services;
+namespace HikingTrailService.Application.Services.Processors;
 
 public class ActivityFileProcessorFactory
 {

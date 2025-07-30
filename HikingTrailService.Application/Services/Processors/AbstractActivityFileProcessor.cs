@@ -1,32 +1,33 @@
 ﻿using System.Text;
 using HikingTrailService.Application.DTOs;
-using HikingTrailService.Application.Interfaces;
-using HikingTrailService.Domain.Interfaces;
-using RabbitMQ.Client;
+using HikingTrailService.Application.Interfaces.Processors;
+using HikingTrailService.Domain.Interfaces.Messages;
 
-namespace HikingTrailService.Application.Services;
+namespace HikingTrailService.Application.Services.Processors;
 
 public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
 {
-    private readonly IRabbitMqQueueProducer _queueProducer;
+    protected readonly IRabbitMqQueueProducer _queueProducer;
+    protected readonly IRabbitMqQueueConsumer _queueConsumer;
     private const string Folder = "/shared/data";
 
-    protected AbstractActivityFileProcessor(IRabbitMqQueueProducer queueProducer)
+    protected AbstractActivityFileProcessor(
+        IRabbitMqQueueProducer queueProducer,
+        IRabbitMqQueueConsumer queueConsumer)
     {
         _queueProducer = queueProducer;
+        _queueConsumer = queueConsumer;
     }
     
     public abstract string ExtensionFile { get; }
 
-    public async Task ProcessAsync(ActivityFileEntityDto file)
+    public virtual async Task ProcessAsync(ActivityFileEntityDto file)
     {
         file.FileName = Guid.NewGuid() + ExtensionFile;
      
         await SaveFile(file);
         
         await SendFile(file);
-        
-        Console.WriteLine($"Processing file { file.FileName }");
     }
     
     private async Task SaveFile(ActivityFileEntityDto file)

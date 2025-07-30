@@ -1,4 +1,4 @@
-﻿namespace HikingTrailService.Domain.Interfaces;
+﻿namespace HikingTrailService.Domain.Interfaces.Messages;
 
 public interface IRabbitMqQueueProducer
 {
