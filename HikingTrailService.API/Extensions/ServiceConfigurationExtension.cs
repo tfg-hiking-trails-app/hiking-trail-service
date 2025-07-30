@@ -1,7 +1,9 @@
 ﻿using HikingTrailService.Application.Interfaces;
 using HikingTrailService.Application.Services;
+using HikingTrailService.Domain.Interfaces;
 using HikingTrailService.DTOs.Mapping;
 using HikingTrailService.Infrastructure.Data;
+using HikingTrailService.Infrastructure.Messaging.Configuration;
 using Microsoft.OpenApi.Models;
 
 namespace HikingTrailService.Extensions;
@@ -13,8 +15,10 @@ public static class ServiceConfigurationExtension
         services.AddRouting(options => options.LowercaseUrls = true);
 
         services.AddDbContext<HikingTrailServiceDbContext>();
-
+        
         services.AddAutoMapper();
+        
+        services.AddRabbitMq();
         
         services.AddServices();
         
@@ -26,8 +30,9 @@ public static class ServiceConfigurationExtension
     private static void AddServices(this IServiceCollection services)
     {
         services.AddTransient<IActivityFileProcessor, FitFileProcessor>();
+        services.AddTransient<IActivityFileProcessor, GpxFileProcessor>();
         
-        services.AddSingleton<ActivityFileProcessorFactory>();
+        services.AddScoped<ActivityFileProcessorFactory>();
     }
     
     private static void AddRepositories(this IServiceCollection services)
@@ -51,6 +56,15 @@ public static class ServiceConfigurationExtension
                 Version = "3.0.1"
             });
         });
+    }
+
+    private static void AddRabbitMq(this IServiceCollection services)
+    {
+        services.AddSingleton<IRabbitMqConnectionProvider, RabbitMqConnectionProvider>();
+
+        services.AddScoped<IRabbitMqChannelProvider, RabbitMqChannelProvider>();
+        
+        services.AddScoped<IRabbitMqQueueProducer, RabbitMqQueueProducer>();
     }
     
 }
