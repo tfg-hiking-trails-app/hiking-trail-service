@@ -81,7 +81,7 @@ public static class ServiceConfigurationExtension
     private static void AddRabbitMq(this IServiceCollection services)
     {
         // Providers
-        services.AddSingleton<IRabbitMqConnectionProvider, RabbitMqConnectionProvider>();
+        services.AddScoped<IRabbitMqConnectionProvider, RabbitMqConnectionProvider>();
         services.AddScoped<IRabbitMqChannelProvider, RabbitMqChannelProvider>();
         services.AddScoped<IRabbitMqQueueProvider, RabbitMqQueueProvider>();
         

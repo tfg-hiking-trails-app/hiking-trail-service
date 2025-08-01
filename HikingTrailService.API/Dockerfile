@@ -12,10 +12,19 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HikingTrailService.API/HikingTrailService.API.csproj", "HikingTrailService.API/"]
-RUN dotnet restore "./HikingTrailService.API/HikingTrailService.API.csproj"
+# Hiking Trail Service
+COPY ["hiking-trail-service/HikingTrailService.API/HikingTrailService.API.csproj", "hiking-trail-service/HikingTrailService.API/"]
+COPY ["hiking-trail-service/HikingTrailService.Application/HikingTrailService.Application.csproj", "hiking-trail-service/HikingTrailService.Application/"]
+COPY ["hiking-trail-service/HikingTrailService.Domain/HikingTrailService.Domain.csproj", "hiking-trail-service/HikingTrailService.Domain/"]
+COPY ["hiking-trail-service/HikingTrailService.Infrastructure/HikingTrailService.Infrastructure.csproj", "hiking-trail-service/HikingTrailService.Infrastructure/"]
+# Common library
+COPY ["hiking-trail-common/Common.API/Common.API.csproj", "hiking-trail-common/Common.API/"]
+COPY ["hiking-trail-common/Common.Application/Common.Application.csproj", "hiking-trail-common/Common.Application/"]
+COPY ["hiking-trail-common/Common.Domain/Common.Domain.csproj", "hiking-trail-common/Common.Domain/"]
+COPY ["hiking-trail-common/Common.Infrastructure/Common.Infrastructure.csproj", "hiking-trail-common/Common.Infrastructure/"]
+RUN dotnet restore "./hiking-trail-service/HikingTrailService.API/HikingTrailService.API.csproj"
 COPY . .
-WORKDIR "/src/HikingTrailService.API"
+WORKDIR "/src/hiking-trail-service/HikingTrailService.API"
 RUN dotnet build "./HikingTrailService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase se usa para publicar el proyecto de servicio que se copiará en la fase final.
