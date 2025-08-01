@@ -1,7 +1,9 @@
-﻿using HikingTrailService.Application.Common.Extensions;
-using HikingTrailService.Domain.Common;
+﻿using Common.Application.Extensions;
+using Common.Domain.Filter;
+using Common.Domain.Interfaces;
+using Common.Infrastructure.Data.Repositories;
 using HikingTrailService.Domain.Entities;
-using HikingTrailService.Domain.Interfaces.Repositories;
+using HikingTrailService.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HikingTrailService.Infrastructure.Data.Repositories;

@@ -1,7 +1,7 @@
 ﻿using System.Text;
+using Common.Domain.Interfaces.Messaging;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.Interfaces.Processors;
-using HikingTrailService.Domain.Interfaces.Messages;
 
 namespace HikingTrailService.Application.Services.Processors;
 

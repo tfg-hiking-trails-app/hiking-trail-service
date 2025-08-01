@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
-using HikingTrailService.Domain.Interfaces.Messages;
+using Common.Domain.Interfaces.Messaging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 

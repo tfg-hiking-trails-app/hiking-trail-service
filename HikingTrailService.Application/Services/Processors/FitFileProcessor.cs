@@ -1,5 +1,5 @@
-﻿using HikingTrailService.Application.DTOs;
-using HikingTrailService.Domain.Interfaces.Messages;
+﻿using Common.Domain.Interfaces.Messaging;
+using HikingTrailService.Application.DTOs;
 
 namespace HikingTrailService.Application.Services.Processors;
 

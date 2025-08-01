@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using HikingTrailService.Application.Common.Pagination;
+using Common.Application.DTOs.Filter;
+using Common.Application.Pagination;
 using HikingTrailService.Application.DTOs;
-using HikingTrailService.Application.DTOs.Common;
 using HikingTrailService.Application.DTOs.Create;
 using HikingTrailService.Application.DTOs.Update;
 using HikingTrailService.Application.Interfaces;
 using HikingTrailService.Domain.Entities;
-using HikingTrailService.Domain.Interfaces.Repositories;
+using HikingTrailService.Domain.Interfaces;
 
 namespace HikingTrailService.Application.Services;
 

@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\HikingTrailService.Application\HikingTrailService.Application.csproj" />
       <ProjectReference Include="..\HikingTrailService.Domain\HikingTrailService.Domain.csproj" />
+      <ProjectReference Include="..\..\hiking-trail-common\Common.Infrastructure\Common.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

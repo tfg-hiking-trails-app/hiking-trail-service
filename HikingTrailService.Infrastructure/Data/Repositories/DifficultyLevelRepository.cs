@@ -1,5 +1,6 @@
-﻿using HikingTrailService.Domain.Entities;
-using HikingTrailService.Domain.Interfaces.Repositories;
+﻿using Common.Infrastructure.Data.Repositories;
+using HikingTrailService.Domain.Entities;
+using HikingTrailService.Domain.Interfaces;
 
 namespace HikingTrailService.Infrastructure.Data.Repositories;
 

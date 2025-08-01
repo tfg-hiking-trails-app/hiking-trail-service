@@ -1,4 +1,5 @@
-﻿using HikingTrailService.Domain.Entities;
+﻿using Common.Infrastructure.Data.Configuration.Entities;
+using HikingTrailService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

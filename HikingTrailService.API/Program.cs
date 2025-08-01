@@ -1,5 +1,5 @@
+using Common.API.Middlewares;
 using HikingTrailService.Extensions;
-using HikingTrailService.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

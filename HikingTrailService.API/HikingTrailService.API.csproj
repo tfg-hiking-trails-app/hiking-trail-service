@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HikingTrailService.Application\HikingTrailService.Application.csproj" />
     <ProjectReference Include="..\HikingTrailService.Infrastructure\HikingTrailService.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\hiking-trail-common\Common.API\Common.API.csproj" />
   </ItemGroup>
 
 </Project>
