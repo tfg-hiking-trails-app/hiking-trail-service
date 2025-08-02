@@ -1,10 +1,9 @@
-﻿namespace HikingTrailService.Application.DTOs;
+﻿namespace HikingTrailService.Application.DTOs.Update;
 
-public record HealthMetricsEntityDto
+public record UpdateHealthMetricsEntityDto
 {
-    public int Id { get; set; }
     public Guid Code { get; set; }
-    public HikingTrailEntityDto? HikingTrail { get; set; }
+    public Guid? HikingTrailCode { get; set; }
     public int? MinHeartRate { get; set; }
     public int? MaxHeartRate { get; set; }
     public int? AverageHeartRate { get; set; }

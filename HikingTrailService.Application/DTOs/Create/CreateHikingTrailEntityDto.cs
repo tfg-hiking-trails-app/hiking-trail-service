@@ -1,15 +1,13 @@
-﻿namespace HikingTrailService.Application.DTOs;
+﻿namespace HikingTrailService.Application.DTOs.Create;
 
-public record HikingTrailEntityDto
+public record CreateHikingTrailEntityDto
 {
-    public int Id { get; set; }
-    public Guid Code { get; set; }
-    public DifficultyLevelEntityDto? DifficultyLevel { get; set; }
+    public required Guid DifficultyLevelCode { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
     public required double Distance { get; set; }
-    public int LowestElevation { get; set; }
-    public int HighestElevation { get; set; }
+    public int? LowestElevation { get; set; }
+    public int? HighestElevation { get; set; }
     public DateTime? StartTime { get; set; }
     public DateTime? EndTime { get; set; }
     public required string Ubication { get; set; }

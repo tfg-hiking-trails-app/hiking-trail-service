@@ -5,7 +5,8 @@ using HikingTrailService.Application.DTOs.Update;
 
 namespace HikingTrailService.Application.Interfaces;
 
-public interface IDifficultyLevelService : IService<DifficultyLevelEntityDto, CreateDifficultyLevelEntityDto, 
-    UpdateDifficultyLevelEntityDto>
+public interface IHealthMetricsService : IService<HealthMetricsEntityDto, CreateHealthMetricsEntityDto, 
+    UpdateHealthMetricsEntityDto>
 {
+    
 }

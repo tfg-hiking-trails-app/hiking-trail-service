@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Common.Application.DTOs.Filter;
-using Common.Application.Pagination;
+using Common.Application.Services;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
 using HikingTrailService.Application.DTOs.Update;
@@ -10,53 +9,19 @@ using HikingTrailService.Domain.Interfaces;
 
 namespace HikingTrailService.Application.Services;
 
-public class DifficultyLevelService : IDifficultyLevelService
+public class DifficultyLevelService : AbstractService<DifficultyLevel, DifficultyLevelEntityDto, 
+        CreateDifficultyLevelEntityDto, UpdateDifficultyLevelEntityDto>, IDifficultyLevelService
 {
-    private readonly IDifficultyLevelRepository _repository;
-    private readonly IMapper _mapper;
-    
     public DifficultyLevelService(
         IDifficultyLevelRepository repository,
-        IMapper mapper)
+        IMapper mapper) : base(repository, mapper)
     {
-        _repository = repository;
-        _mapper = mapper;
+    }
+
+    protected override void CheckDataValidity(CreateDifficultyLevelEntityDto createEntityDto)
+    {
+        if (string.IsNullOrEmpty(createEntityDto.DifficultyLevelValue))
+            throw new ArgumentNullException(nameof(createEntityDto.DifficultyLevelValue));
     }
     
-    public async Task<IEnumerable<DifficultyLevelEntityDto>> GetAllAsync()
-    {
-        IEnumerable<DifficultyLevel> difficultyLevels = await _repository.GetAllAsync();
-        
-        return _mapper.Map<IEnumerable<DifficultyLevelEntityDto>>(difficultyLevels);
-    }
-
-    public Task<Page<DifficultyLevelEntityDto>> GetPagedAsync(FilterEntityDto filter, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DifficultyLevelEntityDto> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DifficultyLevelEntityDto> GetByCodeAsync(Guid code)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Guid> CreateAsync(CreateDifficultyLevelEntityDto entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Guid> UpdateAsync(UpdateDifficultyLevelEntityDto entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(Guid code)
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -1,10 +1,9 @@
-﻿namespace HikingTrailService.Application.DTOs;
+﻿namespace HikingTrailService.Application.DTOs.Update;
 
-public record HikingTrailEntityDto
+public record UpdateHikingTrailEntityDto
 {
-    public int Id { get; set; }
     public Guid Code { get; set; }
-    public DifficultyLevelEntityDto? DifficultyLevel { get; set; }
+    public Guid? DifficultyLevelCode { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
     public required double Distance { get; set; }

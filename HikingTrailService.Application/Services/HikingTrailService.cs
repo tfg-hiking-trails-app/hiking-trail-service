@@ -1,0 +1,34 @@
+﻿using AutoMapper;
+using Common.Application.Services;
+using Common.Application.Utils;
+using Common.Domain.Interfaces;
+using HikingTrailService.Application.DTOs;
+using HikingTrailService.Application.DTOs.Create;
+using HikingTrailService.Application.DTOs.Update;
+using HikingTrailService.Application.Interfaces;
+using HikingTrailService.Domain.Entities;
+
+namespace HikingTrailService.Application.Services;
+
+public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntityDto, CreateHikingTrailEntityDto, 
+    UpdateHikingTrailEntityDto>, IHikingTrailService
+{
+    public HikingTrailService(IRepository<HikingTrail> repository, IMapper mapper) 
+        : base(repository, mapper)
+    {
+    }
+
+    protected override void CheckDataValidity(CreateHikingTrailEntityDto createEntityDto)
+    {
+        Validator.CheckNullArgument(createEntityDto.Name, nameof(createEntityDto.Name));
+        Validator.CheckNullArgument(createEntityDto.Ubication, nameof(createEntityDto.Ubication));
+        Validator.CheckPositiveValue(createEntityDto.Distance, nameof(createEntityDto.Distance));
+        
+        if (createEntityDto.LowestElevation is not null)
+            Validator.CheckPositiveValue((int) createEntityDto.LowestElevation, nameof(createEntityDto.LowestElevation));
+        
+        if (createEntityDto.HighestElevation is not null)
+            Validator.CheckPositiveValue((int) createEntityDto.HighestElevation!, nameof(createEntityDto.HighestElevation));
+    }
+    
+}
