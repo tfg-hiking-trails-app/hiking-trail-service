@@ -18,6 +18,7 @@ public class HealthMetricsRepository : AbstractRepository<HealthMetrics>, IHealt
     {
         return Entity
             .Include(hm => hm.HikingTrail)
+            .Include(hm => hm.HikingTrail!.DifficultyLevel)
             .ToList();
     }
 
@@ -25,6 +26,7 @@ public class HealthMetricsRepository : AbstractRepository<HealthMetrics>, IHealt
     {
         return await Entity
             .Include(hm => hm.HikingTrail)
+            .Include(hm => hm.HikingTrail!.DifficultyLevel)
             .ToListAsync();    }
     
     public override async Task<IPaged<HealthMetrics>> GetPagedAsync(
@@ -33,6 +35,7 @@ public class HealthMetricsRepository : AbstractRepository<HealthMetrics>, IHealt
     {
         return await Entity
             .Include(hm => hm.HikingTrail)
+            .Include(hm => hm.HikingTrail!.DifficultyLevel)
             .ToPageAsync(filter, cancellationToken);
     }
 
@@ -40,6 +43,7 @@ public class HealthMetricsRepository : AbstractRepository<HealthMetrics>, IHealt
     {
         return Entity
             .Include(hm => hm.HikingTrail)
+            .Include(hm => hm.HikingTrail!.DifficultyLevel)
             .FirstOrDefault(hm => hm.Id == id);
     }
 
@@ -47,6 +51,7 @@ public class HealthMetricsRepository : AbstractRepository<HealthMetrics>, IHealt
     {
         return await Entity
             .Include(hm => hm.HikingTrail)
+            .Include(hm => hm.HikingTrail!.DifficultyLevel)
             .FirstOrDefaultAsync(hm => hm.Id == id);
     }
 
@@ -54,6 +59,7 @@ public class HealthMetricsRepository : AbstractRepository<HealthMetrics>, IHealt
     {
         return Entity
             .Include(hm => hm.HikingTrail)
+            .Include(hm => hm.HikingTrail!.DifficultyLevel)
             .FirstOrDefault(hm => hm.Code == code);
     }
 
@@ -61,6 +67,7 @@ public class HealthMetricsRepository : AbstractRepository<HealthMetrics>, IHealt
     {
         return await Entity
             .Include(hm => hm.HikingTrail)
+            .Include(hm => hm.HikingTrail!.DifficultyLevel)
             .FirstOrDefaultAsync(hm => hm.Code == code);
     }
     

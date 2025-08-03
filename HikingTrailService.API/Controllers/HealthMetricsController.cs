@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTrailService.Controllers;
 
-[Route("api/difficulty-level")]
-public class DifficultyLevelController : AbstractController<
-    DifficultyLevelDto, CreateDifficultyLevelDto, UpdateDifficultyLevelDto, 
-    DifficultyLevelEntityDto, CreateDifficultyLevelEntityDto, UpdateDifficultyLevelEntityDto>
+[Route("api/health-metrics")]
+public class HealthMetricsController : AbstractController<
+    HealthMetricsDto, CreateHealthMetricsDto, UpdateHealthMetricsDto, 
+    HealthMetricsEntityDto, CreateHealthMetricsEntityDto, UpdateHealthMetricsEntityDto>
 {
-    public DifficultyLevelController(
-        IDifficultyLevelService difficultyLevelService, 
-        IMapper mapper) : base(difficultyLevelService, mapper)
+    public HealthMetricsController(
+        IHealthMetricsService healthMetricsService, 
+        IMapper mapper) : base(healthMetricsService, mapper)
     {
     }
     
