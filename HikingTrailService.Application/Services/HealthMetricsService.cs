@@ -1,19 +1,21 @@
 ﻿using AutoMapper;
 using Common.Application.Services;
 using Common.Application.Utils;
-using Common.Domain.Interfaces;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
 using HikingTrailService.Application.DTOs.Update;
 using HikingTrailService.Application.Interfaces;
 using HikingTrailService.Domain.Entities;
+using HikingTrailService.Domain.Interfaces;
 
 namespace HikingTrailService.Application.Services;
 
 public class HealthMetricsService : AbstractService<HealthMetrics, HealthMetricsEntityDto, CreateHealthMetricsEntityDto, 
     UpdateHealthMetricsEntityDto>, IHealthMetricsService
 {
-    public HealthMetricsService(IRepository<HealthMetrics> repository, IMapper mapper) 
+    public HealthMetricsService(
+        IHealthMetricsRepository repository, 
+        IMapper mapper) 
         : base(repository, mapper)
     {
     }

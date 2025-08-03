@@ -2,7 +2,9 @@
 using Common.Domain.Interfaces.Messaging;
 using Common.Infrastructure.Data.Configuration.Mapping;
 using Common.Infrastructure.Messaging.Configuration;
+using HikingTrailService.Application.Interfaces;
 using HikingTrailService.Application.Interfaces.Processors;
+using HikingTrailService.Application.Services;
 using HikingTrailService.Application.Services.Processors;
 using HikingTrailService.Domain.Interfaces;
 using HikingTrailService.DTOs.Mapping;
@@ -36,12 +38,17 @@ public static class ServiceConfigurationExtension
     
     private static void AddServices(this IServiceCollection services)
     {
-        // Services
-        services.AddTransient<IActivityFileProcessor, FitFileProcessor>();
-        services.AddTransient<IActivityFileProcessor, GpxFileProcessor>();
+        // Processors
+        services.AddScoped<IActivityFileProcessor, FitFileProcessor>();
+        services.AddScoped<IActivityFileProcessor, GpxFileProcessor>();
         
         // Factories
         services.AddScoped<ActivityFileProcessorFactory>();
+        
+        // Services
+        services.AddScoped<IDifficultyLevelService, DifficultyLevelService>();
+        services.AddScoped<IHealthMetricsService, HealthMetricsService>();
+        services.AddScoped<IHikingTrailService, Application.Services.HikingTrailService>();
     }
     
     private static void AddRepositories(this IServiceCollection services)

@@ -12,7 +12,7 @@ public class RabbitMqQueueConsumer : IRabbitMqQueueConsumer
     
     private readonly Func<string, string> _queueName = extension => $"data-response-{ extension.Replace(".", "") }-file";
 
-    private RabbitMqQueueConsumer(IRabbitMqQueueProvider channelProvider)
+    public RabbitMqQueueConsumer(IRabbitMqQueueProvider channelProvider)
     {
         _channelProvider = channelProvider;
     }

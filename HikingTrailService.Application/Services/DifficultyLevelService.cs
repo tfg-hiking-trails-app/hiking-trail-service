@@ -14,7 +14,8 @@ public class DifficultyLevelService : AbstractService<DifficultyLevel, Difficult
 {
     public DifficultyLevelService(
         IDifficultyLevelRepository repository,
-        IMapper mapper) : base(repository, mapper)
+        IMapper mapper) 
+        : base(repository, mapper)
     {
     }
 
