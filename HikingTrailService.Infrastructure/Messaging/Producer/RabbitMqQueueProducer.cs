@@ -1,37 +1,20 @@
 ﻿using Common.Domain.Interfaces.Messaging;
-using RabbitMQ.Client;
+using Common.Infrastructure.Messaging;
 
 namespace HikingTrailService.Infrastructure.Messaging.Producer;
 
-public class RabbitMqQueueProducer : IRabbitMqQueueProducer
+public class RabbitMqQueueProducer : AbstractRabbitMqQueueProducer
 {
     private readonly IRabbitMqQueueProvider _channelProvider;
     
-    private readonly Func<string, string> _queueName = extension => $"read-{ extension.Replace(".", "") }-file";
+    public override string QueueName { get; }
+    public override string ExchangeName { get; }
 
-    public RabbitMqQueueProducer(IRabbitMqQueueProvider channelProvider)
+    public RabbitMqQueueProducer(IRabbitMqQueueProvider channelProvider) : base(channelProvider)
     {
+        QueueName = GetUsingEnvironmentVariable("RABBITMQ_QUEUE_HIKING_TO_FITDATA");
+        ExchangeName = GetUsingEnvironmentVariable("RABBITMQ_EXCHANGE_HIKING_TRAIL_SERVICE");
         _channelProvider = channelProvider;
-    }
-    
-    public async Task BasicPublishAsync(string routingKey, byte[] body)
-    {
-        string exchangeName = GetExchangeName();
-        string queueName = _queueName(routingKey);
-        
-        IChannel channel = await _channelProvider.GetChannelAsync(exchangeName, queueName);
-        
-        await channel.BasicPublishAsync(exchangeName, queueName, body);
-    }
-
-    private string GetExchangeName()
-    {
-        string? exchangeName = Environment.GetEnvironmentVariable("RABBITMQ_EXCHANGE_HIKING_TRAIL_SERVICE");
-
-        if (string.IsNullOrEmpty(exchangeName))
-            throw new Exception("Exchange name not set");
-        
-        return exchangeName;
     }
     
 }

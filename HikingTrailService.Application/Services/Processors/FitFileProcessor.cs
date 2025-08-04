@@ -22,6 +22,6 @@ public class FitFileProcessor : AbstractActivityFileProcessor
 
     private async Task ReceiveResponse()
     {
-        FitDataResponseDto fitDataResponseDto = await _queueConsumer.BasicConsumeAsync<FitDataResponseDto>(ExtensionFile);
+        FitDataResponseDto fitDataResponseDto = await QueueConsumer.BasicConsumeAsync<FitDataResponseDto>();
     }
 }

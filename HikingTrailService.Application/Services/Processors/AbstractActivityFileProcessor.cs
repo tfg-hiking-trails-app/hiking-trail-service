@@ -7,16 +7,16 @@ namespace HikingTrailService.Application.Services.Processors;
 
 public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
 {
-    protected readonly IRabbitMqQueueProducer _queueProducer;
-    protected readonly IRabbitMqQueueConsumer _queueConsumer;
+    protected readonly IRabbitMqQueueProducer QueueProducer;
+    protected readonly IRabbitMqQueueConsumer QueueConsumer;
     private const string Folder = "/shared/data";
 
     protected AbstractActivityFileProcessor(
         IRabbitMqQueueProducer queueProducer,
         IRabbitMqQueueConsumer queueConsumer)
     {
-        _queueProducer = queueProducer;
-        _queueConsumer = queueConsumer;
+        QueueProducer = queueProducer;
+        QueueConsumer = queueConsumer;
     }
     
     public abstract string ExtensionFile { get; }
@@ -45,7 +45,7 @@ public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
         if (string.IsNullOrEmpty(file.FileName))
             throw new ArgumentNullException(nameof(file.FileName));
         
-        await _queueProducer.BasicPublishAsync(ExtensionFile, Encoding.UTF8.GetBytes(file.FileName));
+        await QueueProducer.BasicPublishAsync(ExtensionFile, Encoding.UTF8.GetBytes(file.FileName));
     }
 
     private string GetFullPath(string fileName)
