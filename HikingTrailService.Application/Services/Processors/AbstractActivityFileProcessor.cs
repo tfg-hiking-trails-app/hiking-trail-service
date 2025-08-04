@@ -1,6 +1,8 @@
 ﻿using System.Text;
+using System.Text.Json;
 using Common.Domain.Interfaces.Messaging;
 using HikingTrailService.Application.DTOs;
+using HikingTrailService.Application.DTOs.Messaging;
 using HikingTrailService.Application.Interfaces.Processors;
 
 namespace HikingTrailService.Application.Services.Processors;
@@ -45,7 +47,16 @@ public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
         if (string.IsNullOrEmpty(file.FileName))
             throw new ArgumentNullException(nameof(file.FileName));
         
-        await QueueProducer.BasicPublishAsync(ExtensionFile, Encoding.UTF8.GetBytes(file.FileName));
+        file.Content = Stream.Null;
+
+        string response = JsonSerializer.Serialize<ActivityFileResponseDto>(
+            new ActivityFileResponseDto 
+            {
+                ContentType = file.ContentType,
+                FileName = file.FileName,
+            });
+        
+        await QueueProducer.BasicPublishAsync(ExtensionFile, Encoding.UTF8.GetBytes(response));
     }
 
     private string GetFullPath(string fileName)

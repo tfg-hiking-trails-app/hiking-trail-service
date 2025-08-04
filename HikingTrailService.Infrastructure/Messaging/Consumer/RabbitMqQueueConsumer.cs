@@ -5,8 +5,6 @@ namespace HikingTrailService.Infrastructure.Messaging.Consumer;
 
 public class RabbitMqQueueConsumer : AbstractRabbitMqQueueConsumer
 {
-    private readonly IRabbitMqQueueProvider _channelProvider;
-    
     public override string QueueName { get; }
     public override string ExchangeName { get; }
 
@@ -14,7 +12,6 @@ public class RabbitMqQueueConsumer : AbstractRabbitMqQueueConsumer
     {
         QueueName = GetUsingEnvironmentVariable("RABBITMQ_QUEUE_FITDATA_TO_HIKING");
         ExchangeName = GetUsingEnvironmentVariable("RABBITMQ_EXCHANGE_FIT_DATA_SERVICE");
-        _channelProvider = channelProvider;
     }
 
 }
