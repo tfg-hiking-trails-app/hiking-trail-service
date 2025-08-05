@@ -27,6 +27,7 @@ public class ActivityFileProfile : Profile
             {
                 Stream result = new MemoryStream();
                 src.ActivityFile!.CopyTo(result);
+                result.Seek(0, SeekOrigin.Begin);
                 dest.Content = result;
             });
     }
