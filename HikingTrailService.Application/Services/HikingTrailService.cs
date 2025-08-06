@@ -23,14 +23,7 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
     protected override void CheckDataValidity(CreateHikingTrailEntityDto createEntityDto)
     {
         Validator.CheckNullArgument(createEntityDto.Name, nameof(createEntityDto.Name));
-        Validator.CheckNullArgument(createEntityDto.Ubication, nameof(createEntityDto.Ubication));
         Validator.CheckPositiveValue(createEntityDto.Distance, nameof(createEntityDto.Distance));
-        
-        if (createEntityDto.LowestElevation is not null)
-            Validator.CheckPositiveValue((int) createEntityDto.LowestElevation, nameof(createEntityDto.LowestElevation));
-        
-        if (createEntityDto.HighestElevation is not null)
-            Validator.CheckPositiveValue((int) createEntityDto.HighestElevation!, nameof(createEntityDto.HighestElevation));
     }
     
 }

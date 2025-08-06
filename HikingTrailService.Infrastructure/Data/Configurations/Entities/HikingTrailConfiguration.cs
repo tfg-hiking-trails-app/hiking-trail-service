@@ -18,7 +18,6 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
             .HasForeignKey(d => d.DifficultyLevelId);
 
         builder.Property(d => d.DifficultyLevelId)
-            .IsRequired()
             .HasColumnName("difficulty_level_id");
 
         builder.Property(d => d.Name)
@@ -32,29 +31,28 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
         builder.Property(d => d.Distance)
             .IsRequired()
             .HasColumnName("distance");
-
-        builder.Property(d => d.LowestElevation)
-            .HasColumnName("lowest_elevation");
-
-        builder.Property(d => d.HighestElevation)
-            .HasColumnName("highest_elevation");
-
-        builder.Property(d => d.StartTime)
-            .HasColumnName("start_time");
-
-        builder.Property(d => d.EndTime)
-            .HasColumnName("end_time");
-
-        builder.Property(d => d.Ubication)
-            .IsRequired()
-            .HasMaxLength(255)
-            .HasColumnName("ubication");
-
+        
         builder.Property(d => d.PetFriendly)
             .HasColumnName("pet_friendly");
 
-        builder.HasMany(d => d.HealthMetrics)
-            .WithOne(hm => hm.HikingTrail)
-            .HasForeignKey(hm => hm.HikingTrailId);
+        builder.Property(d => d.StartTime)
+            .IsRequired()
+            .HasColumnName("start_time");
+
+        builder.Property(d => d.EndTime)
+            .IsRequired()
+            .HasColumnName("end_time");
+
+        builder.Property(d => d.Duration)
+            .IsRequired()
+            .HasColumnName("duration");
+        
+        builder.Property(d => d.UbicationLatitude)
+            .IsRequired()
+            .HasColumnName("ubication_latitude");
+        
+        builder.Property(d => d.UbicationLongitude)
+            .IsRequired()
+            .HasColumnName("ubication_longitude");
     }
 }

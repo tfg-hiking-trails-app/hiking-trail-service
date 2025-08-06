@@ -47,14 +47,12 @@ public static class ServiceConfigurationExtension
         
         // Services
         services.AddScoped<IDifficultyLevelService, DifficultyLevelService>();
-        services.AddScoped<IHealthMetricsService, HealthMetricsService>();
         services.AddScoped<IHikingTrailService, Application.Services.HikingTrailService>();
     }
     
     private static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
-        services.AddScoped<IHealthMetricsRepository, HealthMetricsRepository>();
         services.AddScoped<IHikingTrailRepository, HikingTrailRepository>();
     }
 
@@ -63,13 +61,11 @@ public static class ServiceConfigurationExtension
         services.AddAutoMapper(
             typeof(CommonProfile).Assembly,
             typeof(HikingTrailProfile).Assembly,
-            typeof(HealthMetricsProfile).Assembly,
             typeof(DifficultyLevelProfile).Assembly,
             typeof(ActivityFileProfile).Assembly,
-            typeof(FitDataResponseProfile).Assembly,
+            typeof(FitFileDataProfile).Assembly,
             typeof(CommonEntityProfile).Assembly,
             typeof(HikingTrailEntityProfile).Assembly,
-            typeof(HealthMetricsEntityProfile).Assembly,
             typeof(DifficultyLevelEntityProfile).Assembly);
     }
     

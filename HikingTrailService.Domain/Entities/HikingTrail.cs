@@ -7,9 +7,8 @@ namespace HikingTrailService.Domain.Entities;
 [Table("HikingTrail")]
 public class HikingTrail : BaseEntity
 {
-    [Required]
     [Column("difficulty_level_id")]
-    public int DifficultyLevelId { get; set; }
+    public int? DifficultyLevelId { get; set; }
     
     [ForeignKey("DifficultyLevelId")]
     public DifficultyLevel? DifficultyLevel { get; set; }
@@ -17,34 +16,35 @@ public class HikingTrail : BaseEntity
     [Required]
     [MaxLength(100)]
     [Column("name")]
-    public string? Name { get; set; }
+    public required string Name { get; set; }
     
     [Column("description")]
     public string? Description { get; set; }
     
     [Required]
     [Column("distance")]
-    public double Distance { get; set; }
-    
-    [Column("lowest_elevation")]
-    public int LowestElevation { get; set; }
-    
-    [Column("highest_elevation")]
-    public int HighestElevation { get; set; }
-    
-    [Column("start_time")]
-    public DateTime? StartTime { get; set; }
-    
-    [Column("end_time")]
-    public DateTime? EndTime { get; set; }
-    
-    [Required]
-    [MaxLength(255)]
-    [Column("ubication")]
-    public string? Ubication { get; set; }
+    public required int Distance { get; set; }
     
     [Column("pet_friendly")]
     public bool PetFriendly { get; set; }
     
-    public virtual ICollection<HealthMetrics> HealthMetrics { get; set; } = new List<HealthMetrics>();
+    [Required]
+    [Column("start_time")]
+    public required DateTime StartTime { get; set; }
+    
+    [Required]
+    [Column("end_time")]
+    public required DateTime EndTime { get; set; }
+    
+    [Required]
+    [Column("duration")]
+    public required double Duration { get; set; }
+    
+    [Required]
+    [Column("ubication_latitude")]
+    public required double UbicationLatitude { get; set; }
+    
+    [Required]
+    [Column("ubication_longitude")]
+    public required double UbicationLongitude { get; set; }
 }
