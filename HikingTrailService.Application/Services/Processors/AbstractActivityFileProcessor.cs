@@ -56,7 +56,7 @@ public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
                 FileName = file.FileName,
             });
         
-        await QueueProducer.BasicPublishAsync(ExtensionFile, Encoding.UTF8.GetBytes(response));
+        await QueueProducer.BasicPublishAsync(Encoding.UTF8.GetBytes(response));
     }
 
     private string GetFullPath(string fileName)

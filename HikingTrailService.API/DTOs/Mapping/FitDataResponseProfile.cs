@@ -7,7 +7,7 @@ public class FitDataResponseProfile : Profile
 {
     public FitDataResponseProfile()
     {
-        CreateMap<FitDataResponseDto, HikingTrailEntityDto>().ReverseMap();
-        CreateMap<FitDataResponseDto, HealthMetricsEntityDto>().ReverseMap();
+        CreateMap<FitFileDataEntityDto, HikingTrailEntityDto>().ReverseMap();
+        CreateMap<FitFileDataEntityDto, HealthMetricsEntityDto>().ReverseMap();
     }
 }
