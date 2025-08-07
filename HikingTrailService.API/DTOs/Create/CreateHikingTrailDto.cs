@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Common.API.DataAnnotations;
+using Common.API.DTOs.Create;
 
 namespace HikingTrailService.DTOs.Create;
 
-public record CreateHikingTrailDto
+public record CreateHikingTrailDto : CreateBaseDto
 {
     [GuidValidator(ErrorMessage = "DifficultyLevelCode must be a valid GUID")]
     public Guid? DifficultyLevelCode { get; set; }
@@ -13,10 +14,6 @@ public record CreateHikingTrailDto
     
     public string? Description { get; set; }
     
-    [Required(ErrorMessage = "Distance is required")]
-    [Range(0, Double.MaxValue, ErrorMessage = "Distance minium value must be 0")]
-    public required int Distance { get; set; }
-    
     public bool PetFriendly { get; set; }
     
     [Required(ErrorMessage = "Start time is required")]
@@ -25,12 +22,13 @@ public record CreateHikingTrailDto
     [Required(ErrorMessage = "End time is required")]
     public required DateTime EndTime { get; set; }
     
-    [Required(ErrorMessage = "Duration is required")]
-    public required double Duration { get; set; }
-    
     [Required(ErrorMessage = "Ubication latitude is required")]
     public required double UbicationLatitude { get; set; }
     
     [Required(ErrorMessage = "Ubication longitude is required")]
     public required double UbicationLongitude { get; set; }
+    
+    public bool Deleted { get; set; }
+    
+    public bool GeneratedByFitFile { get; set; }
 }

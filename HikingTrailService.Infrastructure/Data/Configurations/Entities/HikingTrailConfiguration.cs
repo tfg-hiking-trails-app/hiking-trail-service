@@ -27,10 +27,6 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
 
         builder.Property(d => d.Description)
             .HasColumnName("description");
-
-        builder.Property(d => d.Distance)
-            .IsRequired()
-            .HasColumnName("distance");
         
         builder.Property(d => d.PetFriendly)
             .HasColumnName("pet_friendly");
@@ -42,10 +38,6 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
         builder.Property(d => d.EndTime)
             .IsRequired()
             .HasColumnName("end_time");
-
-        builder.Property(d => d.Duration)
-            .IsRequired()
-            .HasColumnName("duration");
         
         builder.Property(d => d.UbicationLatitude)
             .IsRequired()
@@ -54,5 +46,11 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
         builder.Property(d => d.UbicationLongitude)
             .IsRequired()
             .HasColumnName("ubication_longitude");
+        
+        builder.Property(d => d.Deleted)
+            .HasColumnName("deleted");
+        
+        builder.Property(d => d.GeneratedByFitFile)
+            .HasColumnName("generated_by_fit_file");
     }
 }

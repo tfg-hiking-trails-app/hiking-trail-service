@@ -18,6 +18,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return Entity
             .Include(hm => hm.DifficultyLevel)
+            .Include(hm => hm.TerrainType)
+            .Include(hm => hm.TrailType)
             .ToList();
     }
 
@@ -25,6 +27,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return await Entity
             .Include(hm => hm.DifficultyLevel)
+            .Include(hm => hm.TerrainType)
+            .Include(hm => hm.TrailType)
             .ToListAsync();    }
     
     public override async Task<IPaged<HikingTrail>> GetPagedAsync(
@@ -33,6 +37,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return await Entity
             .Include(hm => hm.DifficultyLevel)
+            .Include(hm => hm.TerrainType)
+            .Include(hm => hm.TrailType)
             .ToPageAsync(filter, cancellationToken);
     }
 
@@ -40,6 +46,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return Entity
             .Include(hm => hm.DifficultyLevel)
+            .Include(hm => hm.TerrainType)
+            .Include(hm => hm.TrailType)
             .FirstOrDefault(hm => hm.Id == id);
     }
 
@@ -47,6 +55,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return await Entity
             .Include(hm => hm.DifficultyLevel)
+            .Include(hm => hm.TerrainType)
+            .Include(hm => hm.TrailType)
             .FirstOrDefaultAsync(hm => hm.Id == id);
     }
 
@@ -54,6 +64,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return Entity
             .Include(hm => hm.DifficultyLevel)
+            .Include(hm => hm.TerrainType)
+            .Include(hm => hm.TrailType)
             .FirstOrDefault(hm => hm.Code == code);
     }
 
@@ -61,6 +73,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return await Entity
             .Include(hm => hm.DifficultyLevel)
+            .Include(hm => hm.TerrainType)
+            .Include(hm => hm.TrailType)
             .FirstOrDefaultAsync(hm => hm.Code == code);
     }
     

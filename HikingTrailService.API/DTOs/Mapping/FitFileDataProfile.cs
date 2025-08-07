@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
+using HikingTrailService.Application.DTOs.Messaging;
 using HikingTrailService.Application.DTOs.Update;
 
 namespace HikingTrailService.DTOs.Mapping;

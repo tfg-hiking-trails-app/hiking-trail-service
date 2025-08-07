@@ -1,6 +1,6 @@
 ﻿namespace HikingTrailService.DTOs;
 
-public class ActivityFileUploadDto
+public record ActivityFileUploadDto
 {
     public IFormFile? ActivityFile { get; set; }
 }

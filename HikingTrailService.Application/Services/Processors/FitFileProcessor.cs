@@ -2,6 +2,7 @@
 using Common.Domain.Interfaces.Messaging;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
+using HikingTrailService.Application.DTOs.Messaging;
 using HikingTrailService.Application.Interfaces;
 
 namespace HikingTrailService.Application.Services.Processors;

@@ -13,6 +13,18 @@ public class HikingTrail : BaseEntity
     [ForeignKey("DifficultyLevelId")]
     public DifficultyLevel? DifficultyLevel { get; set; }
     
+    [Column("terrain_type_id")]
+    public int? TerrainTypeId { get; set; }
+    
+    [ForeignKey("TerrainTypeId")]
+    public TerrainType? TerrainType { get; set; }
+    
+    [Column("trail_type_id")]
+    public int? TrailTypeId { get; set; }
+    
+    [ForeignKey("TrailTypeId")]
+    public TrailType? TrailType { get; set; }
+    
     [Required]
     [MaxLength(100)]
     [Column("name")]
@@ -20,10 +32,6 @@ public class HikingTrail : BaseEntity
     
     [Column("description")]
     public string? Description { get; set; }
-    
-    [Required]
-    [Column("distance")]
-    public required int Distance { get; set; }
     
     [Column("pet_friendly")]
     public bool PetFriendly { get; set; }
@@ -37,14 +45,19 @@ public class HikingTrail : BaseEntity
     public required DateTime EndTime { get; set; }
     
     [Required]
-    [Column("duration")]
-    public required double Duration { get; set; }
-    
-    [Required]
     [Column("ubication_latitude")]
     public required double UbicationLatitude { get; set; }
     
     [Required]
     [Column("ubication_longitude")]
     public required double UbicationLongitude { get; set; }
+    
+    [Column("deleted")]
+    public bool Deleted { get; set; }
+    
+    [Column("generated_by_fit_file")]
+    public bool GeneratedByFitFile { get; set; }
+    
+    public virtual ICollection<Metrics> Metrics { get; set; } = new List<Metrics>();
+    public virtual ICollection<Images> Images { get; set; } = new List<Images>();
 }

@@ -1,17 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Common.API.DataAnnotations;
+using Common.API.DTOs.Update;
 
 namespace HikingTrailService.DTOs.Update;
 
-public record UpdateHikingTrailDto
+public record UpdateHikingTrailDto : UpdateBaseDto
 {
+    [GuidValidator(ErrorMessage = "DifficultyLevelCode must be a valid GUID")]
     public Guid? DifficultyLevelCode { get; set; }
     
     public string? Name { get; set; }
     
     public string? Description { get; set; }
-    
-    [Range(0, Double.MaxValue)]
-    public double? Distance { get; set; }
 
     public bool? PetFriendly { get; set; }
     
@@ -19,9 +18,10 @@ public record UpdateHikingTrailDto
     
     public DateTime? EndTime { get; set; }
     
-    public double? Duration { get; set; }
-    
     public double? UbicationLatitude { get; set; }
     
     public double? UbicationLongitude { get; set; }
+    
+    public bool Deleted { get; set; }
+    public bool GeneratedByFitFile { get; set; }
 }

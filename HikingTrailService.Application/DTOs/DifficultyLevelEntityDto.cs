@@ -1,8 +1,8 @@
-﻿namespace HikingTrailService.Application.DTOs;
+﻿using Common.Application.DTOs;
 
-public record DifficultyLevelEntityDto
+namespace HikingTrailService.Application.DTOs;
+
+public record DifficultyLevelEntityDto : BaseEntityDto
 {
-    public int Id { get; set; }
-    public Guid Code { get; set; }
     public string? DifficultyLevelValue { get; set; }
 }

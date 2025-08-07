@@ -1,4 +1,4 @@
-﻿namespace HikingTrailService.Application.DTOs;
+﻿namespace HikingTrailService.Application.DTOs.Messaging;
 
 public record FitFileDataEntityDto
 {

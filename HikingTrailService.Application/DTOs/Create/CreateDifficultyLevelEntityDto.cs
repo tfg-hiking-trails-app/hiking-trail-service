@@ -1,6 +1,8 @@
-﻿namespace HikingTrailService.Application.DTOs.Create;
+﻿using Common.Application.DTOs.Create;
 
-public record CreateDifficultyLevelEntityDto
+namespace HikingTrailService.Application.DTOs.Create;
+
+public record CreateDifficultyLevelEntityDto : CreateBaseEntityDto
 {
     public required string DifficultyLevelValue { get; set; }
 }

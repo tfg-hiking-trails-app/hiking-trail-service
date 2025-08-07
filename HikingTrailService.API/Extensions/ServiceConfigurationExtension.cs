@@ -62,11 +62,19 @@ public static class ServiceConfigurationExtension
             typeof(CommonProfile).Assembly,
             typeof(HikingTrailProfile).Assembly,
             typeof(DifficultyLevelProfile).Assembly,
+            typeof(MetricsProfile).Assembly,
             typeof(ActivityFileProfile).Assembly,
             typeof(FitFileDataProfile).Assembly,
+            typeof(ImagesProfile).Assembly,
+            typeof(TerrainTypeProfile).Assembly,
+            typeof(TrailTypeProfile).Assembly,
             typeof(CommonEntityProfile).Assembly,
             typeof(HikingTrailEntityProfile).Assembly,
-            typeof(DifficultyLevelEntityProfile).Assembly);
+            typeof(DifficultyLevelEntityProfile).Assembly,
+            typeof(MetricsEntityProfile).Assembly,
+            typeof(ImagesEntityProfile).Assembly,
+            typeof(TerrainTypeEntityProfile).Assembly,
+            typeof(TrailTypeEntityProfile).Assembly);
     }
     
     private static void AddSwaggerGen(this IServiceCollection services)

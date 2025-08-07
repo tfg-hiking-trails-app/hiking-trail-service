@@ -10,7 +10,7 @@ public class HikingTrailProfile : Profile
     public HikingTrailProfile()
     {
         CreateMap<HikingTrailDto, HikingTrailEntityDto>().ReverseMap();
-        CreateMap<HikingTrailDto, CreateHikingTrailDto>().ReverseMap();
-        CreateMap<HikingTrailDto, UpdateHikingTrailDto>().ReverseMap();
+        CreateMap<CreateHikingTrailDto, CreateHikingTrailDto>().ReverseMap();
+        CreateMap<UpdateHikingTrailDto, UpdateHikingTrailDto>().ReverseMap();
     }
 }
