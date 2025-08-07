@@ -9,6 +9,12 @@ public record CreateHikingTrailDto : CreateBaseDto
     [GuidValidator(ErrorMessage = "DifficultyLevelCode must be a valid GUID")]
     public Guid? DifficultyLevelCode { get; set; }
     
+    [GuidValidator(ErrorMessage = "TerrainTypeCode must be a valid GUID")]
+    public Guid? TerrainTypeCode { get; set; }
+    
+    [GuidValidator(ErrorMessage = "TrailTypeCode must be a valid GUID")]
+    public Guid? TrailTypeCode { get; set; }
+    
     [Required(ErrorMessage = "Name is required")]
     public required string Name { get; set; }
     

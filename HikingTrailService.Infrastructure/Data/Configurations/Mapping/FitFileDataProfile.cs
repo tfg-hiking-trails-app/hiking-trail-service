@@ -4,7 +4,7 @@ using HikingTrailService.Application.DTOs.Create;
 using HikingTrailService.Application.DTOs.Messaging;
 using HikingTrailService.Application.DTOs.Update;
 
-namespace HikingTrailService.DTOs.Mapping;
+namespace HikingTrailService.Infrastructure.Data.Configurations.Mapping;
 
 public class FitFileDataProfile : Profile
 {
@@ -14,15 +14,14 @@ public class FitFileDataProfile : Profile
             .ForMember(dest => dest.Code, opt => opt.MapFrom(
                 src => src.HikingTrailCode))
             .ReverseMap();
-        
         CreateMap<FitFileDataEntityDto, CreateHikingTrailEntityDto>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(
                 src => src.HikingTrailCode))
             .ReverseMap();
+        CreateMap<FitFileDataEntityDto, UpdateHikingTrailEntityDto>().ReverseMap();
         
-        CreateMap<FitFileDataEntityDto, UpdateHikingTrailEntityDto>()
-            .ForMember(dest => dest.Code, opt => opt.MapFrom(
-                src => src.HikingTrailCode))
-            .ReverseMap();
+        CreateMap<FitFileDataEntityDto, MetricsEntityDto>().ReverseMap();
+        CreateMap<FitFileDataEntityDto, CreateMetricsEntityDto>().ReverseMap();
+        CreateMap<FitFileDataEntityDto, UpdateMetricsEntityDto>().ReverseMap();
     }
 }

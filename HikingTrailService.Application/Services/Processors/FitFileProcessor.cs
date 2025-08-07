@@ -11,15 +11,18 @@ public class FitFileProcessor : AbstractActivityFileProcessor
 {
     private readonly IMapper _mapper;
     private readonly IHikingTrailService _hikingTrailService;
+    private readonly IMetricsService _metricsService;
     
     public FitFileProcessor(
         IMapper mapper,
         IRabbitMqQueueProducer queueProducer,
         IRabbitMqQueueConsumer queueConsumer,
-        IHikingTrailService hikingTrailService) : base(queueProducer, queueConsumer)
+        IHikingTrailService hikingTrailService,
+        IMetricsService metricsService) : base(queueProducer, queueConsumer)
     {
         _mapper = mapper;
         _hikingTrailService = hikingTrailService;
+        _metricsService = metricsService;
     }
 
     public override string ExtensionFile => ".fit";
@@ -35,8 +38,12 @@ public class FitFileProcessor : AbstractActivityFileProcessor
     {
         FitFileDataEntityDto fitFileDataEntityDto = await QueueConsumer.BasicConsumeAsync<FitFileDataEntityDto>();
 
-        CreateHikingTrailEntityDto createDto = _mapper.Map<CreateHikingTrailEntityDto>(fitFileDataEntityDto);
+        CreateHikingTrailEntityDto createHikingTrail = _mapper.Map<CreateHikingTrailEntityDto>(fitFileDataEntityDto);
         
-        await _hikingTrailService.CreateAsync(createDto);
+        await _hikingTrailService.CreateAsync(createHikingTrail);
+        
+        CreateMetricsEntityDto createMetrics = _mapper.Map<CreateMetricsEntityDto>(fitFileDataEntityDto);
+        
+        await _metricsService.CreateAsync(createMetrics);
     }
 }

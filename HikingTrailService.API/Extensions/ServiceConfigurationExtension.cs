@@ -48,12 +48,20 @@ public static class ServiceConfigurationExtension
         // Services
         services.AddScoped<IDifficultyLevelService, DifficultyLevelService>();
         services.AddScoped<IHikingTrailService, Application.Services.HikingTrailService>();
+        services.AddScoped<IMetricsService, MetricsService>();
+        services.AddScoped<IImagesService, ImagesService>();
+        services.AddScoped<ITerrainTypeService, TerrainTypeService>();
+        services.AddScoped<ITrailTypeService, TrailTypeService>();
     }
     
     private static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
         services.AddScoped<IHikingTrailRepository, HikingTrailRepository>();
+        services.AddScoped<IMetricsRepository, MetricsRepository>();
+        services.AddScoped<IImagesRepository, ImagesRepository>();
+        services.AddScoped<ITerrainTypeRepository, TerrainTypeRepository>();
+        services.AddScoped<ITrailTypeRepository, TrailTypeRepository>();
     }
 
     private static void AddAutoMapper(this IServiceCollection services)

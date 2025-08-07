@@ -16,7 +16,7 @@ public class TrailTypeConfiguration : EntityConfiguration<TrailType>
         builder.Property(d => d.Trail)
             .IsRequired()
             .HasMaxLength(100)
-            .HasColumnName("terrain");
+            .HasColumnName("trail");
         
         builder.HasMany(d => d.HikingTrails)
             .WithOne(h => h.TrailType)

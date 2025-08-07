@@ -5,6 +5,8 @@ namespace HikingTrailService.Application.DTOs.Create;
 public record CreateHikingTrailEntityDto : CreateBaseEntityDto
 {
     public Guid? DifficultyLevelCode { get; set; }
+    public Guid? TerrainTypeCode { get; set; }
+    public Guid? TrailTypeCode { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
     public bool PetFriendly { get; set; }

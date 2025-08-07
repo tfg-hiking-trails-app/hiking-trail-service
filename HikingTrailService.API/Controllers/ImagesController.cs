@@ -11,15 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTrailService.Controllers;
 
-[Route("api/hiking-trail")]
-public class HikingTrailController : AbstractController<
-    HikingTrailDto, CreateHikingTrailDto, UpdateHikingTrailDto, 
-    HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
+[Route("api/images")]
+public class ImagesController : AbstractController<
+    ImagesDto, CreateImagesDto, UpdateImagesDto, 
+    ImagesEntityDto, CreateImagesEntityDto, UpdateImagesEntityDto>
 {
-    public HikingTrailController(
-        IHikingTrailService hikingTrailService,
-        IMapper mapper) : base(hikingTrailService, mapper)
+    public ImagesController(
+        IImagesService service, 
+        IMapper mapper) : base(service, mapper)
     {
     }
-    
 }

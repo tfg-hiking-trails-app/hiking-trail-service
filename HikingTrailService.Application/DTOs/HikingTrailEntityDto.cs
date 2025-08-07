@@ -5,6 +5,8 @@ namespace HikingTrailService.Application.DTOs;
 public record HikingTrailEntityDto : BaseEntityDto
 {
     public DifficultyLevelEntityDto? DifficultyLevel { get; set; }
+    public TerrainTypeEntityDto? TerrainType { get; set; }
+    public TrailTypeEntityDto? TrailType { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
     public bool PetFriendly { get; set; }

@@ -5,6 +5,6 @@ using HikingTrailService.Application.DTOs.Update;
 
 namespace HikingTrailService.Application.Interfaces;
 
-public interface IHikingTrailService : IService<HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
+public interface IMetricsService : IService<MetricsEntityDto, CreateMetricsEntityDto, UpdateMetricsEntityDto>
 {
 }
