@@ -6,6 +6,10 @@ namespace HikingTrailService.DTOs.Create;
 
 public record CreateHikingTrailDto : CreateBaseDto
 {
+    [Required(ErrorMessage = "UserCode is required")]
+    [GuidValidator(ErrorMessage = "UserCode must be a valid GUID")]
+    public required Guid UserCode { get; set; }
+    
     [GuidValidator(ErrorMessage = "DifficultyLevelCode must be a valid GUID")]
     public Guid? DifficultyLevelCode { get; set; }
     

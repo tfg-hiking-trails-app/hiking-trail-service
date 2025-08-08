@@ -7,6 +7,9 @@ namespace HikingTrailService.Domain.Entities;
 [Table("HikingTrail")]
 public class HikingTrail : BaseEntity
 {
+    [Required]
+    public Guid UserCode { get; set; }
+    
     [Column("difficulty_level_id")]
     public int? DifficultyLevelId { get; set; }
     
