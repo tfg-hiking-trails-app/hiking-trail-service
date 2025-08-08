@@ -17,9 +17,9 @@ using Microsoft.OpenApi.Models;
 
 namespace HikingTrailService.Extensions;
 
-public static class ServiceConfigurationExtension
+public static class ServiceCollectionExtension
 {
-    public static void ConfigureServicesCollection(this IServiceCollection services)
+    public static void ServiceCollectionConfiguration(this IServiceCollection services)
     {
         services.AddRouting(options => options.LowercaseUrls = true);
 
