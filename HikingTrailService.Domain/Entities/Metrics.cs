@@ -12,7 +12,7 @@ public class Metrics : BaseEntity
     public int HikingTrailId { get; set; }
     
     [ForeignKey("HikingTrailId")]
-    public HikingTrail? HikingTrail { get; set; }
+    public required HikingTrail HikingTrail { get; set; }
     
     [Required]
     [Column("distance")]

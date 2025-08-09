@@ -13,44 +13,54 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
         
         builder.ToTable("HikingTrail");
 
-        builder.HasOne(d => d.DifficultyLevel)
-            .WithMany(h => h.HikingTrails)
-            .HasForeignKey(d => d.DifficultyLevelId);
+        builder.HasOne(h => h.DifficultyLevel)
+            .WithMany(d => d.HikingTrails)
+            .HasForeignKey(h => h.DifficultyLevelId);
+        
+        builder.HasMany(h => h.Metrics)
+            .WithOne(m => m.HikingTrail)
+            .HasForeignKey(m => m.HikingTrailId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(h => h.Images)
+            .WithOne(i => i.HikingTrail)
+            .HasForeignKey(i => i.HikingTrailId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(d => d.DifficultyLevelId)
+        builder.Property(h => h.DifficultyLevelId)
             .HasColumnName("difficulty_level_id");
 
-        builder.Property(d => d.Name)
+        builder.Property(h => h.Name)
             .IsRequired()
             .HasMaxLength(100)
             .HasColumnName("name");
 
-        builder.Property(d => d.Description)
+        builder.Property(h => h.Description)
             .HasColumnName("description");
         
-        builder.Property(d => d.PetFriendly)
+        builder.Property(h => h.PetFriendly)
             .HasColumnName("pet_friendly");
 
-        builder.Property(d => d.StartTime)
+        builder.Property(h => h.StartTime)
             .IsRequired()
             .HasColumnName("start_time");
 
-        builder.Property(d => d.EndTime)
+        builder.Property(h => h.EndTime)
             .IsRequired()
             .HasColumnName("end_time");
         
-        builder.Property(d => d.UbicationLatitude)
+        builder.Property(h => h.UbicationLatitude)
             .IsRequired()
             .HasColumnName("ubication_latitude");
         
-        builder.Property(d => d.UbicationLongitude)
+        builder.Property(h => h.UbicationLongitude)
             .IsRequired()
             .HasColumnName("ubication_longitude");
         
-        builder.Property(d => d.Deleted)
+        builder.Property(h => h.Deleted)
             .HasColumnName("deleted");
         
-        builder.Property(d => d.GeneratedByFitFile)
+        builder.Property(h => h.GeneratedByFitFile)
             .HasColumnName("generated_by_fit_file");
     }
 }

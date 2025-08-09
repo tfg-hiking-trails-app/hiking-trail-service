@@ -4,7 +4,6 @@ namespace HikingTrailService.Application.DTOs;
 
 public record MetricsEntityDto : BaseEntityDto
 {
-    public HikingTrailEntityDto? HikingTrail { get; set; }
     public required int Distance { get; set; }
     public double? Duration { get; set; }
     public int? Steps { get; set; }

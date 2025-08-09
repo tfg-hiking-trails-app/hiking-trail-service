@@ -2,6 +2,7 @@
 
 public class ActivityFileEntityDto
 {
+    public required string UserCode { get; set; }
     public string? ContentType { get; set; }
     public string? ContentDisposition { get; set; }
     public long Length { get; set; }

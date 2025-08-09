@@ -17,4 +17,7 @@ public record HikingTrailEntityDto : BaseEntityDto
     public required double UbicationLongitude { get; set; }
     public bool Deleted { get; set; }
     public bool GeneratedByFitFile { get; set; }
+    
+    public ICollection<MetricsEntityDto> Metrics { get; init; } = new List<MetricsEntityDto>();
+    public ICollection<ImagesEntityDto> Images  { get; init; } = new List<ImagesEntityDto>();
 }

@@ -1,7 +1,9 @@
 ﻿using Common.API.DTOs.Mapping;
+using Common.Application.Interfaces;
 using Common.Domain.Interfaces.Messaging;
 using Common.Infrastructure.Data.Configuration.Mapping;
 using Common.Infrastructure.Messaging.Configuration;
+using Common.Infrastructure.Security.Tokens;
 using HikingTrailService.Application.Interfaces;
 using HikingTrailService.Application.Interfaces.Processors;
 using HikingTrailService.Application.Services;
@@ -46,6 +48,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ActivityFileProcessorFactory>();
         
         // Services
+        services.AddScoped<ITokenManager, TokenManager>();
         services.AddScoped<IDifficultyLevelService, DifficultyLevelService>();
         services.AddScoped<IHikingTrailService, Application.Services.HikingTrailService>();
         services.AddScoped<IMetricsService, MetricsService>();

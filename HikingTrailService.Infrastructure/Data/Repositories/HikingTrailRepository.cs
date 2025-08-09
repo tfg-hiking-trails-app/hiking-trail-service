@@ -20,6 +20,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(hm => hm.DifficultyLevel)
             .Include(hm => hm.TerrainType)
             .Include(hm => hm.TrailType)
+            .Include(hm => hm.Metrics)
+            .Include(hm => hm.Images)
             .ToList();
     }
 
@@ -29,6 +31,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(hm => hm.DifficultyLevel)
             .Include(hm => hm.TerrainType)
             .Include(hm => hm.TrailType)
+            .Include(hm => hm.Metrics)
+            .Include(hm => hm.Images)
             .ToListAsync();    }
     
     public override async Task<IPaged<HikingTrail>> GetPagedAsync(
@@ -39,6 +43,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(hm => hm.DifficultyLevel)
             .Include(hm => hm.TerrainType)
             .Include(hm => hm.TrailType)
+            .Include(hm => hm.Metrics)
+            .Include(hm => hm.Images)
             .ToPageAsync(filter, cancellationToken);
     }
 
@@ -48,6 +54,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(hm => hm.DifficultyLevel)
             .Include(hm => hm.TerrainType)
             .Include(hm => hm.TrailType)
+            .Include(hm => hm.Metrics)
+            .Include(hm => hm.Images)
             .FirstOrDefault(hm => hm.Id == id);
     }
 
@@ -57,6 +65,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(hm => hm.DifficultyLevel)
             .Include(hm => hm.TerrainType)
             .Include(hm => hm.TrailType)
+            .Include(hm => hm.Metrics)
+            .Include(hm => hm.Images)
             .FirstOrDefaultAsync(hm => hm.Id == id);
     }
 
@@ -66,6 +76,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(hm => hm.DifficultyLevel)
             .Include(hm => hm.TerrainType)
             .Include(hm => hm.TrailType)
+            .Include(hm => hm.Metrics)
+            .Include(hm => hm.Images)
             .FirstOrDefault(hm => hm.Code == code);
     }
 
@@ -75,6 +87,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(hm => hm.DifficultyLevel)
             .Include(hm => hm.TerrainType)
             .Include(hm => hm.TrailType)
+            .Include(hm => hm.Metrics)
+            .Include(hm => hm.Images)
             .FirstOrDefaultAsync(hm => hm.Code == code);
     }
     

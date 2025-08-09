@@ -11,8 +11,8 @@ public class TrailTypeProfile : Profile
 {
     public TrailTypeProfile()
     {
-        CreateMap<TerrainTypeDto, TerrainTypeEntityDto>().ReverseMap();
-        CreateMap<CreateTerrainTypeDto, CreateTerrainTypeEntityDto>().ReverseMap();
-        CreateMap<UpdateTerrainTypeDto, UpdateTerrainTypeEntityDto>().ReverseMap();
+        CreateMap<TrailTypeDto, TrailTypeEntityDto>().ReverseMap();
+        CreateMap<CreateTrailTypeDto, CreateTrailTypeEntityDto>().ReverseMap();
+        CreateMap<UpdateTrailTypeDto, UpdateTrailTypeEntityDto>().ReverseMap();
     }
 }
