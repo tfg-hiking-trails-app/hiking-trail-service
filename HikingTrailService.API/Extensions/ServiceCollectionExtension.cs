@@ -94,7 +94,7 @@ public static class ServiceCollectionExtension
         {
             c.SwaggerDoc("v1", new OpenApiInfo()
             {
-                Title = "Hiking Trail microservice", 
+                Title = "Hiking Trail Microservice", 
                 Version = "3.0.1"
             });
         });
