@@ -4,7 +4,7 @@ namespace HikingTrailService.DTOs;
 
 public record HikingTrailDto : BaseDto
 {
-    public Guid UserCode { get; set; }
+    public Guid AccountCode { get; set; }
     public DifficultyLevelDto? DifficultyLevel { get; set; }
     public TerrainTypeDto? TerrainType { get; set; }
     public TrailTypeDto? TrailType { get; set; }

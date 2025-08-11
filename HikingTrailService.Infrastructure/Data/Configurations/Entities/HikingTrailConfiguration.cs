@@ -27,6 +27,11 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
             .HasForeignKey(i => i.HikingTrailId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Property(h => h.AccountCode)
+            .IsRequired()
+            .HasMaxLength(36)
+            .HasColumnName("account_code");
+        
         builder.Property(h => h.DifficultyLevelId)
             .HasColumnName("difficulty_level_id");
 

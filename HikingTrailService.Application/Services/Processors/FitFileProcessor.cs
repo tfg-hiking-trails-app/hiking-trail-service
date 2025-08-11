@@ -40,7 +40,7 @@ public class FitFileProcessor : AbstractActivityFileProcessor
 
         CreateHikingTrailEntityDto createHikingTrail = _mapper.Map<CreateHikingTrailEntityDto>(fitFileDataEntityDto);
         
-        createHikingTrail.UserCode = new Guid(userCode);
+        createHikingTrail.AccountCode = new Guid(userCode);
         
         await _hikingTrailService.CreateAsync(createHikingTrail);
         

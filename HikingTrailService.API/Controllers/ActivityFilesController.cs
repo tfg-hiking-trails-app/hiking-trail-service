@@ -34,15 +34,8 @@ public class ActivityFilesController : ControllerBase
     {
         if (uploadDto?.ActivityFile is null || uploadDto.ActivityFile.Length == 0)
             return BadRequest("Invalid file");
-
-        Request.Headers.TryGetValue("Authorization", out var token);
         
-        if (token.Count == 0 || string.IsNullOrEmpty(token[0]))
-            return Unauthorized();
-        
-        _tokenManager
-            .GetPayloadFromJwt(token[0]!.Substring("Bearer ".Length).Trim())
-            .TryGetValue("userCode", out var userCode);
+        string? userCode = GetUserCode(Request);
         
         if (userCode is null)
             return Unauthorized();
@@ -55,11 +48,25 @@ public class ActivityFilesController : ControllerBase
         
         ActivityFileEntityDto entityDto = _mapper.Map<ActivityFileEntityDto>(uploadDto);
         
-        entityDto.UserCode = userCode.ToString()!;
+        entityDto.UserCode = userCode;
         
         await fileProcessor.ProcessAsync(entityDto);
         
         return Ok();
+    }
+
+    private string? GetUserCode(HttpRequest request)
+    {
+        request.Headers.TryGetValue("Authorization", out var token);
+        
+        if (token.Count == 0 || string.IsNullOrEmpty(token[0]))
+            return null;
+        
+        _tokenManager
+            .GetPayloadFromJwt(token[0]!.Substring("Bearer ".Length).Trim())
+            .TryGetValue("userCode", out var userCode);
+        
+        return userCode?.ToString();
     }
     
 }

@@ -5,8 +5,8 @@ namespace HikingTrailService.DTOs.Update;
 
 public record UpdateHikingTrailDto : UpdateBaseDto
 {
-    [GuidValidator(ErrorMessage = "UserCode must be a valid GUID")]
-    public Guid? UserCode { get; set; }
+    [GuidValidator(ErrorMessage = "AccountCode must be a valid GUID")]
+    public Guid? AccountCode { get; set; }
     
     [GuidValidator(ErrorMessage = "DifficultyLevelCode must be a valid GUID")]
     public Guid? DifficultyLevelCode { get; set; }

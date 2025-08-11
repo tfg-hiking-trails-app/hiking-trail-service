@@ -8,8 +8,8 @@ namespace HikingTrailService.Domain.Entities;
 public class HikingTrail : BaseEntity
 {
     [Required]
-    [Column("user_code")]
-    public Guid UserCode { get; set; }
+    [Column("account_code")]
+    public Guid AccountCode { get; set; }
     
     [Column("difficulty_level_id")]
     public int? DifficultyLevelId { get; set; }

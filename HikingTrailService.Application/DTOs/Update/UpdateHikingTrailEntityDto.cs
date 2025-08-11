@@ -2,7 +2,7 @@
 
 public record UpdateHikingTrailEntityDto
 {
-    public Guid? UserCode { get; set; }
+    public Guid? AccountCode { get; set; }
     public Guid? TerrainTypeCode { get; set; }
     public Guid? TrailTypeCode { get; set; }
     public Guid? DifficultyLevelCode { get; set; }

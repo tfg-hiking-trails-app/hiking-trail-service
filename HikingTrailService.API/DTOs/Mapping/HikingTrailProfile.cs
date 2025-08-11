@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using HikingTrailService.Application.DTOs;
+using HikingTrailService.Application.DTOs.Create;
+using HikingTrailService.Application.DTOs.Update;
 using HikingTrailService.DTOs.Create;
 using HikingTrailService.DTOs.Update;
 
@@ -10,7 +12,7 @@ public class HikingTrailProfile : Profile
     public HikingTrailProfile()
     {
         CreateMap<HikingTrailDto, HikingTrailEntityDto>().ReverseMap();
-        CreateMap<CreateHikingTrailDto, CreateHikingTrailDto>().ReverseMap();
-        CreateMap<UpdateHikingTrailDto, UpdateHikingTrailDto>().ReverseMap();
+        CreateMap<CreateHikingTrailDto, CreateHikingTrailEntityDto>().ReverseMap();
+        CreateMap<UpdateHikingTrailDto, UpdateHikingTrailEntityDto>().ReverseMap();
     }
 }
