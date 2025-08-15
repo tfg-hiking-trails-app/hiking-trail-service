@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Application.Interfaces;
+using Common.API.Extensions;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.Interfaces.Processors;
 using HikingTrailService.Application.Services.Processors;
@@ -15,16 +15,13 @@ public class ActivityFilesController : ControllerBase
 {
     private readonly ActivityFileProcessorFactory _factory;
     private readonly IMapper _mapper;
-    private readonly ITokenManager _tokenManager;
 
     public ActivityFilesController(
         ActivityFileProcessorFactory factory, 
-        IMapper mapper,
-        ITokenManager tokenManager)
+        IMapper mapper)
     {
         _factory = factory;
         _mapper = mapper;
-        _tokenManager = tokenManager;
     }
     
     [HttpPost]
@@ -35,7 +32,7 @@ public class ActivityFilesController : ControllerBase
         if (uploadDto?.ActivityFile is null || uploadDto.ActivityFile.Length == 0)
             return BadRequest("Invalid file");
         
-        string? userCode = GetUserCode(Request);
+        string? userCode = Request.GetUserCode();
         
         if (userCode is null)
             return Unauthorized();
@@ -53,20 +50,6 @@ public class ActivityFilesController : ControllerBase
         await fileProcessor.ProcessAsync(entityDto);
         
         return Ok();
-    }
-
-    private string? GetUserCode(HttpRequest request)
-    {
-        request.Headers.TryGetValue("Authorization", out var token);
-        
-        if (token.Count == 0 || string.IsNullOrEmpty(token[0]))
-            return null;
-        
-        _tokenManager
-            .GetPayloadFromJwt(token[0]!.Substring("Bearer ".Length).Trim())
-            .TryGetValue("userCode", out var userCode);
-        
-        return userCode?.ToString();
     }
     
 }
