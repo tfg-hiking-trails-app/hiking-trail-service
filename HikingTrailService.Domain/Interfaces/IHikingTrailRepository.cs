@@ -1,8 +1,10 @@
-﻿using Common.Domain.Interfaces;
+﻿using Common.Domain.Filter;
+using Common.Domain.Interfaces;
 using HikingTrailService.Domain.Entities;
 
 namespace HikingTrailService.Domain.Interfaces;
 
 public interface IHikingTrailRepository : IRepository<HikingTrail>
 {
+    Task<IPaged<HikingTrail>> GetByAccountCodesPaged (List<Guid> accountCodes, FilterData filterData, CancellationToken cancellationToken);
 }
