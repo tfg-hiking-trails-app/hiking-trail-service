@@ -11,8 +11,8 @@ public class ImagesProfile : Profile
 {
     public ImagesProfile()
     {
-        CreateMap<ImagesDto, ImagesEntityDto>();
-        CreateMap<CreateImagesDto, CreateImagesEntityDto>();
-        CreateMap<UpdateImagesDto, UpdateImagesEntityDto>();
+        CreateMap<ImagesDto, ImagesEntityDto>().ReverseMap();
+        CreateMap<CreateImagesDto, CreateImagesEntityDto>().ReverseMap();
+        CreateMap<UpdateImagesDto, UpdateImagesEntityDto>().ReverseMap();
     }
 }
