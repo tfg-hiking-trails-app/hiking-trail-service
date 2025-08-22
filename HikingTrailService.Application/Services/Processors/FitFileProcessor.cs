@@ -31,10 +31,10 @@ public class FitFileProcessor : AbstractActivityFileProcessor
     {
         await base.ProcessAsync(file);
 
-        await ReceiveResponse(file.UserCode);
+        await ReceiveResponseAsync(file.UserCode);
     }
 
-    private async Task ReceiveResponse(string userCode)
+    private async Task ReceiveResponseAsync(string userCode)
     {
         FitFileDataEntityDto fitFileDataEntityDto = await QueueConsumer.BasicConsumeAsync<FitFileDataEntityDto>();
 

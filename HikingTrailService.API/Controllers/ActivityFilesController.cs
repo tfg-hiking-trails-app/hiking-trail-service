@@ -25,7 +25,7 @@ public class ActivityFilesController : ControllerBase
     }
     
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UploadActivityFile([FromForm] ActivityFileUploadDto? uploadDto)
     {
@@ -47,9 +47,18 @@ public class ActivityFilesController : ControllerBase
         
         entityDto.UserCode = userCode;
         
-        await fileProcessor.ProcessAsync(entityDto);
+        await fileProcessor.ProcessAsync(new ActivityFileEntityDto
+        {
+            UserCode = userCode,
+            ContentType = uploadDto.ActivityFile.ContentType,
+            ContentDisposition = uploadDto.ActivityFile.ContentDisposition,
+            Length = uploadDto.ActivityFile.Length,
+            Name = uploadDto.ActivityFile.Name,
+            FileName = uploadDto.ActivityFile.FileName,
+            Content = uploadDto.ActivityFile.OpenReadStream()
+        });
         
-        return Ok();
+        return Accepted();
     }
     
 }
