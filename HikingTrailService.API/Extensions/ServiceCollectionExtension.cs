@@ -13,6 +13,7 @@ using HikingTrailService.DTOs.Mapping;
 using HikingTrailService.Infrastructure.Data;
 using HikingTrailService.Infrastructure.Data.Configurations.Mapping;
 using HikingTrailService.Infrastructure.Data.Repositories;
+using HikingTrailService.Infrastructure.HttpClients;
 using HikingTrailService.Infrastructure.Messaging.Consumer;
 using HikingTrailService.Infrastructure.Messaging.Producer;
 using Microsoft.OpenApi.Models;
@@ -32,6 +33,8 @@ public static class ServiceCollectionExtension
         services.AddRabbitMq();
         
         services.AddServices();
+        
+        services.AddHttpClients();
         
         services.AddRepositories();
         
@@ -55,6 +58,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IImagesService, ImagesService>();
         services.AddScoped<ITerrainTypeService, TerrainTypeService>();
         services.AddScoped<ITrailTypeService, TrailTypeService>();
+        services.AddScoped<ILocationService, LocationService>();
     }
     
     private static void AddRepositories(this IServiceCollection services)
@@ -65,6 +69,12 @@ public static class ServiceCollectionExtension
         services.AddScoped<IImagesRepository, ImagesRepository>();
         services.AddScoped<ITerrainTypeRepository, TerrainTypeRepository>();
         services.AddScoped<ITrailTypeRepository, TrailTypeRepository>();
+        services.AddScoped<ILocationRepository, LocationRepository>();
+    }
+
+    private static void AddHttpClients(this IServiceCollection services)
+    {
+        services.AddHttpClient<IGeoapifyGeocoding, GeoapifyGeocoding>();
     }
 
     private static void AddAutoMapper(this IServiceCollection services)
@@ -79,13 +89,15 @@ public static class ServiceCollectionExtension
             typeof(ImagesProfile).Assembly,
             typeof(TerrainTypeProfile).Assembly,
             typeof(TrailTypeProfile).Assembly,
+            typeof(LocationProfile).Assembly,
             typeof(CommonEntityProfile).Assembly,
             typeof(HikingTrailEntityProfile).Assembly,
             typeof(DifficultyLevelEntityProfile).Assembly,
             typeof(MetricsEntityProfile).Assembly,
             typeof(ImagesEntityProfile).Assembly,
             typeof(TerrainTypeEntityProfile).Assembly,
-            typeof(TrailTypeEntityProfile).Assembly);
+            typeof(TrailTypeEntityProfile).Assembly,
+            typeof(LocationEntityProfile).Assembly);
     }
     
     private static void AddSwaggerGen(this IServiceCollection services)

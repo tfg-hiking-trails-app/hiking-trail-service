@@ -9,9 +9,8 @@ public record UpdateMetricsDto : UpdateBaseDto
     [GuidValidator(ErrorMessage = "DifficultyLevelCode must be a valid GUID")]
     public Guid? HikingTrailCode { get; set; }
     
-    [Required(ErrorMessage = "Distance is required")]
     [Range(0, Int32.MaxValue, ErrorMessage = "Distance minium value must be 0")]
-    public required int Distance { get; set; }
+    public int? Distance { get; set; }
     
     [Range(0, Double.MaxValue, ErrorMessage = "Duration minium value must be 0")]
     public double? Duration { get; set; }

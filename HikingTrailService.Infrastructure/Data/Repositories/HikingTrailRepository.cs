@@ -22,6 +22,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .ToList();
     }
 
@@ -33,6 +34,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .ToListAsync();    }
     
     public override async Task<IPaged<HikingTrail>> GetPagedAsync(
@@ -45,6 +47,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .ToPageAsync(filter, cancellationToken);
     }
 
@@ -56,6 +59,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .FirstOrDefault(h => h.Id == id);
     }
 
@@ -67,6 +71,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .FirstOrDefaultAsync(h => h.Id == id);
     }
 
@@ -78,6 +83,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .FirstOrDefault(h => h.Code == code);
     }
 
@@ -89,6 +95,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .FirstOrDefaultAsync(h => h.Code == code);
     }
 
@@ -100,6 +107,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Locations)
             .Where(h => accountCodes.Contains(h.AccountCode))
             .ToPageAsync(filterData, cancellationToken);
     }

@@ -17,14 +17,14 @@ public class MetricsRepository : AbstractRepository<Metrics>, IMetricsRepository
     public override IEnumerable<Metrics> GetAll()
     {
         return Entity
-            .Include(hm => hm.HikingTrail)
+            .Include(m => m.HikingTrail)
             .ToList();
     }
 
     public override async Task<IEnumerable<Metrics>> GetAllAsync()
     {
         return await Entity
-            .Include(hm => hm.HikingTrail)
+            .Include(m => m.HikingTrail)
             .ToListAsync();    }
     
     public override async Task<IPaged<Metrics>> GetPagedAsync(
@@ -32,36 +32,36 @@ public class MetricsRepository : AbstractRepository<Metrics>, IMetricsRepository
         CancellationToken cancellationToken)
     {
         return await Entity
-            .Include(hm => hm.HikingTrail)
+            .Include(m => m.HikingTrail)
             .ToPageAsync(filter, cancellationToken);
     }
 
     public override Metrics? Get(int id)
     {
         return Entity
-            .Include(hm => hm.HikingTrail)
-            .FirstOrDefault(hm => hm.Id == id);
+            .Include(m => m.HikingTrail)
+            .FirstOrDefault(m => m.Id == id);
     }
 
     public override async Task<Metrics?> GetAsync(int id)
     {
         return await Entity
-            .Include(hm => hm.HikingTrail)
-            .FirstOrDefaultAsync(hm => hm.Id == id);
+            .Include(m => m.HikingTrail)
+            .FirstOrDefaultAsync(m => m.Id == id);
     }
 
     public override Metrics? GetByCode(Guid code)
     {
         return Entity
-            .Include(hm => hm.HikingTrail)
-            .FirstOrDefault(hm => hm.Code == code);
+            .Include(m => m.HikingTrail)
+            .FirstOrDefault(m => m.Code == code);
     }
 
     public override async Task<Metrics?> GetByCodeAsync(Guid code)
     {
         return await Entity
-            .Include(hm => hm.HikingTrail)
-            .FirstOrDefaultAsync(hm => hm.Code == code);
+            .Include(m => m.HikingTrail)
+            .FirstOrDefaultAsync(m => m.Code == code);
     }
     
 }

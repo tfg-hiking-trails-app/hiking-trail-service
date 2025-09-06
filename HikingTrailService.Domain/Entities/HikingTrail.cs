@@ -49,12 +49,12 @@ public class HikingTrail : BaseEntity
     public required DateTime EndTime { get; set; }
     
     [Required]
-    [Column("ubication_latitude")]
-    public required double UbicationLatitude { get; set; }
+    [Column("location_latitude")]
+    public required double LocationLatitude { get; set; }
     
     [Required]
-    [Column("ubication_longitude")]
-    public required double UbicationLongitude { get; set; }
+    [Column("location_longitude")]
+    public required double LocationLongitude { get; set; }
     
     [Column("deleted")]
     public bool Deleted { get; set; }
@@ -64,4 +64,5 @@ public class HikingTrail : BaseEntity
     
     public virtual ICollection<Metrics> Metrics { get; set; } = new List<Metrics>();
     public virtual ICollection<Images> Images { get; set; } = new List<Images>();
+    public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
 }

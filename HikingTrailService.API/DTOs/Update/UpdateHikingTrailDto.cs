@@ -27,9 +27,9 @@ public record UpdateHikingTrailDto : UpdateBaseDto
     
     public DateTime? EndTime { get; set; }
     
-    public double? UbicationLatitude { get; set; }
+    public double? LocationLatitude { get; set; }
     
-    public double? UbicationLongitude { get; set; }
+    public double? LocationLongitude { get; set; }
     
     public bool Deleted { get; set; }
     public bool GeneratedByFitFile { get; set; }

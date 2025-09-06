@@ -13,10 +13,11 @@ public record HikingTrailDto : BaseDto
     public bool PetFriendly { get; set; }
     public required DateTime StartTime { get; set; }
     public required DateTime EndTime { get; set; }
-    public required double UbicationLatitude { get; set; }
-    public required double UbicationLongitude { get; set; }
+    public required double LocationLatitude { get; set; }
+    public required double LocationLongitude { get; set; }
     public bool GeneratedByFitFile { get; set; }
     
     public ICollection<MetricsDto> Metrics { get; init; } = new List<MetricsDto>();
     public ICollection<ImagesDto> Images  { get; init; } = new List<ImagesDto>();
+    public ICollection<LocationDto> Locations { get; init; } = new List<LocationDto>();
 }

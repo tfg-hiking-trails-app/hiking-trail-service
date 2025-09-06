@@ -26,6 +26,11 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
             .WithOne(i => i.HikingTrail)
             .HasForeignKey(i => i.HikingTrailId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(h => h.Locations)
+            .WithOne(l => l.HikingTrail)
+            .HasForeignKey(l => l.HikingTrailId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(h => h.AccountCode)
             .IsRequired()
@@ -54,13 +59,13 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
             .IsRequired()
             .HasColumnName("end_time");
         
-        builder.Property(h => h.UbicationLatitude)
+        builder.Property(h => h.LocationLatitude)
             .IsRequired()
-            .HasColumnName("ubication_latitude");
+            .HasColumnName("location_latitude");
         
-        builder.Property(h => h.UbicationLongitude)
+        builder.Property(h => h.LocationLongitude)
             .IsRequired()
-            .HasColumnName("ubication_longitude");
+            .HasColumnName("location_longitude");
         
         builder.Property(h => h.Deleted)
             .HasColumnName("deleted");
