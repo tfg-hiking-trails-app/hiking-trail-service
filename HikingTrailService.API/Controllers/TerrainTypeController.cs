@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTrailService.Controllers;
 
 [Route("api/terrain-type")]
-public class TerrainTypeController : AbstractController<
+public class TerrainTypeController : AbstractCrudController<
     TerrainTypeDto, CreateTerrainTypeDto, UpdateTerrainTypeDto, 
     TerrainTypeEntityDto, CreateTerrainTypeEntityDto, UpdateTerrainTypeEntityDto>
 {

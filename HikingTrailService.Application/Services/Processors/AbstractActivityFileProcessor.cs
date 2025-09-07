@@ -29,7 +29,7 @@ public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
      
         await SaveFileAsync(file);
         
-        file.Content = Stream.Null;
+        file.Content = [];
         
         await SendFileAsync(file);
     }
@@ -39,10 +39,12 @@ public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
         if (string.IsNullOrEmpty(file.FileName))
             throw new ArgumentNullException(nameof(file.FileName));
         
-        await using FileStream outStream = File.Create(GetFullPath(file.FileName));
-        await using Stream inStream = file.Content ?? throw new ArgumentNullException(nameof(file.Content));
-
-        await inStream.CopyToAsync(outStream);
+        if (file.Content.Length == 0)
+            throw new ArgumentNullException(nameof(file.Content.Length));
+        
+        string path = GetFullPath(file.FileName);
+        
+        await File.WriteAllBytesAsync(path, file.Content);
     }
 
     private async Task SendFileAsync(ActivityFileEntityDto file)

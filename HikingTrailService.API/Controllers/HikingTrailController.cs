@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTrailService.Controllers;
 
 [Route("api/hiking-trail")]
-public class HikingTrailController : AbstractController<
+public class HikingTrailController : AbstractCrudController<
     HikingTrailDto, CreateHikingTrailDto, UpdateHikingTrailDto, 
     HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
 {

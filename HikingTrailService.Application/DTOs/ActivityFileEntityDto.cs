@@ -1,12 +1,8 @@
-﻿namespace HikingTrailService.Application.DTOs;
+﻿using Common.Application;
 
-public class ActivityFileEntityDto
+namespace HikingTrailService.Application.DTOs;
+
+public record ActivityFileEntityDto : FileEntityDto
 {
-    public required string UserCode { get; set; }
-    public string? ContentType { get; set; }
-    public string? ContentDisposition { get; set; }
-    public long Length { get; set; }
-    public string? Name { get; set; }
-    public string? FileName { get; set; }
-    public Stream Content { get; set; } = new MemoryStream();
+    public required Guid UserCode { get; set; }
 }

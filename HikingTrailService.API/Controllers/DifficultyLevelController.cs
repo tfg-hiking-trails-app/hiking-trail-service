@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTrailService.Controllers;
 
 [Route("api/difficulty-level")]
-public class DifficultyLevelController : AbstractController<
+public class DifficultyLevelController : AbstractCrudController<
     DifficultyLevelDto, CreateDifficultyLevelDto, UpdateDifficultyLevelDto, 
     DifficultyLevelEntityDto, CreateDifficultyLevelEntityDto, UpdateDifficultyLevelEntityDto>
 {

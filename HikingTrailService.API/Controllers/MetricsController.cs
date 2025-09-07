@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTrailService.Controllers;
 
 [Route("api/metrics")]
-public class MetricsController : AbstractController<
+public class MetricsController : AbstractCrudController<
     MetricsDto, CreateMetricsDto, UpdateMetricsDto, 
     MetricsEntityDto, CreateMetricsEntityDto, UpdateMetricsEntityDto>
 {

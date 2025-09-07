@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTrailService.Controllers;
 
 [Route("api/images")]
-public class ImagesController : AbstractController<
+public class ImagesController : AbstractCrudController<
     ImagesDto, CreateImagesDto, UpdateImagesDto, 
     ImagesEntityDto, CreateImagesEntityDto, UpdateImagesEntityDto>
 {

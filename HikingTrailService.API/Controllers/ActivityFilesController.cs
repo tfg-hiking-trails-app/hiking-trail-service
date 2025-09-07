@@ -45,18 +45,9 @@ public class ActivityFilesController : ControllerBase
         
         ActivityFileEntityDto entityDto = _mapper.Map<ActivityFileEntityDto>(uploadDto);
         
-        entityDto.UserCode = userCode;
+        entityDto.UserCode = new Guid(userCode);
         
-        await fileProcessor.ProcessAsync(new ActivityFileEntityDto
-        {
-            UserCode = userCode,
-            ContentType = uploadDto.ActivityFile.ContentType,
-            ContentDisposition = uploadDto.ActivityFile.ContentDisposition,
-            Length = uploadDto.ActivityFile.Length,
-            Name = uploadDto.ActivityFile.Name,
-            FileName = uploadDto.ActivityFile.FileName,
-            Content = uploadDto.ActivityFile.OpenReadStream()
-        });
+        await fileProcessor.ProcessAsync(entityDto);
         
         return Accepted();
     }

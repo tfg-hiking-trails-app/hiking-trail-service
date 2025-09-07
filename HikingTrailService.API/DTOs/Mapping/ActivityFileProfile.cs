@@ -8,27 +8,28 @@ public class ActivityFileProfile : Profile
     public ActivityFileProfile()
     {
         CreateMap<ActivityFileUploadDto, ActivityFileEntityDto>()
-            .BeforeMap((src, dest) =>
-            {
-                if (src.ActivityFile is null)
-                    throw new ArgumentNullException(nameof(src.ActivityFile), "ActivityFile is null");
-            })
-            .ForMember(dest => dest.ContentType, 
-                opt => opt.MapFrom(src => src.ActivityFile!.ContentType))
-            .ForMember(dest => dest.ContentDisposition, 
-                opt => opt.MapFrom(src => src.ActivityFile!.ContentDisposition))
-            .ForMember(dest => dest.Length, 
-                opt => opt.MapFrom(src => src.ActivityFile!.Length))
-            .ForMember(dest => dest.Name, 
-                opt => opt.MapFrom(src => src.ActivityFile!.Name))
-            .ForMember(dest => dest.FileName, 
-                opt => opt.MapFrom(src => src.ActivityFile!.FileName))
-            .AfterMap((src, dest) =>
-            {
-                Stream result = new MemoryStream();
-                src.ActivityFile!.CopyTo(result);
-                result.Seek(0, SeekOrigin.Begin);
-                dest.Content = result;
-            });
+            .ConstructUsing(src => MapActivityFile(src));
+    }
+
+    private ActivityFileEntityDto MapActivityFile(ActivityFileUploadDto dto)
+    {
+        if (dto.ActivityFile is null)
+            throw new ArgumentNullException(nameof(dto.ActivityFile), "ActivityFile is null");
+        
+        using Stream stream = dto.ActivityFile.OpenReadStream();
+        using MemoryStream memoryStream = new MemoryStream();
+                
+        stream.CopyTo(memoryStream);
+                
+        return new ActivityFileEntityDto
+        {
+            UserCode = Guid.Empty,
+            ContentType = dto.ActivityFile!.ContentType,
+            ContentDisposition = dto.ActivityFile!.ContentDisposition,
+            Length = dto.ActivityFile!.Length,
+            Name = dto.ActivityFile!.Name,
+            FileName = dto.ActivityFile!.FileName,
+            Content = memoryStream.ToArray()
+        };
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTrailService.Controllers;
 
 [Route("api/trail-type")]
-public class TrailTypeController : AbstractController<
+public class TrailTypeController : AbstractCrudController<
     TrailTypeDto, CreateTrailTypeDto, UpdateTrailTypeDto, 
     TrailTypeEntityDto, CreateTrailTypeEntityDto, UpdateTrailTypeEntityDto>
 {

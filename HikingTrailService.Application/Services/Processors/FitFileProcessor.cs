@@ -37,14 +37,14 @@ public class FitFileProcessor : AbstractActivityFileProcessor
         await ReceiveResponseAsync(file.UserCode);
     }
 
-    private async Task ReceiveResponseAsync(string userCode)
+    private async Task ReceiveResponseAsync(Guid userCode)
     {
         FitFileDataEntityDto fitFileDataEntityDto = await QueueConsumer.BasicConsumeAsync<FitFileDataEntityDto>();
 
         CreateHikingTrailEntityDto createHikingTrail = _mapper.Map<CreateHikingTrailEntityDto>(fitFileDataEntityDto);
         CreateMetricsEntityDto createMetrics = _mapper.Map<CreateMetricsEntityDto>(fitFileDataEntityDto);
         
-        createHikingTrail.AccountCode = new Guid(userCode);
+        createHikingTrail.AccountCode = userCode;
         
         await _hikingTrailService.CreateAsync(createHikingTrail);
         await _metricsService.CreateAsync(createMetrics);
