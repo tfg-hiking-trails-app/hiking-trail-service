@@ -12,6 +12,9 @@ public class DifficultyLevelEntityProfile : Profile
     {
         CreateMap<DifficultyLevelEntityDto, DifficultyLevel>().ReverseMap();
         CreateMap<CreateDifficultyLevelEntityDto, DifficultyLevel>().ReverseMap();
-        CreateMap<UpdateDifficultyLevelEntityDto, DifficultyLevel>().ReverseMap();
+        CreateMap<UpdateDifficultyLevelEntityDto, DifficultyLevel>()
+            .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<DifficultyLevel, UpdateDifficultyLevelEntityDto>();
     }
 }

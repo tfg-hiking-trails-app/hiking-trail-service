@@ -13,8 +13,7 @@ public class GeoapifyGeocoding : IGeoapifyGeocoding
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
 
-    public GeoapifyGeocoding(
-        HttpClient httpClient)
+    public GeoapifyGeocoding(HttpClient httpClient)
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri(_baseUrl);

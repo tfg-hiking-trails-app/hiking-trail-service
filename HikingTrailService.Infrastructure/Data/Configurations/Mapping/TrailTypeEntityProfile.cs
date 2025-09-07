@@ -12,6 +12,9 @@ public class TrailTypeEntityProfile : Profile
     {
         CreateMap<TrailTypeEntityDto, TrailType>().ReverseMap();
         CreateMap<CreateTrailTypeEntityDto, TrailType>().ReverseMap();
-        CreateMap<UpdateTrailTypeEntityDto, TrailType>().ReverseMap();
+        CreateMap<UpdateTrailTypeEntityDto, TrailType>()
+            .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<TrailType, UpdateTrailTypeEntityDto>();
     }
 }

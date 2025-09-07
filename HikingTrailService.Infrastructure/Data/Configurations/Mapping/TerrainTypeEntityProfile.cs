@@ -12,6 +12,9 @@ public class TerrainTypeEntityProfile : Profile
     {
         CreateMap<TerrainTypeEntityDto, TerrainType>().ReverseMap();
         CreateMap<CreateTerrainTypeEntityDto, TerrainType>().ReverseMap();
-        CreateMap<UpdateTerrainTypeEntityDto, TerrainType>().ReverseMap();
+        CreateMap<UpdateTerrainTypeEntityDto, TerrainType>()
+            .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<TerrainType, UpdateTerrainTypeEntityDto>();
     }
 }

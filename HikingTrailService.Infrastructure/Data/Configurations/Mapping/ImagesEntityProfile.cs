@@ -12,6 +12,9 @@ public class ImagesEntityProfile : Profile
     {
         CreateMap<ImagesEntityDto, Images>().ReverseMap();
         CreateMap<CreateImagesEntityDto, Images>().ReverseMap();
-        CreateMap<UpdateImagesEntityDto, Images>().ReverseMap();
+        CreateMap<UpdateImagesEntityDto, Images>()
+            .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<Images, UpdateImagesEntityDto>();
     }
 }

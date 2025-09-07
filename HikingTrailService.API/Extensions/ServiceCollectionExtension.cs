@@ -1,5 +1,6 @@
 ﻿using Common.API.DTOs.Mapping;
 using Common.Application.Interfaces;
+using Common.Application.Services;
 using Common.Domain.Interfaces.Messaging;
 using Common.Infrastructure.Data.Configuration.Mapping;
 using Common.Infrastructure.Messaging.Configuration;
@@ -59,6 +60,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ITerrainTypeService, TerrainTypeService>();
         services.AddScoped<ITrailTypeService, TrailTypeService>();
         services.AddScoped<ILocationService, LocationService>();
+        services.AddScoped<IImageService, ImageService>();
     }
     
     private static void AddRepositories(this IServiceCollection services)

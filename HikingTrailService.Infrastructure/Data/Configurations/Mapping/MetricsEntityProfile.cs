@@ -12,6 +12,9 @@ public class MetricsEntityProfile : Profile
     {
         CreateMap<MetricsEntityDto, Metrics>().ReverseMap();
         CreateMap<CreateMetricsEntityDto, Metrics>().ReverseMap();
-        CreateMap<UpdateMetricsEntityDto, Metrics>().ReverseMap();
+        CreateMap<UpdateMetricsEntityDto, Metrics>()
+            .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<Metrics, UpdateMetricsEntityDto>();
     }
 }

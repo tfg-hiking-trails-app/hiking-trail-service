@@ -12,6 +12,9 @@ public class LocationEntityProfile : Profile
     {
         CreateMap<LocationEntityDto, Location>().ReverseMap();
         CreateMap<CreateLocationEntityDto, Location>().ReverseMap();
-        CreateMap<UpdateLocationEntityDto, Location>().ReverseMap();
+        CreateMap<UpdateLocationEntityDto, Location>()
+            .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<Location, UpdateLocationEntityDto>();
     }
 }
