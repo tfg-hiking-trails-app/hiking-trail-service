@@ -52,14 +52,14 @@ public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
         if (string.IsNullOrEmpty(file.FileName))
             throw new ArgumentNullException(nameof(file.FileName));
         
-        string response = JsonSerializer.Serialize<ActivityFileResponseDto>(
+        string body = JsonSerializer.Serialize<ActivityFileResponseDto>(
             new ActivityFileResponseDto 
             {
                 ContentType = file.ContentType,
                 FileName = file.FileName,
             });
         
-        await QueueProducer.BasicPublishAsync(Encoding.UTF8.GetBytes(response));
+        await QueueProducer.BasicPublishAsync(Encoding.UTF8.GetBytes(body));
     }
 
     private string GetFullPath(string fileName)
