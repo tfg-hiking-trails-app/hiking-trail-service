@@ -23,6 +23,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
             .ToList();
@@ -37,6 +39,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
             .ToListAsync();
@@ -53,6 +57,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
             .ToPageAsync(filter, cancellationToken);
@@ -66,6 +72,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .FirstOrDefault(h => h.Id == id);
     }
@@ -78,6 +86,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .FirstOrDefaultAsync(h => h.Id == id);
     }
@@ -90,6 +100,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .FirstOrDefault(h => h.Code == code);
     }
@@ -102,6 +114,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .FirstOrDefaultAsync(h => h.Code == code);
     }
@@ -116,6 +130,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
             .ToPageAsync(filterData, cancellationToken);
@@ -130,6 +146,8 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
             .Where(h => h.Name.ToLower().Contains(search.ToLower()))

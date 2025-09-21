@@ -5,4 +5,5 @@ namespace HikingTrailService.Domain.Interfaces;
 
 public interface IPrestigeRepository : IRepository<Prestige>
 {
+    Task<Prestige?> GetByCodeAccountsAndHikingTrailAsync(Prestige prestige);
 }

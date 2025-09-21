@@ -27,6 +27,16 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
             .HasForeignKey(i => i.HikingTrailId)
             .OnDelete(DeleteBehavior.Cascade);
         
+        builder.HasMany(h => h.Prestiges)
+            .WithOne(i => i.HikingTrail)
+            .HasForeignKey(i => i.HikingTrailId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(h => h.Comments)
+            .WithOne(i => i.HikingTrail)
+            .HasForeignKey(i => i.HikingTrailId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         builder.HasMany(h => h.Locations)
             .WithOne(l => l.HikingTrail)
             .HasForeignKey(l => l.HikingTrailId)

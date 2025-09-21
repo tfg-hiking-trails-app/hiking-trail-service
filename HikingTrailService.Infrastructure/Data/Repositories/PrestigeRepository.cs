@@ -63,5 +63,13 @@ public class PrestigeRepository : AbstractRepository<Prestige>, IPrestigeReposit
             .Include(hm => hm.HikingTrail)
             .FirstOrDefaultAsync(hm => hm.Code == code);
     }
-    
+
+    public async Task<Prestige?> GetByCodeAccountsAndHikingTrailAsync(Prestige prestige)
+    {
+        return await Entity
+            .Include(hm => hm.HikingTrail)
+            .FirstOrDefaultAsync(hm => hm.HikingTrail.Code == prestige.HikingTrail.Code &&
+                                       hm.ReceiverAccountCode == prestige.ReceiverAccountCode &&
+                                       hm.GiverAccountCode == prestige.GiverAccountCode);
+    }
 }

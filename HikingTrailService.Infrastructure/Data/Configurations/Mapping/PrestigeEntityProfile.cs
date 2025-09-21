@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
+using HikingTrailService.Application.DTOs.Delete;
 using HikingTrailService.Application.DTOs.Update;
 using HikingTrailService.Domain.Entities;
 
@@ -13,5 +14,6 @@ public class PrestigeEntityProfile : Profile
         CreateMap<PrestigeEntityDto, Prestige>().ReverseMap();
         CreateMap<CreatePrestigeEntityDto, Prestige>().ReverseMap();
         CreateMap<UpdatePrestigeEntityDto, Prestige>().ReverseMap();
+        CreateMap<DeletePrestigeEntityDto, Prestige>().ReverseMap();
     }
 }
