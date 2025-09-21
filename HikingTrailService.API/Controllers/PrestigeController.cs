@@ -1,0 +1,23 @@
+﻿using AutoMapper;
+using Common.API.Controllers;
+using HikingTrailService.Application.DTOs;
+using HikingTrailService.Application.DTOs.Create;
+using HikingTrailService.Application.DTOs.Update;
+using HikingTrailService.Application.Interfaces;
+using HikingTrailService.DTOs;
+using HikingTrailService.DTOs.Create;
+using HikingTrailService.DTOs.Update;
+using Microsoft.AspNetCore.Mvc;
+
+namespace HikingTrailService.Controllers;
+
+[Route("api/[controller]")]
+public class PrestigeController : AbstractCrudController<PrestigeDto, CreatePrestigeDto, UpdatePrestigeDto, 
+    PrestigeEntityDto, CreatePrestigeEntityDto, UpdatePrestigeEntityDto>
+{
+    public PrestigeController(
+        IPrestigeService service, 
+        IMapper mapper) : base(service, mapper)
+    {
+    }
+}

@@ -65,4 +65,6 @@ public class HikingTrail : BaseEntity
     public virtual ICollection<Metrics> Metrics { get; set; } = new List<Metrics>();
     public virtual ICollection<Images> Images { get; set; } = new List<Images>();
     public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
+    public virtual ICollection<Prestige> Prestiges { get; set; } = new List<Prestige>();
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }
