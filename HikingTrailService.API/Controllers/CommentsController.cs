@@ -7,9 +7,11 @@ using HikingTrailService.Application.Interfaces;
 using HikingTrailService.DTOs;
 using HikingTrailService.DTOs.Create;
 using HikingTrailService.DTOs.Update;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTrailService.Controllers;
 
+[Route("api/[controller]")]
 public class CommentsController : AbstractCrudController<CommentDto, CreateCommentDto, UpdateCommentDto, 
     CommentEntityDto, CreateCommentEntityDto, UpdateCommentEntityDto>
 {
