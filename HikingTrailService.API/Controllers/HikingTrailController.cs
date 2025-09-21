@@ -19,13 +19,13 @@ public class HikingTrailController : AbstractCrudController<
     HikingTrailDto, CreateHikingTrailDto, UpdateHikingTrailDto, 
     HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
 {
-    private readonly IHikingTrailService _service;
+    private readonly IHikingTrailService _hikingTrailService;
     
     public HikingTrailController(
-        IHikingTrailService hikingTrailService,
-        IMapper mapper) : base(hikingTrailService, mapper)
+        IHikingTrailService hikingTrailHikingTrailService,
+        IMapper mapper) : base(hikingTrailHikingTrailService, mapper)
     {
-        _service = hikingTrailService;
+        _hikingTrailService = hikingTrailHikingTrailService;
     }
 
     [HttpPost("account-codes")]
@@ -36,10 +36,26 @@ public class HikingTrailController : AbstractCrudController<
     {
         HikingTrailFilterEntityDto filterEntityDto = Mapper.Map<HikingTrailFilterEntityDto>(filterDto);
         
-        Page<HikingTrailEntityDto> page = await _service
+        Page<HikingTrailEntityDto> page = await _hikingTrailService
             .GetByAccountCodesPaged(filterEntityDto, cancellationToken);
         
         return Ok(Mapper.Map<Page<HikingTrailDto>>(page));
+    }
+    
+    [HttpGet("searcher")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual async Task<ActionResult<IEnumerable<HikingTrailDto>>> Searcher(
+        [FromQuery] string search,
+        [FromQuery] int numberResults)
+    {
+        if (string.IsNullOrWhiteSpace(search))
+            return BadRequest("search is empty");
+
+        IEnumerable<HikingTrailEntityDto> result = await _hikingTrailService.SearcherAsync(search, numberResults);
+
+        return Ok(Mapper.Map<IEnumerable<HikingTrailDto>>(result));
     }
     
 }

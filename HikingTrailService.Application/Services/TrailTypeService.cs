@@ -14,8 +14,8 @@ public class TrailTypeService : AbstractService<TrailType, TrailTypeEntityDto, C
     UpdateTrailTypeEntityDto>, ITrailTypeService
 {
     public TrailTypeService(
-        ITrailTypeRepository repository, 
-        IMapper mapper) : base(repository, mapper)
+        ITrailTypeRepository hikingTrailRepository, 
+        IMapper mapper) : base(hikingTrailRepository, mapper)
     {
     }
 

@@ -17,37 +17,44 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public override IEnumerable<HikingTrail> GetAll()
     {
         return Entity
+            .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
             .Include(h => h.Locations)
+            .AsSplitQuery()
             .ToList();
     }
 
     public override async Task<IEnumerable<HikingTrail>> GetAllAsync()
     {
         return await Entity
+            .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
             .Include(h => h.Locations)
-            .ToListAsync();    }
+            .AsSplitQuery()
+            .ToListAsync();
+    }
     
     public override async Task<IPaged<HikingTrail>> GetPagedAsync(
         FilterData filter, 
         CancellationToken cancellationToken)
     {
         return await Entity
+            .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
             .Include(h => h.Locations)
+            .AsSplitQuery()
             .ToPageAsync(filter, cancellationToken);
     }
 
@@ -102,13 +109,33 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public async Task<IPaged<HikingTrail>> GetByAccountCodesPaged(List<Guid> accountCodes, FilterData filterData, CancellationToken cancellationToken)
     {
         return await Entity
+            .Where(h => accountCodes.Contains(h.AccountCode))
+            .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
             .Include(h => h.Metrics)
             .Include(h => h.Images)
             .Include(h => h.Locations)
-            .Where(h => accountCodes.Contains(h.AccountCode))
+            .AsSplitQuery()
             .ToPageAsync(filterData, cancellationToken);
     }
+
+    public async Task<IEnumerable<HikingTrail>> SearcherAsync(string search, int numberResults)
+    {
+        return await Entity
+            .AsNoTracking()
+            .Include(h => h.DifficultyLevel)
+            .Include(h => h.TerrainType)
+            .Include(h => h.TrailType)
+            .Include(h => h.Metrics)
+            .Include(h => h.Images)
+            .Include(h => h.Locations)
+            .AsSplitQuery()
+            .Where(h => h.Name.ToLower().Contains(search.ToLower()))
+            .OrderBy(h => h.Name)
+            .Take(numberResults)
+            .ToListAsync();
+    }
+    
 }

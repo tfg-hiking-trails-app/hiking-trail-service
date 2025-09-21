@@ -18,10 +18,10 @@ public class LocationService : AbstractService<Location, LocationEntityDto, Crea
     private readonly IHikingTrailRepository _hikingTrailRepository;
     
     public LocationService(
-        ILocationRepository locationRepository, 
+        ILocationRepository locationHikingTrailRepository, 
         IMapper mapper,
         IGeoapifyGeocoding geoapifyGeocoding,
-        IHikingTrailRepository hikingTrailRepository) : base(locationRepository, mapper)
+        IHikingTrailRepository hikingTrailRepository) : base(locationHikingTrailRepository, mapper)
     {
         _geoapifyGeocoding = geoapifyGeocoding;
         _hikingTrailRepository = hikingTrailRepository;

@@ -13,9 +13,9 @@ public class DifficultyLevelService : AbstractService<DifficultyLevel, Difficult
         CreateDifficultyLevelEntityDto, UpdateDifficultyLevelEntityDto>, IDifficultyLevelService
 {
     public DifficultyLevelService(
-        IDifficultyLevelRepository repository,
+        IDifficultyLevelRepository hikingTrailRepository,
         IMapper mapper) 
-        : base(repository, mapper)
+        : base(hikingTrailRepository, mapper)
     {
     }
 

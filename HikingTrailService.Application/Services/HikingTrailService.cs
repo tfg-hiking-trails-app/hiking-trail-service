@@ -17,14 +17,14 @@ namespace HikingTrailService.Application.Services;
 public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntityDto, CreateHikingTrailEntityDto, 
     UpdateHikingTrailEntityDto>, IHikingTrailService
 {
-    private readonly IHikingTrailRepository _repository;
+    private readonly IHikingTrailRepository _hikingTrailRepository;
     
     public HikingTrailService(
-        IHikingTrailRepository repository, 
+        IHikingTrailRepository hikingTrailRepository, 
         IMapper mapper) 
-        : base(repository, mapper)
+        : base(hikingTrailRepository, mapper)
     {
-        _repository = repository;
+        _hikingTrailRepository = hikingTrailRepository;
     }
 
     protected override void CheckDataValidity(CreateHikingTrailEntityDto createEntityDto)
@@ -36,8 +36,16 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
     {
         FilterData filterData = Mapper.Map<FilterData>(filterEntityDto.Filter);
         
-        IPaged<HikingTrail> result = await _repository.GetByAccountCodesPaged(filterEntityDto.AccountCodes, filterData, cancellationToken);
+        IPaged<HikingTrail> result = await _hikingTrailRepository.GetByAccountCodesPaged(filterEntityDto.AccountCodes, filterData, cancellationToken);
         
         return Mapper.Map<Page<HikingTrailEntityDto>>(result);
     }
+
+    public async Task<IEnumerable<HikingTrailEntityDto>> SearcherAsync(string search, int numberResults)
+    {
+        IEnumerable<HikingTrail> hikingTrails = await _hikingTrailRepository.SearcherAsync(search, numberResults);
+        
+        return Mapper.Map<IEnumerable<HikingTrailEntityDto>>(hikingTrails);
+    }
+    
 }

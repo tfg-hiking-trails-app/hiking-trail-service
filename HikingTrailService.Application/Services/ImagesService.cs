@@ -13,7 +13,7 @@ namespace HikingTrailService.Application.Services;
 public class ImagesService : AbstractService<Images, ImagesEntityDto, CreateImagesEntityDto, 
     UpdateImagesEntityDto>, IImagesService
 {
-    public ImagesService(IImagesRepository repository, IMapper mapper) : base(repository, mapper)
+    public ImagesService(IImagesRepository hikingTrailRepository, IMapper mapper) : base(hikingTrailRepository, mapper)
     {
     }
 

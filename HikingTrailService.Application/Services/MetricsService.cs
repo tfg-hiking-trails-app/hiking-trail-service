@@ -17,9 +17,9 @@ public class MetricsService : AbstractService<Metrics, MetricsEntityDto, CreateM
     private readonly IHikingTrailRepository _hikingTrailRepository;
     
     public MetricsService(
-        IMetricsRepository metricsRepository, 
+        IMetricsRepository metricsHikingTrailRepository, 
         IHikingTrailRepository hikingTrailRepository,
-        IMapper mapper) : base(metricsRepository, mapper)
+        IMapper mapper) : base(metricsHikingTrailRepository, mapper)
     {
         _hikingTrailRepository = hikingTrailRepository;
     }

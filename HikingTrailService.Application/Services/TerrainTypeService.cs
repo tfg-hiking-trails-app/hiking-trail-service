@@ -14,8 +14,8 @@ public class TerrainTypeService : AbstractService<TerrainType, TerrainTypeEntity
     UpdateTerrainTypeEntityDto>, ITerrainTypeService
 {
     public TerrainTypeService(
-        ITerrainTypeRepository repository, 
-        IMapper mapper) : base(repository, mapper)
+        ITerrainTypeRepository hikingTrailRepository, 
+        IMapper mapper) : base(hikingTrailRepository, mapper)
     {
     }
 

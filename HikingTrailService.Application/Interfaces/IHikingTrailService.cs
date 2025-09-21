@@ -9,5 +9,9 @@ namespace HikingTrailService.Application.Interfaces;
 
 public interface IHikingTrailService : IService<HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
 {
-    Task<Page<HikingTrailEntityDto>> GetByAccountCodesPaged(HikingTrailFilterEntityDto filterEntityDto, CancellationToken cancellationToken);
+    Task<Page<HikingTrailEntityDto>> GetByAccountCodesPaged(
+        HikingTrailFilterEntityDto filterEntityDto, 
+        CancellationToken cancellationToken);
+    
+    Task<IEnumerable<HikingTrailEntityDto>> SearcherAsync(string search, int numberResults);
 }
