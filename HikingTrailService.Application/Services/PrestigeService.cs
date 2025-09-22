@@ -52,7 +52,7 @@ public class PrestigeService : AbstractService<Prestige, PrestigeEntityDto, Crea
         return prestige.Code;
     }
 
-    public async Task DeleteByAccountAndHikingTrail(DeletePrestigeEntityDto deletePrestigeEntityDto)
+    public async Task<Guid> DeleteByAccountAndHikingTrail(DeletePrestigeEntityDto deletePrestigeEntityDto)
     {
         if (!deletePrestigeEntityDto.HikingTrailCode.HasValue)
             throw new ArgumentNullException(nameof(deletePrestigeEntityDto.HikingTrailCode));
@@ -79,6 +79,8 @@ public class PrestigeService : AbstractService<Prestige, PrestigeEntityDto, Crea
                                               $"has not given prestige to the hiking trail {deletePrestigeEntityDto.HikingTrailCode}.");
 
         await _prestigeRepository.DeleteAsync(prestige);
+
+        return prestige.Code;
     }
 
     protected override void CheckDataValidity(CreatePrestigeEntityDto createEntityDto)

@@ -21,4 +21,6 @@ public record HikingTrailEntityDto : BaseEntityDto
     public ICollection<MetricsEntityDto> Metrics { get; init; } = new List<MetricsEntityDto>();
     public ICollection<ImagesEntityDto> Images  { get; init; } = new List<ImagesEntityDto>();
     public ICollection<LocationEntityDto> Locations { get; init; } = new List<LocationEntityDto>();
+    public ICollection<PrestigeEntityDto> Prestiges { get; init; } = new List<PrestigeEntityDto>();
+    public ICollection<CommentEntityDto> Comments { get; init; } = new List<CommentEntityDto>();
 }

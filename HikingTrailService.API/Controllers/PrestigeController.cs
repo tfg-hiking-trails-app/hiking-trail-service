@@ -31,14 +31,14 @@ public class PrestigeController : AbstractCrudController<PrestigeDto, CreatePres
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> DeleteByAccountAndHikingTrail(DeletePrestigeDto deletePrestigeDto)
+    public async Task<ActionResult<Guid>> DeleteByAccountAndHikingTrail(DeletePrestigeDto deletePrestigeDto)
     {
         try
         {
-            await _prestigeService.DeleteByAccountAndHikingTrail(
+            Guid code = await _prestigeService.DeleteByAccountAndHikingTrail(
                 Mapper.Map<DeletePrestigeEntityDto>(deletePrestigeDto));
             
-            return NoContent();
+            return Ok(code);
         }
         catch (NotFoundEntityException ex)
         {

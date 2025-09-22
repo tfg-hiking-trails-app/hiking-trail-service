@@ -8,6 +8,6 @@ namespace HikingTrailService.Application.Interfaces;
 
 public interface IPrestigeService : IService<PrestigeEntityDto, CreatePrestigeEntityDto, UpdatePrestigeEntityDto>
 {
-    Task DeleteByAccountAndHikingTrail(DeletePrestigeEntityDto deletePrestigeEntityDto);
+    Task<Guid> DeleteByAccountAndHikingTrail(DeletePrestigeEntityDto deletePrestigeEntityDto);
     
 }
