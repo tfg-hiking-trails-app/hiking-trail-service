@@ -4,7 +4,7 @@ namespace HikingTrailService.Application.DTOs.Create;
 
 public record CreateCommentEntityDto : CreateBaseEntityDto
 {
-    public Guid? HikingTrailCode { get; set; }
-    public Guid AccountCode { get; set; }
+    public required Guid HikingTrailCode { get; set; }
+    public required Guid AccountCode { get; set; }
     public required string CommentText { get; set; }
 }

@@ -60,7 +60,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ITerrainTypeService, TerrainTypeService>();
         services.AddScoped<ITrailTypeService, TrailTypeService>();
         services.AddScoped<ILocationService, LocationService>();
-        services.AddScoped<IImageService, ImageService>();
+        services.AddScoped<IUploadImageService, UploadImageService>();
         services.AddScoped<IPrestigeService, PrestigeService>();
         services.AddScoped<ICommentService, CommentService>();
     }

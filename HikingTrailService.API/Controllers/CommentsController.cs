@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTrailService.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/comment")]
 public class CommentsController : AbstractCrudController<CommentDto, CreateCommentDto, UpdateCommentDto, 
     CommentEntityDto, CreateCommentEntityDto, UpdateCommentEntityDto>
 {
