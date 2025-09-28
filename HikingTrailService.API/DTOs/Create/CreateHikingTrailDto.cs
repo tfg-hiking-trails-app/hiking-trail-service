@@ -32,13 +32,13 @@ public record CreateHikingTrailDto : CreateBaseDto
     [Required(ErrorMessage = "End time is required")]
     public required DateTime EndTime { get; set; }
     
-    [Required(ErrorMessage = "Location latitude is required")]
-    public required double LocationLatitude { get; set; }
+    public double? LocationLatitude { get; set; }
     
-    [Required(ErrorMessage = "Location longitude is required")]
-    public required double LocationLongitude { get; set; }
+    public double? LocationLongitude { get; set; }
     
     public bool Deleted { get; set; }
     
     public bool GeneratedByFitFile { get; set; }
+    
+    public CreateMetricsDto? Metrics { get; set; }
 }

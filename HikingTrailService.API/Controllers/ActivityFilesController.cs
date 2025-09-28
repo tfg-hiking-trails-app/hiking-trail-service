@@ -47,9 +47,9 @@ public class ActivityFilesController : ControllerBase
         
         entityDto.UserCode = new Guid(userCode);
         
-        await fileProcessor.ProcessAsync(entityDto);
+        Guid code = await fileProcessor.ProcessAsync(entityDto);
         
-        return Accepted();
+        return Accepted(code);
     }
     
 }

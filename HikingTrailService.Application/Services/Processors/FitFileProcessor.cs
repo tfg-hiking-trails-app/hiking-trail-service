@@ -30,14 +30,14 @@ public class FitFileProcessor : AbstractActivityFileProcessor
 
     public override string ExtensionFile => ".fit";
 
-    public override async Task ProcessAsync(ActivityFileEntityDto file)
+    public override async Task<Guid> ProcessAsync(ActivityFileEntityDto file)
     {
         await base.ProcessAsync(file);
 
-        await ReceiveResponseAsync(file.UserCode);
+        return await ReceiveResponseAsync(file.UserCode);
     }
 
-    private async Task ReceiveResponseAsync(Guid userCode)
+    private async Task<Guid> ReceiveResponseAsync(Guid userCode)
     {
         FitFileDataEntityDto fitFileDataEntityDto = await QueueConsumer.BasicConsumeAsync<FitFileDataEntityDto>();
 
@@ -46,10 +46,14 @@ public class FitFileProcessor : AbstractActivityFileProcessor
         
         createHikingTrail.AccountCode = userCode;
         
-        await _hikingTrailService.CreateAsync(createHikingTrail);
+        Guid code = await _hikingTrailService.CreateAsync(createHikingTrail);
         await _metricsService.CreateAsync(createMetrics);
-        await _locationService.CreateAsync(fitFileDataEntityDto.HikingTrailCode, 
-            createHikingTrail.LocationLatitude, 
-            createHikingTrail.LocationLongitude);
+        
+        if (createHikingTrail.LocationLatitude.HasValue && createHikingTrail.LocationLongitude.HasValue)
+            await _locationService.CreateAsync(fitFileDataEntityDto.HikingTrailCode, 
+                createHikingTrail.LocationLatitude.Value, 
+                createHikingTrail.LocationLongitude.Value);
+
+        return code;
     }
 }

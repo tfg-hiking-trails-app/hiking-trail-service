@@ -23,15 +23,16 @@ public abstract class AbstractActivityFileProcessor : IActivityFileProcessor
     
     public abstract string ExtensionFile { get; }
 
-    public virtual async Task ProcessAsync(ActivityFileEntityDto file)
+    public virtual async Task<Guid> ProcessAsync(ActivityFileEntityDto file)
     {
-        file.FileName = Guid.NewGuid() + ExtensionFile;
-     
+        Guid code = Guid.NewGuid();
+        
+        file.FileName = code + ExtensionFile;
         await SaveFileAsync(file);
-        
         file.Content = [];
-        
         await SendFileAsync(file);
+        
+        return code;
     }
     
     private async Task SaveFileAsync(ActivityFileEntityDto file)

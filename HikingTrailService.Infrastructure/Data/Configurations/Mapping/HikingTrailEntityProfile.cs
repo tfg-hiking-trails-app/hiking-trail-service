@@ -11,7 +11,10 @@ public class HikingTrailEntityProfile : Profile
     public HikingTrailEntityProfile()
     {
         CreateMap<HikingTrailEntityDto, HikingTrail>().ReverseMap();
-        CreateMap<CreateHikingTrailEntityDto, HikingTrail>().ReverseMap();
+        CreateMap<CreateHikingTrailEntityDto, HikingTrail>()
+            .ForMember(dst => dst.Metrics, opt => opt.Ignore());
+        CreateMap<HikingTrail, CreateHikingTrailEntityDto>()
+            .ForMember(dst => dst.Metrics, opt => opt.Ignore());
         CreateMap<UpdateHikingTrailEntityDto, HikingTrail>()
             .ForAllMembers(opt => opt
                 .Condition((src, dest, srcMember) => srcMember != null));

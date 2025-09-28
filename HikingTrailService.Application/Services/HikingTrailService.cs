@@ -18,18 +18,45 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
     UpdateHikingTrailEntityDto>, IHikingTrailService
 {
     private readonly IHikingTrailRepository _hikingTrailRepository;
+    private readonly IDifficultyLevelRepository _difficultyLevelRepository;
+    private readonly ITerrainTypeRepository _terrainTypeRepository;
+    private readonly ITrailTypeRepository _trailTypeRepository;
+    private readonly IMetricsRepository _metricsRepository;
+    private readonly ILocationService _locationService;
     
     public HikingTrailService(
-        IHikingTrailRepository hikingTrailRepository, 
+        IHikingTrailRepository hikingTrailRepository,
+        IDifficultyLevelRepository difficultyLevelRepository,
+        ITerrainTypeRepository terrainTypeRepository,
+        ITrailTypeRepository trailTypeRepository,
+        IMetricsRepository metricsRepository,
+        ILocationService locationService,
         IMapper mapper) 
         : base(hikingTrailRepository, mapper)
     {
         _hikingTrailRepository = hikingTrailRepository;
+        _difficultyLevelRepository = difficultyLevelRepository;
+        _terrainTypeRepository = terrainTypeRepository;
+        _trailTypeRepository = trailTypeRepository;
+        _metricsRepository = metricsRepository;
+        _locationService = locationService;
     }
 
     protected override void CheckDataValidity(CreateHikingTrailEntityDto createEntityDto)
     {
         Validator.CheckNullArgument(createEntityDto.Name, nameof(createEntityDto.Name));
+        Validator.CheckNullArgument(createEntityDto.Metrics, nameof(createEntityDto.Metrics));
+        Validator.CheckNullArgument(createEntityDto.StartTime, nameof(createEntityDto.StartTime));
+        Validator.CheckNullArgument(createEntityDto.EndTime, nameof(createEntityDto.EndTime));
+        Validator.CheckNullArgument(createEntityDto.Metrics, nameof(createEntityDto.Metrics));
+        Validator.CheckPositiveValue(createEntityDto.Metrics!.Distance, nameof(createEntityDto.Metrics.Distance));
+        
+        if (createEntityDto.DifficultyLevelCode.HasValue)
+            Validator.CheckGuid(createEntityDto.DifficultyLevelCode.Value);
+        if (createEntityDto.TerrainTypeCode.HasValue)
+            Validator.CheckGuid(createEntityDto.TerrainTypeCode.Value);
+        if (createEntityDto.TrailTypeCode.HasValue)
+            Validator.CheckGuid(createEntityDto.TrailTypeCode.Value);
     }
 
     public async Task<Page<HikingTrailEntityDto>> GetByAccountCodesPaged(HikingTrailFilterEntityDto filterEntityDto, CancellationToken cancellationToken)
@@ -46,6 +73,48 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         IEnumerable<HikingTrail> hikingTrails = await _hikingTrailRepository.SearcherAsync(search, numberResults);
         
         return Mapper.Map<IEnumerable<HikingTrailEntityDto>>(hikingTrails);
+    }
+    
+    public override async Task<Guid> CreateAsync(CreateHikingTrailEntityDto createEntityDto)
+    {
+        CheckDataValidity(createEntityDto);
+
+        DifficultyLevel? difficultyLevel = null;
+        TerrainType? terrainType = null;
+        TrailType? trailType = null;
+        HikingTrail hikingTrailEntity = Mapper.Map<HikingTrail>(createEntityDto);
+
+        if (createEntityDto.DifficultyLevelCode.HasValue)
+            difficultyLevel = await _difficultyLevelRepository.GetByCodeAsync(createEntityDto.DifficultyLevelCode.Value);
+        if (createEntityDto.TerrainTypeCode.HasValue)
+            terrainType = await _terrainTypeRepository.GetByCodeAsync(createEntityDto.TerrainTypeCode.Value);
+        if (createEntityDto.TrailTypeCode.HasValue)
+            trailType = await _trailTypeRepository.GetByCodeAsync(createEntityDto.TrailTypeCode.Value);
+
+        if (difficultyLevel is not null)
+            hikingTrailEntity.DifficultyLevelId = difficultyLevel.Id;
+        if (terrainType is not null)
+            hikingTrailEntity.TerrainTypeId = terrainType.Id;
+        if (trailType is not null)
+            hikingTrailEntity.TrailTypeId = trailType.Id;
+        if (hikingTrailEntity.Code == Guid.Empty)
+            hikingTrailEntity.Code = Guid.NewGuid();
+
+        int hikingTrailId = await _hikingTrailRepository.AddAsync(hikingTrailEntity);
+        
+        Metrics metrics = Mapper.Map<Metrics>(createEntityDto.Metrics);
+        
+        metrics.HikingTrailId = hikingTrailId;
+        
+        await _metricsRepository.AddAsync(metrics);
+
+        if (createEntityDto.LocationLatitude.HasValue && createEntityDto.LocationLongitude.HasValue)
+            await _locationService.CreateAsync(
+                hikingTrailEntity.Code, 
+                createEntityDto.LocationLatitude.Value, 
+                createEntityDto.LocationLongitude.Value);
+
+        return hikingTrailEntity.Code;
     }
     
 }
