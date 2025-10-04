@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Common.API.Controllers;
+using Common.Application.Interfaces;
 using Common.Application.Pagination;
+using Common.Domain.Exceptions;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
 using HikingTrailService.Application.DTOs.Filter;
@@ -20,12 +22,15 @@ public class HikingTrailController : AbstractCrudController<
     HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
 {
     private readonly IHikingTrailService _hikingTrailService;
+    private readonly ITokenManager _tokenManager;
     
     public HikingTrailController(
         IHikingTrailService hikingTrailHikingTrailService,
+        ITokenManager tokenManager,
         IMapper mapper) : base(hikingTrailHikingTrailService, mapper)
     {
         _hikingTrailService = hikingTrailHikingTrailService;
+        _tokenManager = tokenManager;
     }
 
     [HttpPost("account-codes")]
@@ -56,6 +61,33 @@ public class HikingTrailController : AbstractCrudController<
         IEnumerable<HikingTrailEntityDto> result = await _hikingTrailService.SearcherAsync(search, numberResults);
 
         return Ok(Mapper.Map<IEnumerable<HikingTrailDto>>(result));
+    }
+    
+    [HttpDelete("{code:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public override async Task<ActionResult> Delete(Guid code)
+    {
+        try
+        {
+            string? ownerAccountCode = _tokenManager.GetUserCodeFromJwt(GetAccessToken());
+
+            if (string.IsNullOrEmpty(ownerAccountCode))
+                throw new UnauthorizedAccessException("The user code has not been found");
+            
+            await _hikingTrailService.LogicalDeleteAsync(new Guid(ownerAccountCode), code);
+            
+            return NoContent();
+        }
+        catch (NotFoundEntityException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     
 }

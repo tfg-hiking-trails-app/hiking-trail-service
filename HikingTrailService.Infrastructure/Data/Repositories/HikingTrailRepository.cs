@@ -27,6 +27,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
+            .Where(h => !h.Deleted)
             .ToList();
     }
 
@@ -43,6 +44,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
+            .Where(h => !h.Deleted)
             .ToListAsync();
     }
     
@@ -61,6 +63,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
+            .Where(h => !h.Deleted)
             .ToPageAsync(filter, cancellationToken);
     }
 
@@ -134,6 +137,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
+            .Where(h => !h.Deleted)
             .ToPageAsync(filterData, cancellationToken);
     }
 
@@ -150,7 +154,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
-            .Where(h => h.Name.ToLower().Contains(search.ToLower()))
+            .Where(h => h.Name.Contains(search, StringComparison.CurrentCultureIgnoreCase) && !h.Deleted)
             .OrderBy(h => h.Name)
             .Take(numberResults)
             .ToListAsync();

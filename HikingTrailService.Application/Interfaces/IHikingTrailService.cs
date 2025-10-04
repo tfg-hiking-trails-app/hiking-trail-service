@@ -14,4 +14,6 @@ public interface IHikingTrailService : IService<HikingTrailEntityDto, CreateHiki
         CancellationToken cancellationToken);
     
     Task<IEnumerable<HikingTrailEntityDto>> SearcherAsync(string search, int numberResults);
+
+    Task LogicalDeleteAsync(Guid ownerAccountCode, Guid hikingTrailCode);
 }

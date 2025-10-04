@@ -2,6 +2,7 @@
 using Common.Application.Pagination;
 using Common.Application.Services;
 using Common.Application.Utils;
+using Common.Domain.Exceptions;
 using Common.Domain.Filter;
 using Common.Domain.Interfaces;
 using HikingTrailService.Application.DTOs;
@@ -74,7 +75,7 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         
         return Mapper.Map<IEnumerable<HikingTrailEntityDto>>(hikingTrails);
     }
-    
+
     public override async Task<Guid> CreateAsync(CreateHikingTrailEntityDto createEntityDto)
     {
         CheckDataValidity(createEntityDto);
@@ -115,6 +116,21 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
                 createEntityDto.LocationLongitude.Value);
 
         return hikingTrailEntity.Code;
+    }
+    
+    public async Task LogicalDeleteAsync(Guid ownerAccountCode, Guid hikingTrailCode)
+    {
+        HikingTrail? hikingTrail = await _hikingTrailRepository.GetByCodeAsync(hikingTrailCode);
+
+        if (hikingTrail is null)
+            throw new NotFoundEntityException(nameof(HikingTrail), hikingTrailCode);
+        
+        if (hikingTrail.AccountCode != ownerAccountCode)
+            throw new UnauthorizedAccessException("The hiking trail does not belong to the user");
+
+        hikingTrail.Deleted = true;
+        
+        await _hikingTrailRepository.SaveChangesAsync();
     }
     
 }

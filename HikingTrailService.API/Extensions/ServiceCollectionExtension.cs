@@ -63,6 +63,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUploadImageService, UploadImageService>();
         services.AddScoped<IPrestigeService, PrestigeService>();
         services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<ITokenManager, TokenManager>();
     }
     
     private static void AddRepositories(this IServiceCollection services)
