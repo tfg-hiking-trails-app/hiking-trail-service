@@ -118,6 +118,38 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         return hikingTrailEntity.Code;
     }
     
+    public override async Task<Guid> UpdateAsync(Guid code, UpdateHikingTrailEntityDto updateEntityDto)
+    {
+        HikingTrail entity = await GetEntity(code);
+
+        if (entity.DifficultyLevel?.Code != updateEntityDto.DifficultyLevelCode)
+        {
+            entity.DifficultyLevel = !updateEntityDto.DifficultyLevelCode.HasValue 
+                ? null 
+                : await _difficultyLevelRepository.GetByCodeAsync(updateEntityDto.DifficultyLevelCode.Value);
+        }
+        
+        if (entity.TerrainType?.Code != updateEntityDto.TerrainTypeCode)
+        {
+            entity.TerrainType = !updateEntityDto.TerrainTypeCode.HasValue 
+                ? null 
+                : await _terrainTypeRepository.GetByCodeAsync(updateEntityDto.TerrainTypeCode.Value);
+        }
+        
+        if (entity.TrailType?.Code != updateEntityDto.TrailTypeCode)
+        {
+            entity.TrailType = !updateEntityDto.TrailTypeCode.HasValue 
+                ? null 
+                : await _trailTypeRepository.GetByCodeAsync(updateEntityDto.TrailTypeCode.Value);
+        }
+        
+        Mapper.Map(updateEntityDto, entity);
+        
+        await Repository.UpdateAsync(entity);
+        
+        return entity.Code;
+    }
+    
     public async Task LogicalDeleteAsync(Guid ownerAccountCode, Guid hikingTrailCode)
     {
         HikingTrail? hikingTrail = await _hikingTrailRepository.GetByCodeAsync(hikingTrailCode);
