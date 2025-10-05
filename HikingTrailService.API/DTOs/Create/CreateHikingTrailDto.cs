@@ -35,10 +35,8 @@ public record CreateHikingTrailDto : CreateBaseDto
     public double? LocationLatitude { get; set; }
     
     public double? LocationLongitude { get; set; }
-    
-    public bool Deleted { get; set; }
-    
-    public bool GeneratedByFitFile { get; set; }
+
+    public List<IFormFile> Images { get; set; } = new List<IFormFile>();
     
     public CreateMetricsDto? Metrics { get; set; }
 }

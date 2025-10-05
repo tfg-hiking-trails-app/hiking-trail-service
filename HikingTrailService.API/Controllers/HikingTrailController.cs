@@ -17,9 +17,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTrailService.Controllers;
 
 [Route("api/hiking-trail")]
-public class HikingTrailController : AbstractCrudController<
-    HikingTrailDto, CreateHikingTrailDto, UpdateHikingTrailDto, 
-    HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
+public class HikingTrailController : AbstractReadController<HikingTrailDto, HikingTrailEntityDto, 
+    CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
 {
     private readonly IHikingTrailService _hikingTrailService;
     private readonly ITokenManager _tokenManager;
@@ -63,11 +62,63 @@ public class HikingTrailController : AbstractCrudController<
         return Ok(Mapper.Map<IEnumerable<HikingTrailDto>>(result));
     }
     
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<HikingTrailDto>> Create([FromForm] CreateHikingTrailDto createDto)
+    {
+        try
+        {
+            CreateHikingTrailEntityDto createEntityDto = Mapper.Map<CreateHikingTrailEntityDto>(createDto);
+        
+            Guid code = await _hikingTrailService.CreateAsync(createEntityDto);
+
+            HikingTrailEntityDto entityDto = await _hikingTrailService.GetByCodeAsync(code);
+            
+            HikingTrailDto dto = Mapper.Map<HikingTrailDto>(entityDto);
+            
+            string actionName = nameof(GetByCode);
+            
+            return CreatedAtAction(actionName, new { code }, dto);
+        }
+        catch (EntityAlreadyExistsException ex)
+        {
+            return Conflict(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPut("{code:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual async Task<ActionResult<HikingTrailDto>> Update(Guid code, [FromForm] UpdateHikingTrailDto updateDto)
+    {
+        try
+        {
+            UpdateHikingTrailEntityDto updateEntityDto = Mapper.Map<UpdateHikingTrailEntityDto>(updateDto);
+
+            return Ok(await _hikingTrailService.UpdateAsync(code, updateEntityDto));
+        }
+        catch (NotFoundEntityException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
     [HttpDelete("{code:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public override async Task<ActionResult> Delete(Guid code)
+    public async Task<ActionResult> Delete(Guid code)
     {
         try
         {

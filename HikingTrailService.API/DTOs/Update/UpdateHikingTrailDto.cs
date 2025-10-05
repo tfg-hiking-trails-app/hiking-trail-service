@@ -30,6 +30,9 @@ public record UpdateHikingTrailDto : UpdateBaseDto
     public double? LocationLatitude { get; set; }
     
     public double? LocationLongitude { get; set; }
+
+    public List<string> DeletedImages { get; set; } = new List<string>();
+    public List<IFormFile> Images { get; set; } = new List<IFormFile>();
     
     public bool Deleted { get; set; }
     public bool GeneratedByFitFile { get; set; }

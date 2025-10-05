@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Common.Application;
+using Common.Application.Interfaces;
 using Common.Application.Pagination;
 using Common.Application.Services;
 using Common.Application.Utils;
@@ -23,7 +25,9 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
     private readonly ITerrainTypeRepository _terrainTypeRepository;
     private readonly ITrailTypeRepository _trailTypeRepository;
     private readonly IMetricsRepository _metricsRepository;
+    private readonly IImagesRepository _imagesRepository;
     private readonly ILocationService _locationService;
+    private readonly IUploadImageService _uploadImageService;
     
     public HikingTrailService(
         IHikingTrailRepository hikingTrailRepository,
@@ -31,7 +35,9 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         ITerrainTypeRepository terrainTypeRepository,
         ITrailTypeRepository trailTypeRepository,
         IMetricsRepository metricsRepository,
+        IImagesRepository imagesRepository,
         ILocationService locationService,
+        IUploadImageService uploadImageService,
         IMapper mapper) 
         : base(hikingTrailRepository, mapper)
     {
@@ -40,7 +46,9 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         _terrainTypeRepository = terrainTypeRepository;
         _trailTypeRepository = trailTypeRepository;
         _metricsRepository = metricsRepository;
+        _imagesRepository = imagesRepository;
         _locationService = locationService;
+        _uploadImageService = uploadImageService;
     }
 
     protected override void CheckDataValidity(CreateHikingTrailEntityDto createEntityDto)
@@ -101,23 +109,15 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         if (hikingTrailEntity.Code == Guid.Empty)
             hikingTrailEntity.Code = Guid.NewGuid();
 
-        int hikingTrailId = await _hikingTrailRepository.AddAsync(hikingTrailEntity);
+        hikingTrailEntity.Id = await _hikingTrailRepository.AddAsync(hikingTrailEntity);
         
-        Metrics metrics = Mapper.Map<Metrics>(createEntityDto.Metrics);
+        await CreateMetricsAsync(createEntityDto, hikingTrailEntity);
+        await CreateImagesAsync(createEntityDto.Images, hikingTrailEntity);
+        await CreateLocationAsync(createEntityDto, hikingTrailEntity);
         
-        metrics.HikingTrailId = hikingTrailId;
-        
-        await _metricsRepository.AddAsync(metrics);
-
-        if (createEntityDto.LocationLatitude.HasValue && createEntityDto.LocationLongitude.HasValue)
-            await _locationService.CreateAsync(
-                hikingTrailEntity.Code, 
-                createEntityDto.LocationLatitude.Value, 
-                createEntityDto.LocationLongitude.Value);
-
         return hikingTrailEntity.Code;
     }
-    
+
     public override async Task<Guid> UpdateAsync(Guid code, UpdateHikingTrailEntityDto updateEntityDto)
     {
         HikingTrail entity = await GetEntity(code);
@@ -146,10 +146,12 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         Mapper.Map(updateEntityDto, entity);
         
         await Repository.UpdateAsync(entity);
+
+        await UpdateImagesAsync(updateEntityDto, entity);
         
         return entity.Code;
     }
-    
+
     public async Task LogicalDeleteAsync(Guid ownerAccountCode, Guid hikingTrailCode)
     {
         HikingTrail? hikingTrail = await _hikingTrailRepository.GetByCodeAsync(hikingTrailCode);
@@ -163,6 +165,56 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         hikingTrail.Deleted = true;
         
         await _hikingTrailRepository.SaveChangesAsync();
+    }
+    
+    private async Task CreateMetricsAsync(CreateHikingTrailEntityDto createEntityDto, HikingTrail hikingTrail)
+    {
+        Metrics metrics = Mapper.Map<Metrics>(createEntityDto.Metrics);
+        
+        metrics.HikingTrailId = hikingTrail.Id;
+        
+        await _metricsRepository.AddAsync(metrics);
+    }
+    
+    private async Task CreateImagesAsync(List<FileEntityDto> imageList, HikingTrail hikingTrail)
+    {
+        foreach (FileEntityDto image in imageList.Where(uploadImage => uploadImage.Content.Length > 0))
+        {
+            Images images = new Images()
+            {
+                Code = Guid.NewGuid(),
+                HikingTrail = hikingTrail,
+                ImageUrl = await _uploadImageService.UploadImage(image)
+            };
+            
+            await _imagesRepository.AddAsync(images);
+        }
+    }
+    
+    private async Task CreateLocationAsync(CreateHikingTrailEntityDto createEntityDto, HikingTrail hikingTrail)
+    {
+        if (!createEntityDto.LocationLatitude.HasValue || !createEntityDto.LocationLongitude.HasValue)
+            return;
+        
+        await _locationService.CreateAsync(
+            hikingTrail.Code, 
+            createEntityDto.LocationLatitude.Value, 
+            createEntityDto.LocationLongitude.Value);
+    }
+    
+    private async Task UpdateImagesAsync(UpdateHikingTrailEntityDto updateEntityDto, HikingTrail hikingTrail)
+    {
+        foreach (var deletedImage in updateEntityDto.DeletedImages)
+        {
+            Images? image = await _imagesRepository.GetByHikingTrailIdAndImageUrlAsync(hikingTrail.Id, deletedImage);
+            
+            if (image is not null)
+                image.Deleted = true;
+        }
+        
+        await _imagesRepository.SaveChangesAsync();
+        
+        await CreateImagesAsync(updateEntityDto.Images, hikingTrail);
     }
     
 }

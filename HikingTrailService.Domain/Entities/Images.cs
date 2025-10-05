@@ -17,4 +17,7 @@ public class Images : BaseEntity
     [Required]
     [Column("image_url")]
     public required string ImageUrl { get; set; }
+    
+    [Column("deleted")]
+    public bool Deleted { get; set; }
 }

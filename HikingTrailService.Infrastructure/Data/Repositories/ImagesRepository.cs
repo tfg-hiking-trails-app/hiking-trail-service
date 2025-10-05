@@ -42,6 +42,14 @@ public class ImagesRepository : AbstractRepository<Images>, IImagesRepository
             .Include(hm => hm.HikingTrail)
             .FirstOrDefault(hm => hm.Id == id);
     }
+    
+    public async Task<Images?> GetByHikingTrailIdAndImageUrlAsync(int hikingTrailId, string imageUrl)
+    {
+        return await Entity
+            .Include(hm => hm.HikingTrail)
+            .FirstOrDefaultAsync(hm => hm.HikingTrailId == hikingTrailId && 
+                                       hm.ImageUrl == imageUrl);
+    }
 
     public override async Task<Images?> GetAsync(int id)
     {

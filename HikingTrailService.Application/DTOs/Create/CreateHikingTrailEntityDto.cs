@@ -1,4 +1,5 @@
-﻿using Common.Application.DTOs.Create;
+﻿using Common.Application;
+using Common.Application.DTOs.Create;
 
 namespace HikingTrailService.Application.DTOs.Create;
 
@@ -15,6 +16,7 @@ public record CreateHikingTrailEntityDto : CreateBaseEntityDto
     public required DateTime EndTime { get; set; }
     public double? LocationLatitude { get; set; }
     public double? LocationLongitude { get; set; }
+    public List<FileEntityDto> Images { get; set; } = new List<FileEntityDto>();
     public bool Deleted { get; set; }
     public bool GeneratedByFitFile { get; set; }
     public CreateMetricsEntityDto? Metrics { get; set; }

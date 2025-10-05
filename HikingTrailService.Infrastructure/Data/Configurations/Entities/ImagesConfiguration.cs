@@ -23,5 +23,8 @@ public class ImagesConfiguration : EntityConfiguration<Images>
         builder.Property(d => d.ImageUrl)
             .IsRequired()
             .HasColumnName("image_url");
+        
+        builder.Property(h => h.Deleted)
+            .HasColumnName("deleted");
     }
 }

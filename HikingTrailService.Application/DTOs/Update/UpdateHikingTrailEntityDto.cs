@@ -1,4 +1,6 @@
-﻿namespace HikingTrailService.Application.DTOs.Update;
+﻿using Common.Application;
+
+namespace HikingTrailService.Application.DTOs.Update;
 
 public record UpdateHikingTrailEntityDto
 {
@@ -13,6 +15,8 @@ public record UpdateHikingTrailEntityDto
     public required DateTime EndTime { get; set; }
     public required double LocationLatitude { get; set; }
     public required double LocationLongitude { get; set; }
+    public List<string> DeletedImages { get; set; } = new List<string>();
+    public List<FileEntityDto> Images { get; set; } = new List<FileEntityDto>();
     public bool Deleted { get; set; }
     public bool GeneratedByFitFile { get; set; }
 }
