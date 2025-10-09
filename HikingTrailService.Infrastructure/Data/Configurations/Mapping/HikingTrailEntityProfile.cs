@@ -12,9 +12,11 @@ public class HikingTrailEntityProfile : Profile
     {
         CreateMap<HikingTrailEntityDto, HikingTrail>().ReverseMap();
         CreateMap<CreateHikingTrailEntityDto, HikingTrail>()
-            .ForMember(dst => dst.Metrics, opt => opt.Ignore());
+            .ForMember(dst => dst.Metrics, opt => opt.Ignore())
+            .ForMember(dst => dst.Images, opt => opt.Ignore());
         CreateMap<HikingTrail, CreateHikingTrailEntityDto>()
-            .ForMember(dst => dst.Metrics, opt => opt.Ignore());
+            .ForMember(dst => dst.Metrics, opt => opt.Ignore())
+            .ForMember(dst => dst.Images, opt => opt.Ignore());
         CreateMap<UpdateHikingTrailEntityDto, HikingTrail>()
             .ForAllMembers(opt => opt
                 .Condition((src, dest, srcMember) => srcMember != null));

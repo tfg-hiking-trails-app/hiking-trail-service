@@ -24,6 +24,10 @@ public class ImagesConfiguration : EntityConfiguration<Images>
             .IsRequired()
             .HasColumnName("image_url");
         
+        builder.Property(d => d.OrderIndex)
+            .HasDefaultValue(0)
+            .HasColumnName("order_index");
+        
         builder.Property(h => h.Deleted)
             .HasColumnName("deleted");
     }

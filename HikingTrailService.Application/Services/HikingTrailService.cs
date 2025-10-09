@@ -178,13 +178,18 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
     
     private async Task CreateImagesAsync(List<FileEntityDto> imageList, HikingTrail hikingTrail)
     {
-        foreach (FileEntityDto image in imageList.Where(uploadImage => uploadImage.Content.Length > 0))
+        List<FileEntityDto> filter = imageList
+            .Where(uploadImage => uploadImage.Content.Length > 0)
+            .ToList();
+        
+        for (int i = 0; i < filter.Count; i++)
         {
             Images images = new Images()
             {
                 Code = Guid.NewGuid(),
                 HikingTrail = hikingTrail,
-                ImageUrl = await _uploadImageService.UploadImage(image)
+                ImageUrl = await _uploadImageService.UploadImage(filter[i]),
+                OrderIndex = i
             };
             
             await _imagesRepository.AddAsync(images);

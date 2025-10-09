@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Common.Domain.Entities;
 
@@ -17,6 +18,10 @@ public class Images : BaseEntity
     [Required]
     [Column("image_url")]
     public required string ImageUrl { get; set; }
+    
+    [Column("order_index")]
+    [DefaultValue(0)]
+    public int OrderIndex { get; set; }
     
     [Column("deleted")]
     public bool Deleted { get; set; }

@@ -6,4 +6,5 @@ public record CreateImagesDto : CreateBaseDto
 {
     public required Guid HikingTrailCode { get; set; }
     public required string ImageUrl { get; set; }
+    public int OrderIndex { get; set; }
 }

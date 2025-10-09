@@ -5,4 +5,5 @@ namespace HikingTrailService.DTOs;
 public record ImagesDto : BaseDto
 {
     public required string ImageUrl { get; set; }
+    public int OrderIndex { get; set; }
 }
