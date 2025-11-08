@@ -17,6 +17,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public override IEnumerable<HikingTrail> GetAll()
     {
         return Entity
+            .Where(h => !h.Deleted)
             .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
@@ -36,6 +37,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public override async Task<IEnumerable<HikingTrail>> GetAllAsync()
     {
         return await Entity
+            .Where(h => !h.Deleted)
             .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
@@ -57,6 +59,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
         CancellationToken cancellationToken)
     {
         return await Entity
+            .Where(h => !h.Deleted)
             .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
@@ -76,6 +79,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public override HikingTrail? Get(int id)
     {
         return Entity
+            .Where(h => !h.Deleted)
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
@@ -92,6 +96,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public override async Task<HikingTrail?> GetAsync(int id)
     {
         return await Entity
+            .Where(h => !h.Deleted)
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
@@ -108,6 +113,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public override HikingTrail? GetByCode(Guid code)
     {
         return Entity
+            .Where(h => !h.Deleted)
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
@@ -124,6 +130,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public override async Task<HikingTrail?> GetByCodeAsync(Guid code)
     {
         return await Entity
+            .Where(h => !h.Deleted)
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
             .Include(h => h.TrailType)
@@ -140,7 +147,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     public async Task<IPaged<HikingTrail>> GetByAccountCodesPaged(List<Guid> accountCodes, FilterData filterData, CancellationToken cancellationToken)
     {
         return await Entity
-            .Where(h => accountCodes.Contains(h.AccountCode))
+            .Where(h => !h.Deleted && accountCodes.Contains(h.AccountCode))
             .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
@@ -157,9 +164,31 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .ToPageAsync(filterData, cancellationToken);
     }
 
+    public async Task<IPaged<HikingTrail>> GetNewest(FilterData filterData, CancellationToken cancellationToken)
+    {
+        return await Entity
+            .Where(h => !h.Deleted)
+            .AsNoTracking()
+            .Include(h => h.DifficultyLevel)
+            .Include(h => h.TerrainType)
+            .Include(h => h.TrailType)
+            .Include(h => h.Metrics)
+            .Include(h => h.Images
+                .Where(img => !img.Deleted)
+                .OrderBy(img => img.OrderIndex))
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
+            .Include(h => h.Locations)
+            .AsSplitQuery()
+            .OrderByDescending(h => h.StartTime)
+            .ThenByDescending(h => h.EndTime)
+            .ToPageAsync(filterData, cancellationToken);
+    }
+
     public async Task<IEnumerable<HikingTrail>> SearcherAsync(string search, int numberResults)
     {
         return await Entity
+            .Where(h => !h.Deleted)
             .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)

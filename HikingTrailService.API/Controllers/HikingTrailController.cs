@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using Common.API.Controllers;
+using Common.API.DTOs.Filter;
+using Common.API.Utils;
+using Common.Application.DTOs.Filter;
 using Common.Application.Interfaces;
 using Common.Application.Pagination;
 using Common.Domain.Exceptions;
@@ -60,6 +63,25 @@ public class HikingTrailController : AbstractReadController<HikingTrailDto, Hiki
         IEnumerable<HikingTrailEntityDto> result = await _hikingTrailService.SearcherAsync(search, numberResults);
 
         return Ok(Mapper.Map<IEnumerable<HikingTrailDto>>(result));
+    }
+    
+    [HttpGet("newest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual async Task<ActionResult<IEnumerable<HikingTrailDto>>> Newest(
+        CancellationToken cancellationToken,
+        [FromQuery] int pageNumber = Pagination.PageNumber,
+        [FromQuery] int pageSize = Pagination.PageSize,
+        [FromQuery] string sortField = Pagination.SortField,
+        [FromQuery] string sortDirection = Pagination.SortDirection)
+    {
+        FilterEntityDto filter = Mapper.Map<FilterEntityDto>
+            (new FilterDto(pageNumber, pageSize, sortField, sortDirection));
+
+        Page<HikingTrailEntityDto> page = await _hikingTrailService.GetNewest(filter, cancellationToken);
+
+        return Ok(Mapper.Map<Page<HikingTrailDto>>(page));
     }
     
     [HttpPost]

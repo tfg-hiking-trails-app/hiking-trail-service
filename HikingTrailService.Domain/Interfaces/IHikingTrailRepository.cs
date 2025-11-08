@@ -10,6 +10,8 @@ public interface IHikingTrailRepository : IRepository<HikingTrail>
         List<Guid> accountCodes, 
         FilterData filterData, 
         CancellationToken cancellationToken);
+
+    Task<IPaged<HikingTrail>> GetNewest(FilterData filterData, CancellationToken cancellationToken);
     
     Task<IEnumerable<HikingTrail>> SearcherAsync(string search, int numberResults);
 }

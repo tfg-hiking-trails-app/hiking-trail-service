@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Application;
+using Common.Application.DTOs.Filter;
 using Common.Application.Interfaces;
 using Common.Application.Pagination;
 using Common.Application.Services;
@@ -74,6 +75,15 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         
         IPaged<HikingTrail> result = await _hikingTrailRepository.GetByAccountCodesPaged(filterEntityDto.AccountCodes, filterData, cancellationToken);
         
+        return Mapper.Map<Page<HikingTrailEntityDto>>(result);
+    }
+
+    public async Task<Page<HikingTrailEntityDto>> GetNewest(FilterEntityDto filterEntityDto, CancellationToken cancellationToken)
+    {
+        FilterData filterData = Mapper.Map<FilterData>(filterEntityDto);
+
+        IPaged<HikingTrail> result = await _hikingTrailRepository.GetNewest(filterData, cancellationToken);
+
         return Mapper.Map<Page<HikingTrailEntityDto>>(result);
     }
 

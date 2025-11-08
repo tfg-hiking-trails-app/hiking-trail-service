@@ -1,4 +1,5 @@
-﻿using Common.Application.Interfaces;
+﻿using Common.Application.DTOs.Filter;
+using Common.Application.Interfaces;
 using Common.Application.Pagination;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
@@ -9,9 +10,9 @@ namespace HikingTrailService.Application.Interfaces;
 
 public interface IHikingTrailService : IService<HikingTrailEntityDto, CreateHikingTrailEntityDto, UpdateHikingTrailEntityDto>
 {
-    Task<Page<HikingTrailEntityDto>> GetByAccountCodesPaged(
-        HikingTrailFilterEntityDto filterEntityDto, 
-        CancellationToken cancellationToken);
+    Task<Page<HikingTrailEntityDto>> GetByAccountCodesPaged(HikingTrailFilterEntityDto filterEntityDto, CancellationToken cancellationToken);
+    
+    Task<Page<HikingTrailEntityDto>> GetNewest(FilterEntityDto filterEntityDto, CancellationToken cancellationToken);
     
     Task<IEnumerable<HikingTrailEntityDto>> SearcherAsync(string search, int numberResults);
 
