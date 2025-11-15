@@ -56,6 +56,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IDifficultyLevelService, DifficultyLevelService>();
         services.AddScoped<IHikingTrailService, Application.Services.HikingTrailService>();
         services.AddScoped<IMetricsService, MetricsService>();
+        services.AddScoped<IMetricsScoreService, MetricsScoreService>();
         services.AddScoped<IImagesService, ImagesService>();
         services.AddScoped<ITerrainTypeService, TerrainTypeService>();
         services.AddScoped<ITrailTypeService, TrailTypeService>();
@@ -71,6 +72,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
         services.AddScoped<IHikingTrailRepository, HikingTrailRepository>();
         services.AddScoped<IMetricsRepository, MetricsRepository>();
+        services.AddScoped<IMetricsScoreRepository, MetricsScoreRepository>();
         services.AddScoped<IImagesRepository, ImagesRepository>();
         services.AddScoped<ITerrainTypeRepository, TerrainTypeRepository>();
         services.AddScoped<ITrailTypeRepository, TrailTypeRepository>();
@@ -91,6 +93,7 @@ public static class ServiceCollectionExtension
             typeof(HikingTrailProfile).Assembly,
             typeof(DifficultyLevelProfile).Assembly,
             typeof(MetricsProfile).Assembly,
+            typeof(MetricsScoreProfile).Assembly,
             typeof(ActivityFileProfile).Assembly,
             typeof(FitFileDataProfile).Assembly,
             typeof(ImagesProfile).Assembly,
@@ -103,6 +106,7 @@ public static class ServiceCollectionExtension
             typeof(HikingTrailEntityProfile).Assembly,
             typeof(DifficultyLevelEntityProfile).Assembly,
             typeof(MetricsEntityProfile).Assembly,
+            typeof(MetricsScoreEntityProfile).Assembly,
             typeof(ImagesEntityProfile).Assembly,
             typeof(TerrainTypeEntityProfile).Assembly,
             typeof(TrailTypeEntityProfile).Assembly,

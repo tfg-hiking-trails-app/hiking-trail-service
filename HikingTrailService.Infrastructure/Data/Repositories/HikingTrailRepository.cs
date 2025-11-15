@@ -189,6 +189,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
     {
         return await Entity
             .Where(h => !h.Deleted)
+            .Where(h => h.Name.ToLower().Contains(search.ToLower()))
             .AsNoTracking()
             .Include(h => h.DifficultyLevel)
             .Include(h => h.TerrainType)
@@ -201,7 +202,6 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Comments)
             .Include(h => h.Locations)
             .AsSplitQuery()
-            .Where(h => h.Name.Contains(search, StringComparison.CurrentCultureIgnoreCase) && !h.Deleted)
             .OrderBy(h => h.Name)
             .Take(numberResults)
             .ToListAsync();
