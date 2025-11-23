@@ -4,7 +4,10 @@ using Common.Domain.Interfaces;
 using Common.Infrastructure.Data.Repositories;
 using HikingTrailService.Domain.Entities;
 using HikingTrailService.Domain.Interfaces;
+using HikingTrailService.Domain.Recommender;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 
 namespace HikingTrailService.Infrastructure.Data.Repositories;
 
@@ -164,7 +167,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .ToPageAsync(filterData, cancellationToken);
     }
 
-    public async Task<IPaged<HikingTrail>> GetNewest(FilterData filterData, CancellationToken cancellationToken)
+    public async Task<IPaged<HikingTrail>> GetNewestAsync(FilterData filterData, CancellationToken cancellationToken)
     {
         return await Entity
             .Where(h => !h.Deleted)
@@ -183,6 +186,33 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .OrderByDescending(h => h.StartTime)
             .ThenByDescending(h => h.EndTime)
             .ToPageAsync(filterData, cancellationToken);
+    }
+
+    public async Task<IList<HikingTrail>> RecommenderAsync(RecommenderData recommenderData, FilterData filterData, CancellationToken cancellationToken)
+    {
+        var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+        
+        Point center = geometryFactory.CreatePoint(
+            new Coordinate(recommenderData.LocationLongitude, recommenderData.LocationLatitude));
+
+        double radius = recommenderData.Kilometers * 1000.0; // on meters
+        
+        return await Entity
+            .Where(h => !h.Deleted && h.Location != null)
+            .Where(h => h.Location!.Distance(center) <= radius)
+            .AsNoTracking()
+            .Include(h => h.DifficultyLevel)
+            .Include(h => h.TerrainType)
+            .Include(h => h.TrailType)
+            .Include(h => h.Metrics)
+            .Include(h => h.Images
+                .Where(img => !img.Deleted)
+                .OrderBy(img => img.OrderIndex))
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
+            .Include(h => h.Locations)
+            .AsSplitQuery()
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<HikingTrail>> SearcherAsync(string search, int numberResults)

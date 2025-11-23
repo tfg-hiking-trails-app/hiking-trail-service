@@ -3,6 +3,7 @@ using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
 using HikingTrailService.Application.DTOs.Update;
 using HikingTrailService.Domain.Entities;
+using HikingTrailService.Domain.Recommender;
 
 namespace HikingTrailService.Infrastructure.Data.Configurations.Mapping;
 
@@ -21,5 +22,7 @@ public class HikingTrailEntityProfile : Profile
             .ForAllMembers(opt => opt
                 .Condition((src, dest, srcMember) => srcMember != null));
         CreateMap<HikingTrail, UpdateHikingTrailEntityDto>();
+        
+        CreateMap<RecommenderEntityDto, RecommenderData>().ReverseMap();
     }
 }

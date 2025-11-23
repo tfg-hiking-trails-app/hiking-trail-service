@@ -7,4 +7,7 @@ namespace HikingTrailService.Application.Interfaces;
 
 public interface IMetricsScoreService : IService<MetricsScoreEntityDto, CreateMetricsScoreEntityDto, UpdateMetricsScoreEntityDto>
 {
+    MetricsScoreEntityDto GetByAccountCode(Guid accountCode);
+    
+    Task<MetricsScoreEntityDto> GetByAccountCodeAsync(Guid accountCode);
 }

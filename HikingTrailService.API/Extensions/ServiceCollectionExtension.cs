@@ -65,6 +65,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IPrestigeService, PrestigeService>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ITokenManager, TokenManager>();
+        services.AddScoped<IRecommenderService, RecommenderService>();
     }
     
     private static void AddRepositories(this IServiceCollection services)

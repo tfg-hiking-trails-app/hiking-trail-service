@@ -15,6 +15,7 @@ using HikingTrailService.Application.DTOs.Update;
 using HikingTrailService.Application.Interfaces;
 using HikingTrailService.Domain.Entities;
 using HikingTrailService.Domain.Interfaces;
+using HikingTrailService.Domain.Recommender;
 
 namespace HikingTrailService.Application.Services;
 
@@ -29,6 +30,7 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
     private readonly IImagesRepository _imagesRepository;
     private readonly ILocationService _locationService;
     private readonly IUploadImageService _uploadImageService;
+    private readonly IRecommenderService _recommenderService;
     
     public HikingTrailService(
         IHikingTrailRepository hikingTrailRepository,
@@ -39,6 +41,7 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         IImagesRepository imagesRepository,
         ILocationService locationService,
         IUploadImageService uploadImageService,
+        IRecommenderService recommenderService,
         IMapper mapper) 
         : base(hikingTrailRepository, mapper)
     {
@@ -50,6 +53,7 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         _imagesRepository = imagesRepository;
         _locationService = locationService;
         _uploadImageService = uploadImageService;
+        _recommenderService = recommenderService;
     }
 
     protected override void CheckDataValidity(CreateHikingTrailEntityDto createEntityDto)
@@ -78,13 +82,29 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         return Mapper.Map<Page<HikingTrailEntityDto>>(result);
     }
 
-    public async Task<Page<HikingTrailEntityDto>> GetNewest(FilterEntityDto filterEntityDto, CancellationToken cancellationToken)
+    public async Task<Page<HikingTrailEntityDto>> GetNewestAsync(FilterEntityDto filterEntityDto, CancellationToken cancellationToken)
     {
         FilterData filterData = Mapper.Map<FilterData>(filterEntityDto);
 
-        IPaged<HikingTrail> result = await _hikingTrailRepository.GetNewest(filterData, cancellationToken);
+        IPaged<HikingTrail> result = await _hikingTrailRepository.GetNewestAsync(filterData, cancellationToken);
 
         return Mapper.Map<Page<HikingTrailEntityDto>>(result);
+    }
+
+    public async Task<Page<HikingTrailEntityDto>> RecommenderAsync(RecommenderEntityDto recommenderEntityDto, FilterEntityDto filterEntityDto,
+        CancellationToken cancellationToken)
+    {
+        RecommenderData recommenderData = Mapper.Map<RecommenderData>(recommenderEntityDto);
+        FilterData filterData = Mapper.Map<FilterData>(filterEntityDto);
+        
+        IList<HikingTrail> hikingTrailsNearby = await _hikingTrailRepository.RecommenderAsync(recommenderData, filterData, cancellationToken);
+
+        // Apply algorithm
+        return await _recommenderService.RecommenderAsync(
+            recommenderEntityDto.AccountCode, 
+            Mapper.Map<List<HikingTrailEntityDto>>(hikingTrailsNearby), 
+            filterEntityDto,
+            cancellationToken);
     }
 
     public async Task<IEnumerable<HikingTrailEntityDto>> SearcherAsync(string search, int numberResults)

@@ -79,7 +79,30 @@ public class HikingTrailController : AbstractReadController<HikingTrailDto, Hiki
         FilterEntityDto filter = Mapper.Map<FilterEntityDto>
             (new FilterDto(pageNumber, pageSize, sortField, sortDirection));
 
-        Page<HikingTrailEntityDto> page = await _hikingTrailService.GetNewest(filter, cancellationToken);
+        Page<HikingTrailEntityDto> page = await _hikingTrailService.GetNewestAsync(filter, cancellationToken);
+
+        return Ok(Mapper.Map<Page<HikingTrailDto>>(page));
+    }
+
+    [HttpGet("recommender")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual async Task<ActionResult<IEnumerable<HikingTrailDto>>> Recommender(
+        RecommenderDto recommenderDto,
+        CancellationToken cancellationToken,
+        [FromQuery] int pageNumber = Pagination.PageNumber,
+        [FromQuery] int pageSize = Pagination.PageSize,
+        [FromQuery] string sortField = Pagination.SortField,
+        [FromQuery] string sortDirection = Pagination.SortDirection)
+    {
+        FilterEntityDto filter = Mapper.Map<FilterEntityDto>
+            (new FilterDto(pageNumber, pageSize, sortField, sortDirection));
+        
+        Page<HikingTrailEntityDto> page = await _hikingTrailService.RecommenderAsync(
+            Mapper.Map<RecommenderEntityDto>(recommenderDto), 
+            filter, 
+            cancellationToken);
 
         return Ok(Mapper.Map<Page<HikingTrailDto>>(page));
     }
