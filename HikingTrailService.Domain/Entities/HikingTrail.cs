@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Common.Domain.Entities;
+using NetTopologySuite.Geometries;
 
 namespace HikingTrailService.Domain.Entities;
 
@@ -55,6 +56,9 @@ public class HikingTrail : BaseEntity
     [Required]
     [Column("location_longitude")]
     public required double LocationLongitude { get; set; }
+    
+    [Column("location")]
+    public Point? Location { get; set; }
     
     [Column("deleted")]
     public bool Deleted { get; set; }

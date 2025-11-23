@@ -77,6 +77,11 @@ public class HikingTrailConfiguration : EntityConfiguration<HikingTrail>
             .IsRequired()
             .HasColumnName("location_longitude");
         
+        builder.Property(h => h.Location)
+            .HasColumnName("location")
+            .HasSpatialReferenceSystem(4326)
+            .ValueGeneratedOnAddOrUpdate();
+        
         builder.Property(h => h.Deleted)
             .HasColumnName("deleted");
         
