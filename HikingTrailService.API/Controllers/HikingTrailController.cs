@@ -84,7 +84,7 @@ public class HikingTrailController : AbstractReadController<HikingTrailDto, Hiki
         return Ok(Mapper.Map<Page<HikingTrailDto>>(page));
     }
 
-    [HttpGet("recommender")]
+    [HttpPost("recommender")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
