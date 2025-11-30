@@ -10,4 +10,6 @@ public interface IMetricsScoreService : IService<MetricsScoreEntityDto, CreateMe
     MetricsScoreEntityDto GetByAccountCode(Guid accountCode);
     
     Task<MetricsScoreEntityDto> GetByAccountCodeAsync(Guid accountCode);
+    
+    Task<MetricsScoreEntityDto> UpsertByAccountCodeAsync(UpdateMetricsScoreEntityDto updateDto);
 }

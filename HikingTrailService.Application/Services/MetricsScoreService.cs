@@ -47,5 +47,38 @@ public class MetricsScoreService : AbstractService<MetricsScore, MetricsScoreEnt
         
         return Mapper.Map<MetricsScoreEntityDto>(metricsScore);
     }
-    
+
+    public async Task<MetricsScoreEntityDto> UpsertByAccountCodeAsync(UpdateMetricsScoreEntityDto updateDto)
+    {
+        MetricsScore? entity = await _metricsScoreRepository.GetByAccountCodeAsync(updateDto.AccountCode);
+
+        // Insert
+        if (entity is null)
+        {
+            entity = new MetricsScore
+            {
+                Code = Guid.NewGuid(),
+                AccountCode = updateDto.AccountCode,
+                Distance = updateDto.Distance,
+                Duration = updateDto.Duration,
+                Steps = updateDto.Steps,
+                Calories = updateDto.Calories,
+                Pace = updateDto.Pace,
+                Elevation = updateDto.Elevation,
+                HeartRate = updateDto.HeartRate,
+                Speed = updateDto.Speed
+            };
+            
+            await _metricsScoreRepository.AddAsync(entity);
+            
+            return Mapper.Map<MetricsScoreEntityDto>(entity);
+        }
+        
+        // Update
+        Mapper.Map(updateDto, entity);
+            
+        await _metricsScoreRepository.UpdateAsync(entity);
+        
+        return Mapper.Map<MetricsScoreEntityDto>(entity);
+    }
 }

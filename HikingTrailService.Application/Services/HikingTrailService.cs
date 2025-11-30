@@ -150,7 +150,7 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
 
     public override async Task<Guid> UpdateAsync(Guid code, UpdateHikingTrailEntityDto updateEntityDto)
     {
-        HikingTrail entity = await GetEntity(code);
+        HikingTrail entity = await GetEntityAsync(code);
 
         if (entity.DifficultyLevel?.Code != updateEntityDto.DifficultyLevelCode)
         {

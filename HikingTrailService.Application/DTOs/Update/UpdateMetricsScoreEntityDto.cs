@@ -2,7 +2,6 @@
 
 public record UpdateMetricsScoreEntityDto
 {
-    public Guid? Code { get; set; }
     public required Guid AccountCode { get; set; }
     public byte Distance { get; set; } = 0;
     public byte Duration { get; set; } = 0;
