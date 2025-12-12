@@ -201,6 +201,7 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
     {
         Metrics metrics = Mapper.Map<Metrics>(createEntityDto.Metrics);
         
+        metrics.Code = Guid.NewGuid();
         metrics.HikingTrailId = hikingTrail.Id;
         
         await _metricsRepository.AddAsync(metrics);

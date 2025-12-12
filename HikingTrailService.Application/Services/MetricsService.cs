@@ -28,19 +28,21 @@ public class MetricsService : AbstractService<Metrics, MetricsEntityDto, CreateM
     {
         CheckDataValidity(createEntityDto);
         
-        Metrics metrics = Mapper.Map<Metrics>(createEntityDto);
+        Metrics entity = Mapper.Map<Metrics>(createEntityDto);
 
         HikingTrail? hikingTrail = await _hikingTrailRepository.GetByCodeAsync(createEntityDto.HikingTrailCode);
         
         if (hikingTrail is null)
             throw new NotFoundEntityException(nameof(HikingTrail), createEntityDto.HikingTrailCode);
         
-        metrics.Code = Guid.NewGuid();
-        metrics.HikingTrailId = hikingTrail.Id;
+        if (entity.Code == Guid.Empty)
+            entity.Code = Guid.NewGuid();
+        
+        entity.HikingTrailId = hikingTrail.Id;
 
-        await Repository.AddAsync(metrics);
+        await Repository.AddAsync(entity);
 
-        return metrics.Code;
+        return entity.Code;
     }
 
     protected override void CheckDataValidity(CreateMetricsEntityDto createEntityDto)
