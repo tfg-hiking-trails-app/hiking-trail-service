@@ -11,21 +11,15 @@ public class FitFileProcessor : AbstractActivityFileProcessor
 {
     private readonly IMapper _mapper;
     private readonly IHikingTrailService _hikingTrailService;
-    private readonly IMetricsService _metricsService;
-    private readonly ILocationService _locationService;
     
     public FitFileProcessor(
         IMapper mapper,
         IRabbitMqQueueProducer queueProducer,
         IRabbitMqQueueConsumer queueConsumer,
-        IHikingTrailService hikingTrailService,
-        IMetricsService metricsService,
-        ILocationService locationService) : base(queueProducer, queueConsumer)
+        IHikingTrailService hikingTrailService) : base(queueProducer, queueConsumer)
     {
         _mapper = mapper;
         _hikingTrailService = hikingTrailService;
-        _metricsService = metricsService;
-        _locationService = locationService;
     }
 
     public override string ExtensionFile => ".fit";
@@ -45,15 +39,8 @@ public class FitFileProcessor : AbstractActivityFileProcessor
         CreateMetricsEntityDto createMetrics = _mapper.Map<CreateMetricsEntityDto>(fitFileDataEntityDto);
         
         createHikingTrail.AccountCode = userCode;
+        createHikingTrail.Metrics = createMetrics;
         
-        Guid code = await _hikingTrailService.CreateAsync(createHikingTrail);
-        await _metricsService.CreateAsync(createMetrics);
-        
-        if (createHikingTrail.LocationLatitude.HasValue && createHikingTrail.LocationLongitude.HasValue)
-            await _locationService.CreateAsync(fitFileDataEntityDto.HikingTrailCode, 
-                createHikingTrail.LocationLatitude.Value, 
-                createHikingTrail.LocationLongitude.Value);
-
-        return code;
+        return await _hikingTrailService.CreateAsync(createHikingTrail);
     }
 }
