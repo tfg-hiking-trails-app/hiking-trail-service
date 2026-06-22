@@ -64,6 +64,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUploadImageService, UploadImageService>();
         services.AddScoped<IPrestigeService, PrestigeService>();
         services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<ICollectionService, CollectionService>();
         services.AddScoped<ITokenManager, TokenManager>();
         services.AddScoped<IRecommenderService, RecommenderService>();
     }
@@ -80,6 +81,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<ILocationRepository, LocationRepository>();
         services.AddScoped<IPrestigeRepository, PrestigeRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<ICollectionRepository, CollectionRepository>();
+        services.AddScoped<ICollectionTrailRepository, CollectionTrailRepository>();
     }
 
     private static void AddHttpClients(this IServiceCollection services)
@@ -103,6 +106,7 @@ public static class ServiceCollectionExtension
             typeof(LocationProfile).Assembly,
             typeof(PrestigeProfile).Assembly,
             typeof(CommentProfile).Assembly,
+            typeof(CollectionProfile).Assembly,
             typeof(CommonEntityProfile).Assembly,
             typeof(HikingTrailEntityProfile).Assembly,
             typeof(DifficultyLevelEntityProfile).Assembly,
@@ -113,7 +117,8 @@ public static class ServiceCollectionExtension
             typeof(TrailTypeEntityProfile).Assembly,
             typeof(LocationEntityProfile).Assembly,
             typeof(PrestigeEntityProfile).Assembly,
-            typeof(CommentEntityProfile).Assembly);
+            typeof(CommentEntityProfile).Assembly,
+            typeof(CollectionEntityProfile).Assembly);
     }
     
     private static void AddSwaggerGen(this IServiceCollection services)
