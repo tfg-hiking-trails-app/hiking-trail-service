@@ -154,6 +154,11 @@ public class CollectionService : AbstractService<Collection, CollectionEntityDto
         await _collectionTrailRepository.DeleteAsync(collectionTrail);
     }
 
+    public Task<IEnumerable<Guid>> GetSavedTrailCodesAsync(Guid accountCode)
+    {
+        return _collectionTrailRepository.GetSavedTrailCodesByAccountAsync(accountCode);
+    }
+
     protected override void CheckDataValidity(CreateCollectionEntityDto createEntityDto)
     {
         if (string.IsNullOrWhiteSpace(createEntityDto.Name))

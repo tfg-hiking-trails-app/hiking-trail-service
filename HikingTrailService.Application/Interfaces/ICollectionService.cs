@@ -26,4 +26,6 @@ public interface ICollectionService : IService<CollectionEntityDto, CreateCollec
     Task AddTrailAsync(Guid collectionCode, Guid accountCode, Guid hikingTrailCode);
 
     Task RemoveTrailAsync(Guid collectionCode, Guid accountCode, Guid hikingTrailCode);
+
+    Task<IEnumerable<Guid>> GetSavedTrailCodesAsync(Guid accountCode);
 }

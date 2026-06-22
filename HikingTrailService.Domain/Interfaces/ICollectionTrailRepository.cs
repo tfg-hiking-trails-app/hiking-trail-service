@@ -14,4 +14,6 @@ public interface ICollectionTrailRepository : IRepository<CollectionTrail>
     Task<CollectionTrail?> GetByCollectionAndTrailAsync(int collectionId, int hikingTrailId);
 
     Task<bool> ExistsByCollectionAndTrailAsync(int collectionId, int hikingTrailId);
+
+    Task<IEnumerable<Guid>> GetSavedTrailCodesByAccountAsync(Guid accountCode);
 }

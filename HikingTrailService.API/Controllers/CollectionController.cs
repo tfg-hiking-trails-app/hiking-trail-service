@@ -54,6 +54,27 @@ public class CollectionController : ControllerBase
         }
     }
 
+    [HttpGet("saved-trails")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<Guid>>> GetSavedTrails()
+    {
+        try
+        {
+            Guid? userCode = GetUserCode();
+
+            if (userCode is null)
+                return Unauthorized();
+
+            return Ok(await _service.GetSavedTrailCodesAsync(userCode.Value));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpGet("{code:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

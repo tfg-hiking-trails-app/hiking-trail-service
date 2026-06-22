@@ -51,4 +51,14 @@ public class CollectionTrailRepository : AbstractRepository<CollectionTrail>, IC
         return await Entity
             .AnyAsync(ct => ct.CollectionId == collectionId && ct.HikingTrailId == hikingTrailId);
     }
+
+    public async Task<IEnumerable<Guid>> GetSavedTrailCodesByAccountAsync(Guid accountCode)
+    {
+        return await Entity
+            .AsNoTracking()
+            .Where(ct => ct.Collection!.AccountCode == accountCode && !ct.HikingTrail!.Deleted)
+            .Select(ct => ct.HikingTrail!.Code)
+            .Distinct()
+            .ToListAsync();
+    }
 }
