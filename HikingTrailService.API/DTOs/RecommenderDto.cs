@@ -7,7 +7,7 @@ public record RecommenderDto : BaseDto
 {
     public required Guid AccountCode { get; set; }
 
-    [Range(1, 25, ErrorMessage = "Kilometers must be between 1 and 25.")]
+    [Range(1, 50, ErrorMessage = "Kilometers must be between 1 and 50.")]
     public int Kilometers { get; init; } = 10;
 
     [Range(-90, 90, ErrorMessage = "LocationLatitude must be between -90 and 90.")]
