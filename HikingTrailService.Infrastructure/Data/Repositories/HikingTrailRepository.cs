@@ -3,6 +3,7 @@ using Common.Domain.Filter;
 using Common.Domain.Interfaces;
 using Common.Infrastructure.Data.Repositories;
 using HikingTrailService.Domain.Entities;
+using HikingTrailService.Domain.Explore;
 using HikingTrailService.Domain.Interfaces;
 using HikingTrailService.Domain.Recommender;
 using Microsoft.EntityFrameworkCore;
@@ -186,6 +187,66 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .OrderByDescending(h => h.StartTime)
             .ThenByDescending(h => h.EndTime)
             .ToPageAsync(filterData, cancellationToken);
+    }
+
+    public async Task<IPaged<HikingTrail>> GetExploreAsync(
+        ExploreCriteria criteria,
+        FilterData filterData,
+        CancellationToken cancellationToken)
+    {
+        IQueryable<HikingTrail> query = Entity
+            .Where(h => !h.Deleted)
+            .AsNoTracking()
+            .Include(h => h.DifficultyLevel)
+            .Include(h => h.TerrainType)
+            .Include(h => h.TrailType)
+            .Include(h => h.Metrics)
+            .Include(h => h.Images
+                .Where(img => !img.Deleted)
+                .OrderBy(img => img.OrderIndex))
+            .Include(h => h.Prestiges)
+            .Include(h => h.Comments)
+            .Include(h => h.Locations)
+            .AsSplitQuery();
+
+        // Filters (combined with AND; each is optional)
+        if (criteria.PetFriendly == true)
+            query = query.Where(h => h.PetFriendly);
+
+        if (criteria.DifficultyLevelCode.HasValue)
+            query = query.Where(h => h.DifficultyLevel != null
+                && h.DifficultyLevel.Code == criteria.DifficultyLevelCode.Value);
+
+        if (criteria.TerrainTypeCode.HasValue)
+            query = query.Where(h => h.TerrainType != null
+                && h.TerrainType.Code == criteria.TerrainTypeCode.Value);
+
+        if (criteria.TrailTypeCode.HasValue)
+            query = query.Where(h => h.TrailType != null
+                && h.TrailType.Code == criteria.TrailTypeCode.Value);
+
+        // Sort. "Most prestigious" and "longest" sort by aggregates of related
+        // collections, which the generic OrderByProperty cannot translate, so the
+        // ordering is applied here and ToPageAsync paginates without re-sorting.
+        query = criteria.SortMode switch
+        {
+            ExploreSortMode.MostPrestigious => query
+                .OrderByDescending(h => h.Prestiges.Count)
+                .ThenByDescending(h => h.StartTime)
+                .ThenByDescending(h => h.Id),
+            ExploreSortMode.Longest => query
+                .OrderByDescending(h => h.Metrics.Sum(m => m.Distance))
+                .ThenByDescending(h => h.StartTime)
+                .ThenByDescending(h => h.Id),
+            _ => query
+                .OrderByDescending(h => h.StartTime)
+                .ThenByDescending(h => h.EndTime)
+                .ThenByDescending(h => h.Id)
+        };
+
+        FilterData pageFilter = filterData with { SortField = null };
+
+        return await query.ToPageAsync(pageFilter, cancellationToken);
     }
 
     public async Task<IList<HikingTrail>> RecommenderAsync(RecommenderData recommenderData, FilterData filterData, CancellationToken cancellationToken)

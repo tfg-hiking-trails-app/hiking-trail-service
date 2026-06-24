@@ -18,7 +18,8 @@ public class HikingTrailProfile : Profile
         CreateMap<UpdateHikingTrailDto, UpdateHikingTrailEntityDto>().ReverseMap();
 
         CreateMap<HikingTrailFilterDto, HikingTrailFilterEntityDto>().ReverseMap();
-        
+        CreateMap<ExploreFilterDto, ExploreFilterEntityDto>().ReverseMap();
+
         CreateMap<RecommenderDto, RecommenderEntityDto>().ReverseMap();
     }
 }

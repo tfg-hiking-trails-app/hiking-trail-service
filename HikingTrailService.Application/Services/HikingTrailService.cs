@@ -14,6 +14,7 @@ using HikingTrailService.Application.DTOs.Filter;
 using HikingTrailService.Application.DTOs.Update;
 using HikingTrailService.Application.Interfaces;
 using HikingTrailService.Domain.Entities;
+using HikingTrailService.Domain.Explore;
 using HikingTrailService.Domain.Interfaces;
 using HikingTrailService.Domain.Recommender;
 
@@ -90,6 +91,32 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
 
         return Mapper.Map<Page<HikingTrailEntityDto>>(result);
     }
+
+    public async Task<Page<HikingTrailEntityDto>> GetExploreAsync(ExploreFilterEntityDto filterEntityDto, CancellationToken cancellationToken)
+    {
+        FilterData filterData = Mapper.Map<FilterData>(filterEntityDto.Filter);
+
+        ExploreCriteria criteria = new ExploreCriteria
+        {
+            PetFriendly = filterEntityDto.PetFriendly,
+            DifficultyLevelCode = filterEntityDto.DifficultyLevelCode,
+            TerrainTypeCode = filterEntityDto.TerrainTypeCode,
+            TrailTypeCode = filterEntityDto.TrailTypeCode,
+            SortMode = ParseSortMode(filterEntityDto.SortMode)
+        };
+
+        IPaged<HikingTrail> result = await _hikingTrailRepository.GetExploreAsync(criteria, filterData, cancellationToken);
+
+        return Mapper.Map<Page<HikingTrailEntityDto>>(result);
+    }
+
+    private static ExploreSortMode ParseSortMode(string? sortMode) =>
+        sortMode?.Trim().ToLowerInvariant() switch
+        {
+            "most-prestigious" or "most-voted" => ExploreSortMode.MostPrestigious,
+            "longest" => ExploreSortMode.Longest,
+            _ => ExploreSortMode.Newest
+        };
 
     public async Task<Page<HikingTrailEntityDto>> RecommenderAsync(RecommenderEntityDto recommenderEntityDto, FilterEntityDto filterEntityDto,
         CancellationToken cancellationToken)

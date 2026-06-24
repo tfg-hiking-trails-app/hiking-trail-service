@@ -1,6 +1,7 @@
 ﻿using Common.Domain.Filter;
 using Common.Domain.Interfaces;
 using HikingTrailService.Domain.Entities;
+using HikingTrailService.Domain.Explore;
 using HikingTrailService.Domain.Recommender;
 
 namespace HikingTrailService.Domain.Interfaces;
@@ -8,11 +9,16 @@ namespace HikingTrailService.Domain.Interfaces;
 public interface IHikingTrailRepository : IRepository<HikingTrail>
 {
     Task<IPaged<HikingTrail>> GetByAccountCodesPaged (
-        List<Guid> accountCodes, 
-        FilterData filterData, 
+        List<Guid> accountCodes,
+        FilterData filterData,
         CancellationToken cancellationToken);
 
     Task<IPaged<HikingTrail>> GetNewestAsync(FilterData filterData, CancellationToken cancellationToken);
+
+    Task<IPaged<HikingTrail>> GetExploreAsync(
+        ExploreCriteria criteria,
+        FilterData filterData,
+        CancellationToken cancellationToken);
     
     Task<IList<HikingTrail>> RecommenderAsync(
         RecommenderData recommenderData, 

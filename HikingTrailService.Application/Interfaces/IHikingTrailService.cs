@@ -13,6 +13,8 @@ public interface IHikingTrailService : IService<HikingTrailEntityDto, CreateHiki
     Task<Page<HikingTrailEntityDto>> GetByAccountCodesPaged(HikingTrailFilterEntityDto filterEntityDto, CancellationToken cancellationToken);
     
     Task<Page<HikingTrailEntityDto>> GetNewestAsync(FilterEntityDto filterEntityDto, CancellationToken cancellationToken);
+
+    Task<Page<HikingTrailEntityDto>> GetExploreAsync(ExploreFilterEntityDto filterEntityDto, CancellationToken cancellationToken);
     
     Task<Page<HikingTrailEntityDto>> RecommenderAsync(
         RecommenderEntityDto recommenderEntityDto, 

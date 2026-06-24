@@ -84,6 +84,20 @@ public class HikingTrailController : AbstractReadController<HikingTrailDto, Hiki
         return Ok(Mapper.Map<Page<HikingTrailDto>>(page));
     }
 
+    [HttpPost("explore")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Page<HikingTrailDto>>> Explore(
+        ExploreFilterDto filterDto,
+        CancellationToken cancellationToken)
+    {
+        ExploreFilterEntityDto filterEntityDto = Mapper.Map<ExploreFilterEntityDto>(filterDto);
+
+        Page<HikingTrailEntityDto> page = await _hikingTrailService.GetExploreAsync(filterEntityDto, cancellationToken);
+
+        return Ok(Mapper.Map<Page<HikingTrailDto>>(page));
+    }
+
     [HttpPost("recommender")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
