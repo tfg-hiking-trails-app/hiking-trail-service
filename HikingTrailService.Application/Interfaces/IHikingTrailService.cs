@@ -24,4 +24,6 @@ public interface IHikingTrailService : IService<HikingTrailEntityDto, CreateHiki
     Task<IEnumerable<HikingTrailEntityDto>> SearcherAsync(string search, int numberResults);
 
     Task LogicalDeleteAsync(Guid ownerAccountCode, Guid hikingTrailCode);
+
+    Task AddImagesAsync(Guid hikingTrailCode, UploadHikingTrailImagesEntityDto uploadImagesEntityDto);
 }

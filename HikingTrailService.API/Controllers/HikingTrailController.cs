@@ -172,6 +172,31 @@ public class HikingTrailController : AbstractReadController<HikingTrailDto, Hiki
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPost("{code:guid}/images")]
+    [Consumes("multipart/form-data")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> AddImages(Guid code, [FromForm] UploadHikingTrailImagesDto uploadImagesDto)
+    {
+        try
+        {
+            UploadHikingTrailImagesEntityDto uploadImagesEntityDto = Mapper.Map<UploadHikingTrailImagesEntityDto>(uploadImagesDto);
+
+            await _hikingTrailService.AddImagesAsync(code, uploadImagesEntityDto);
+
+            return NoContent();
+        }
+        catch (NotFoundEntityException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
     
     [HttpDelete("{code:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

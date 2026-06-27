@@ -223,6 +223,39 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
         
         await _hikingTrailRepository.SaveChangesAsync();
     }
+
+    public async Task AddImagesAsync(Guid hikingTrailCode, UploadHikingTrailImagesEntityDto uploadImagesEntityDto)
+    {
+        if (uploadImagesEntityDto is null)
+            throw new ArgumentNullException(nameof(uploadImagesEntityDto));
+
+        HikingTrail hikingTrail = await GetEntityAsync(hikingTrailCode);
+        List<FileEntityDto> imageList = uploadImagesEntityDto.Images
+            .Where(uploadImage => uploadImage.Content.Length > 0)
+            .ToList();
+
+        if (imageList.Count == 0)
+            return;
+
+        int orderIndex = hikingTrail.Images
+            .Where(image => !image.Deleted)
+            .Select(image => image.OrderIndex)
+            .DefaultIfEmpty(-1)
+            .Max() + 1;
+
+        foreach (FileEntityDto image in imageList)
+        {
+            Images hikingTrailImage = new Images()
+            {
+                Code = Guid.NewGuid(),
+                HikingTrail = hikingTrail,
+                ImageUrl = await _uploadImageService.UploadImage(image),
+                OrderIndex = orderIndex++
+            };
+
+            await _imagesRepository.AddAsync(hikingTrailImage);
+        }
+    }
     
     private async Task CreateMetricsAsync(CreateHikingTrailEntityDto createEntityDto, HikingTrail hikingTrail)
     {
