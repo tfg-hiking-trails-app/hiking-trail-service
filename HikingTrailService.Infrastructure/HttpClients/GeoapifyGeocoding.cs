@@ -54,7 +54,7 @@ public class GeoapifyGeocoding : IGeoapifyGeocoding
             District = properties.district,
             Suburb = properties.suburb,
             Street = properties.street,
-            HouseNumber = string.IsNullOrEmpty(properties.housenumber) ? uint.Parse(properties.housenumber!) : null,
+            HouseNumber = uint.TryParse(properties.housenumber, out uint houseNumber) ? houseNumber : null,
             FormattedAddress = properties.formatted,
             AddressLine1 = properties.address_line1,
             AddressLine2 = properties.address_line2,

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Domain.Exceptions;
 using Common.Domain.Interfaces.Messaging;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.DTOs.Create;
@@ -33,14 +34,17 @@ public class FitFileProcessor : AbstractActivityFileProcessor
 
     private async Task<Guid> ReceiveResponseAsync(Guid userCode)
     {
-        FitFileDataEntityDto fitFileDataEntityDto = await QueueConsumer.BasicConsumeAsync<FitFileDataEntityDto>();
+        FitFileResultDto result = await QueueConsumer.BasicConsumeAsync<FitFileResultDto>();
 
-        CreateHikingTrailEntityDto createHikingTrail = _mapper.Map<CreateHikingTrailEntityDto>(fitFileDataEntityDto);
-        CreateMetricsEntityDto createMetrics = _mapper.Map<CreateMetricsEntityDto>(fitFileDataEntityDto);
-        
+        if (!result.IsValid || result.Data is null)
+            throw new NotAnHikingTrailActivityException(result.RejectionReason);
+
+        CreateHikingTrailEntityDto createHikingTrail = _mapper.Map<CreateHikingTrailEntityDto>(result.Data);
+        CreateMetricsEntityDto createMetrics = _mapper.Map<CreateMetricsEntityDto>(result.Data);
+
         createHikingTrail.AccountCode = userCode;
         createHikingTrail.Metrics = createMetrics;
-        
+
         return await _hikingTrailService.CreateAsync(createHikingTrail);
     }
 }

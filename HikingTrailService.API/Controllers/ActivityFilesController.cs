@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.API.Extensions;
+using Common.Domain.Exceptions;
 using HikingTrailService.Application.DTOs;
 using HikingTrailService.Application.Interfaces.Processors;
 using HikingTrailService.Application.Services.Processors;
@@ -27,29 +28,37 @@ public class ActivityFilesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> UploadActivityFile([FromForm] ActivityFileUploadDto? uploadDto)
     {
         if (uploadDto?.ActivityFile is null || uploadDto.ActivityFile.Length == 0)
             return BadRequest("Invalid file");
-        
+
         string? userCode = Request.GetUserCode();
-        
+
         if (userCode is null)
             return Unauthorized();
-        
+
         string extension = Path.GetExtension(uploadDto.ActivityFile.FileName).ToLowerInvariant();
         IActivityFileProcessor? fileProcessor = _factory.GetProcessor(extension);
-        
+
         if (fileProcessor is null)
             return BadRequest("Invalid file extension");
-        
+
         ActivityFileEntityDto entityDto = _mapper.Map<ActivityFileEntityDto>(uploadDto);
-        
+
         entityDto.UserCode = new Guid(userCode);
-        
-        Guid code = await fileProcessor.ProcessAsync(entityDto);
-        
-        return Accepted(code);
+
+        try
+        {
+            Guid code = await fileProcessor.ProcessAsync(entityDto);
+
+            return Accepted(code);
+        }
+        catch (NotAnHikingTrailActivityException ex)
+        {
+            return UnprocessableEntity(ex.Message);
+        }
     }
     
 }
