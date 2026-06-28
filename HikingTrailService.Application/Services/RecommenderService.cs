@@ -21,7 +21,9 @@ public class RecommenderService : IRecommenderService
         FilterEntityDto filterEntityDto,
         CancellationToken cancellationToken)
     {
-        MetricsScoreEntityDto metricsScoreEntityDto = await _metricsScoreRepository.GetByAccountCodeAsync(accountCode);
+        MetricsScoreEntityDto metricsScoreEntityDto =
+            await _metricsScoreRepository.FindByAccountCodeAsync(accountCode)
+            ?? new MetricsScoreEntityDto { AccountCode = accountCode };
         
         List<HikingTrailEntityDto> scoredHikingTrails = hikingTrails
             .Select(h =>

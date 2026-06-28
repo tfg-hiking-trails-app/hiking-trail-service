@@ -40,11 +40,17 @@ public class MetricsScoreService : AbstractService<MetricsScore, MetricsScoreEnt
 
     public async Task<MetricsScoreEntityDto> GetByAccountCodeAsync(Guid accountCode)
     {
+        return await FindByAccountCodeAsync(accountCode)
+               ?? throw new NotFoundEntityException(nameof(MetricsScore), nameof(MetricsScore.AccountCode), accountCode.ToString());
+    }
+
+    public async Task<MetricsScoreEntityDto?> FindByAccountCodeAsync(Guid accountCode)
+    {
         MetricsScore? metricsScore = await _metricsScoreRepository.GetByAccountCodeAsync(accountCode);
 
         if (metricsScore is null)
-            throw new NotFoundEntityException(nameof(MetricsScore),nameof(MetricsScore.AccountCode), accountCode.ToString());
-        
+            return null;
+            
         return Mapper.Map<MetricsScoreEntityDto>(metricsScore);
     }
 
