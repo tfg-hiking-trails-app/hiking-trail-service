@@ -102,6 +102,10 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
             DifficultyLevelCode = filterEntityDto.DifficultyLevelCode,
             TerrainTypeCode = filterEntityDto.TerrainTypeCode,
             TrailTypeCode = filterEntityDto.TrailTypeCode,
+            MaxDistance = filterEntityDto.MaxDistance,
+            MaxElevationGain = filterEntityDto.MaxElevationGain,
+            MaxAltitude = filterEntityDto.MaxAltitude,
+            StartTimeFrom = ParseStartTimeFrom(filterEntityDto.DateRange),
             SortMode = ParseSortMode(filterEntityDto.SortMode)
         };
 
@@ -116,6 +120,15 @@ public class HikingTrailService : AbstractService<HikingTrail, HikingTrailEntity
             "most-prestigious" or "most-voted" => ExploreSortMode.MostPrestigious,
             "longest" => ExploreSortMode.Longest,
             _ => ExploreSortMode.Newest
+        };
+
+    private static DateTime? ParseStartTimeFrom(string? dateRange) =>
+        dateRange?.Trim().ToLowerInvariant() switch
+        {
+            "last-30-days" => DateTime.UtcNow.AddDays(-30),
+            "last-3-months" => DateTime.UtcNow.AddMonths(-3),
+            "last-12-months" => DateTime.UtcNow.AddMonths(-12),
+            _ => null
         };
 
     public async Task<Page<HikingTrailEntityDto>> RecommenderAsync(RecommenderEntityDto recommenderEntityDto, FilterEntityDto filterEntityDto,

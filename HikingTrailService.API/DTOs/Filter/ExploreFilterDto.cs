@@ -8,8 +8,10 @@ public record ExploreFilterDto
     public Guid? DifficultyLevelCode { get; set; }
     public Guid? TerrainTypeCode { get; set; }
     public Guid? TrailTypeCode { get; set; }
-
-    /// <summary>"newest" (default), "most-prestigious" or "longest".</summary>
+    public int? MaxDistance { get; set; }
+    public int? MaxElevationGain { get; set; }
+    public int? MaxAltitude { get; set; }
+    public string? DateRange { get; set; }
     public string? SortMode { get; set; }
 
     public FilterDto Filter { get; set; } = new FilterDto();

@@ -209,8 +209,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Locations)
             .AsSplitQuery();
 
-        // Filters (combined with AND; each is optional)
-        if (criteria.PetFriendly == true)
+        if (criteria.PetFriendly)
             query = query.Where(h => h.PetFriendly);
 
         if (criteria.DifficultyLevelCode.HasValue)
@@ -225,9 +224,21 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             query = query.Where(h => h.TrailType != null
                 && h.TrailType.Code == criteria.TrailTypeCode.Value);
 
-        // Sort. "Most prestigious" and "longest" sort by aggregates of related
-        // collections, which the generic OrderByProperty cannot translate, so the
-        // ordering is applied here and ToPageAsync paginates without re-sorting.
+        if (criteria.MaxDistance.HasValue)
+            query = query.Where(h =>
+                h.Metrics.Sum(m => m.Distance) <= criteria.MaxDistance.Value);
+
+        if (criteria.MaxElevationGain.HasValue)
+            query = query.Where(h =>
+                h.Metrics.Sum(m => m.ElevationGain ?? 0) <= criteria.MaxElevationGain.Value);
+
+        if (criteria.MaxAltitude.HasValue)
+            query = query.Where(h =>
+                h.Metrics.Max(m => m.MaxAltitude) <= criteria.MaxAltitude.Value);
+
+        if (criteria.StartTimeFrom.HasValue)
+            query = query.Where(h => h.StartTime >= criteria.StartTimeFrom.Value);
+
         query = criteria.SortMode switch
         {
             ExploreSortMode.MostPrestigious => query
