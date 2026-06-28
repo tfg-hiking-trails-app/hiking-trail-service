@@ -209,7 +209,7 @@ public class HikingTrailRepository : AbstractRepository<HikingTrail>, IHikingTra
             .Include(h => h.Locations)
             .AsSplitQuery();
 
-        if (criteria.PetFriendly)
+        if (criteria.PetFriendly == true)
             query = query.Where(h => h.PetFriendly);
 
         if (criteria.DifficultyLevelCode.HasValue)
