@@ -50,7 +50,7 @@ public class MetricsScoreService : AbstractService<MetricsScore, MetricsScoreEnt
 
         if (metricsScore is null)
             return null;
-            
+        
         return Mapper.Map<MetricsScoreEntityDto>(metricsScore);
     }
 
